@@ -27,35 +27,42 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f0f0f0;
-    padding: 10px 20px;
+    background-color: #ffffff;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+a {
+    text-decoration: none;
+    color: #2a2a2a;
+}
+
+a:hover {
+    color: aqua;
 }
 
 nav ul {
     display: flex;
     list-style: none;
-    padding: 0;
     margin: 0;
-    width: 100%; /* Make the ul take full width */
+    padding: 0;
+    width: 100%;
+    align-items: center;
 }
 
-/* Style for the logo/site name "Running web" */
+nav ul li {
+    margin-left: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 nav ul li:first-child {
-    margin-right: auto; /* Push the first item to the left */
-    font-weight: bold; /* Make the site name stand out */
-}
-
-/* Style for the navigation links */
-nav ul li:not(:first-child) {
-    margin-left: 20px; /* Space between nav items */
-    margin-right: 0; /* Remove right margin from original */
-}
-
-/* For active menu item */
-nav ul li.active {
-    color: #1619e6; /* Highlight color for active item */
+    margin-right: auto;
     font-weight: bold;
+    font-size: 18px;
+    color: #333333;
 }
+
 
 .profile-image img {
     width: 50px;
@@ -311,6 +318,19 @@ h2,h1{
     margin-bottom: 15px;
     text-align: center;
 }
+
+.contain-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-left: 20px;
+  }
+  
 
 /* Para pantallas pequeñas */
 @media (max-width: 600px) {

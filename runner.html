@@ -4,16 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Corredor</title>
     <link rel="stylesheet" href="css/runner.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
 </head>
-
 <body>
     <header>
         <nav>
             <ul>
+                <li>
+                    <a href="index.html">
+                        <div class= "contain-logo">
+                            <img class= "logo" src="assets/img/icon-black.jpg" alt="icono">
+                            <h2>Running Web</h1>
+                         </div>
+                    </a>
+                </li>
                 <li>
                     <a href="index.html">
                         Inicio
@@ -40,6 +48,7 @@
             </div>
         </nav>
     </header>
+      
     <div>
         <h2>DATOS PERSONALES</h2>
     </div>
@@ -70,36 +79,50 @@
     <section class="seccion">
         <table class="tabla">
             <tr>
-                <th colspan="4">Carreras a participar</th>
+                <th>Carreras a participar</th>
+                <th>Fecha</th>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Distancia</th>
+                <th></th>
+                <th></th>
             </tr>
             <tr>
-                <td>Nombre de carrera</td>
-                <td> Categoria</td>
-                <td> Tipo</td>
-                <td> Distancia</td>
+                <td>La media maratón </td>
+                <td>2025/03/21</td>
+                <td>Libre</td>
+                <td>Normal</td>
+                <td>8 km</td>
+                <td><button class="details-btn" i="boton">Ver</button></td>
+                <td><button class="details-btn" i="boton">Eliminar</button></td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td colspan="2"></td>
+                <td>Carrera Insana</td>
+                <td>2025/04/12</td>
+                <td>Libre</td>
+                <td>Insana</td>
+                <td>20 km</td>
+                <td><button class="details-btn" i="boton">Ver</button></td>
+                <td><button class="details-btn" i="boton">Eliminar</button></td>
             </tr>
             <tr>
-                <td>
-
-                </td>
-                <td></td>
-                <td colspan="2"></td>
+                <td>Vuelta a Chibolo Town</td>
+                <td>2025/05/22</td>
+                <td>Libre</td>
+                <td>Normal</td>
+                <td>10 km</td>
+                <td><button class="details-btn" i="boton">Ver</button></td>
+                <td><button class="details-btn" i="boton">Eliminar</button></td>
             </tr>
-
         </table>
         <table class="tabla">
             <tr>
-                <th rowspan="2">OCUPACIÓN</th>
-                <th colspan="2">TIEMPO DE EXPERIENCIA</th>
+                <th rowspan="2">Datos de carreras</th>
+                <th colspan="2"></th>
             </tr>
             <tr>
-                <th>AÑOS</th>
-                <th>MESES</th>
+                <th>N° de carreras</th>
+                <th>Km recorridos</th>
             </tr>
             <tr>
                 <td></td>
@@ -126,12 +149,13 @@
     </section>
 
     <footer>
+        <link rel="stylesheet" type="text/css" href="css/footer.css">
         <div class="footer-container">
             <div class="footer-logo">
                 <h3>Running web</h3>
             </div>
             <div class="footer-links">
-
+    
                 <div class="footer-section">
                     <h4>Contacto</h4>
                     <ul>
@@ -156,5 +180,4 @@
         </div>
     </footer>
 </body>
-
 </html>
