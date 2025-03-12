@@ -1,0 +1,95 @@
+
+footer {
+    background-color: #f0f0f0;
+    color: #000000;
+    padding: 10px 20px 10px; /* Minimal padding */
+    margin-top: 40px;
+    font-family: Arial, sans-serif;
+    /* Set a very short explicit height */
+    min-height: 120px; /* Significantly reduced height */
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Minimize spacing between elements */
+.footer-logo h3 {
+    font-size: 18px; /* Smaller font */
+    margin-bottom: 5px; /* Minimal margin */
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Reduced gap */
+}
+
+.footer-section {
+    min-width: 130px;
+    margin-bottom: 5px; /* Minimal margin */
+}
+
+.footer-section h4 {
+    font-size: 14px; /* Smaller font */
+    margin-bottom: 5px; /* Minimal margin */
+}
+
+.footer-section h4::after {
+    height: 2px; /* Thinner line */
+    margin-top: 4px; /* Less space */
+    width: 30px; /* Shorter line */
+}
+
+.footer-section ul li {
+    margin-bottom: 2px; /* Minimal margin */
+    font-size: 12px; /* Smaller font */
+}
+
+.footer-social h4 {
+    font-size: 14px; /* Smaller font */
+    margin-bottom: 5px; /* Minimal margin */
+}
+
+.footer-social h4::after {
+    height: 2px; /* Thinner line */
+    margin-top: 4px; /* Less space */
+    width: 30px; /* Shorter line */
+}
+
+.social-icons {
+    gap: 8px; /* Minimal gap */
+}
+
+.social-icons a {
+    width: 25px; /* Much smaller icons */
+    height: 25px; /* Much smaller icons */
+    font-size: 12px; /* Smaller icon text */
+}
+
+.footer-bottom {
+    margin-top: 8px; /* Minimal margin */
+    padding-top: 5px; /* Minimal padding */
+    border-top: 1px solid #444;
+}
+
+.footer-bottom p {
+    font-size: 11px; /* Smaller font */
+    margin: 0; /* No margin */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    footer {
+        padding: 10px;
+        min-height: 100px;
+    }
+    
+    .footer-container {
+        gap: 10px;
+    }
+}
