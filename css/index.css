@@ -29,15 +29,6 @@ nav li {
   margin: 0 15px;
 }
 
-nav a {
-  text-decoration: none;
-  color: #333;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
 main {
   padding: 20px;
 }
@@ -45,6 +36,15 @@ main {
 h1 {
   font-size: 2.5em;
   margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: #2a2a2a;
+}
+
+a:hover {
+  color: aqua;
 }
 
 p {
