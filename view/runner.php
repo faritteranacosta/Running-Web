@@ -1,17 +1,15 @@
 <?php
 session_start();
 
-
-if (isset($_SESSION['nombre_usuario']) && isset($_SESSION['apellido_usuario']) && isset($_SESSION['correo_electronico'])) {
-    $nombre_usuario = $_SESSION['nombre_usuario'];
-    $apellido_usuario = $_SESSION['apellido_usuario'];
-    $correo_electronico = $_SESSION['correo_electronico'];
-}else{
+if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSION['correo_electronico'])) {
+    $apellido = $_SESSION['apellido'];
+    $nombre = $_SESSION['nombre'];
+    $correo = $_SESSION['correo_electronico'];
+} else {
     header('Location: ../index.php');
-    exit();
 }
+?>
 
-?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -71,15 +69,15 @@ if (isset($_SESSION['nombre_usuario']) && isset($_SESSION['apellido_usuario']) &
         </div>
         <table class="tabla">
             <tr>
-                <td><?php echo htmlspecialchars($nombre_usuario); ?></td>
-                <td><?php echo htmlspecialchars($apellido_usuario); ?></td>
+                <td><?php echo htmlspecialchars($apellido); ?></td>
+                <td><?php echo htmlspecialchars($nombre); ?></td>
             </tr>
             <tr>
                 <td>N° Runner: 251</td>
                 <td>Masculino</td>
             </tr>
             <tr>
-                  <td><?php echo htmlspecialchars($correo_electronico); ?></td>
+                <td colspan="3"><?php echo htmlspecialchars($correo); ?></td>
             </tr>
             <tr>
                 <td>Registro: 2025/02/02</td>

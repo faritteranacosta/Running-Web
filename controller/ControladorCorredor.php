@@ -28,15 +28,16 @@ class ControladorCorredor{
             $tabla = $this->modelo->getCorredor($correo_electronico);
             foreach ($tabla as $indice => $value) {
                 if (count($tabla)) {
-                    $corredor = new Corredor(
+                    $usuario = new Corredor(
                         $tabla[$indice]['nombre_usuario'],
                         $tabla[$indice]['apellido_usuario'],
                         $tabla[$indice]['correo_electronico'],
                         $tabla[$indice]['contrasena']
                     );
-                    $_SESSION['nombre_usuario'] = $corredor->getNombreUsuario();
-                    $_SESSION['apellido_usuario'] = $corredor->getApellidoUsuario();
-                    $_SESSION['correo_electronico'] = $corredor->getCorreoElectronico();
+                    $_SESSION['nombre'] = $usuario->getNombreUsuario();
+                    $_SESSION['apellido'] = $usuario->getApellidoUsuario();
+                    $_SESSION['correo_electronico'] = $usuario->getCorreoElectronico();
+
                     header('Location: view/runner.php');
                 }
             }
@@ -52,7 +53,6 @@ class ControladorCorredor{
 
     public function mostrarRegistro()
     {
-
         require 'view/registrarse.html';
 
     }

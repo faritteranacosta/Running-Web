@@ -50,10 +50,17 @@ class Corredor {
     public function getNombreUsuario() {
         return $this->nombre_usuario;
     }
+
     public function getApellidoUsuario() {
         return $this->apellido_usuario;
     }
+
     public function getCorreoElectronico() {
         return $this->correo_electronico;
     }
+
+    public function getContrasena() {
+        return $this->contrasena;
+    }
+
 }   
