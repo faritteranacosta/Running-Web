@@ -29,7 +29,7 @@ class Corredor {
         $stmt->execute();
         $stmt->bind_result($contrasena_hashed);
         $stmt->fetch();
-        return password_verify( $contrasena, $contrasena_hashed );
+        return password_verify($contrasena, $contrasena_hashed);
     }
 
     public function getCorredor($correo_electronico) {
@@ -41,6 +41,22 @@ class Corredor {
         
         $this->conexion = null;
         return $tabla_datos;
+    }
+
+    public function getNombreUsuario() {
+        return $this->nombre_usuario;
+    }
+
+    public function getApellidoUsuario() {
+        return $this->apellido_usuario;
+    }
+
+    public function getCorreoElectronico() {
+        return $this->correo_electronico;
+    }
+
+    public function getContrasena() {
+        return $this->contrasena;
     }
 
 }   
