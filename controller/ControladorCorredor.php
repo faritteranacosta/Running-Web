@@ -27,14 +27,16 @@ class ControladorCorredor{
             session_start();
             $tabla = $this->modelo->getCorredor($correo_electronico);
             foreach ($tabla as $indice => $value) {
-                if (count($tabla) == 1) {
-                    $_SESSION['usuario'] = new Corredor(
+                if (count($tabla)) {
+                    $corredor = new Corredor(
                         $tabla[$indice]['nombre_usuario'],
                         $tabla[$indice]['apellido_usuario'],
                         $tabla[$indice]['correo_electronico'],
                         $tabla[$indice]['contrasena']
                     );
-
+                    $_SESSION['nombre_usuario'] = $corredor->getNombreUsuario();
+                    $_SESSION['apellido_usuario'] = $corredor->getApellidoUsuario();
+                    $_SESSION['correo_electronico'] = $corredor->getCorreoElectronico();
                     header('Location: view/runner.php');
                 }
             }
@@ -68,6 +70,14 @@ class ControladorCorredor{
 
         }
 
+    }
+    public function cerrarSesion()
+    {
+        session_start();
+        session_unset(); // Elimina todas las variables de sesión
+        session_destroy();
+
+        require 'view/iniciar_sesion.html';
     }
 
 }

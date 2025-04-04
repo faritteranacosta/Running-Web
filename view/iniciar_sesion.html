@@ -19,7 +19,7 @@
         <nav>
             <ul>
                 <li>
-                    <a href="index.html">
+                    <a href="./index.html">
                         <div class= "contain-logo">
                             <img class= "logo" src="assets/img/icon-black.jpg" alt="icono">
                             <h2>Running Web</h1>
@@ -27,12 +27,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="index.html">
+                    <a href="./index.html">
                         Inicio
                     </a>
                 </li>
                 <li>
-                    <a href="registrarse.html">
+                    <a href="./index.php?action=mostrarRegistro">
                         Registrarse
                     </a>
                 </li>
@@ -59,7 +59,7 @@
 
     <div class="form-container">
         <h2>Ingresa tus datos</h2>
-        <form method="post" action="./index.php?action=iniciarSesion">
+        <form method="post" action="index.php?action=iniciarSesion">
             <div class="input-box">
                 <label for="email">Email</label>
                 <input name= "correo_electronico" required type="email" id="email" placeholder="email@running.net">
@@ -73,7 +73,7 @@
             </div>
 
             <button type="submit" class="btn">Iniciar Sesión</button>
-            <p class="login-link"><a href="/controller/ControladorCorredor.php?action=mostrarRegistro">Registrarse</a></p>
+            <p class="login-link"><a href="./index.php?action=mostrarRegistro">Registrarse</a></p>
         </form>
     </div>
 

@@ -1,14 +1,14 @@
 <?php
-require_once '../model/Corredor.php'; // Adjusted the path to the correct location of Corredor.php
 session_start();
 
-if (!isset($_SESSION['usuario'])) {
+
+if (isset($_SESSION['nombre_usuario']) && isset($_SESSION['apellido_usuario']) && isset($_SESSION['correo_electronico'])) {
+    $nombre_usuario = $_SESSION['nombre_usuario'];
+    $apellido_usuario = $_SESSION['apellido_usuario'];
+    $correo_electronico = $_SESSION['correo_electronico'];
+}else{
     header('Location: ../index.php');
     exit();
-}
-
-if (isset($_SESSION['usuario'])) {
-    $usuario = $_SESSION['usuario'];
 }
 
 ?> 
@@ -51,8 +51,8 @@ if (isset($_SESSION['usuario'])) {
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        Productos
+                    <a href="../index.php?action=cerrarSesion">
+                        Cerrar sesión
                     </a>
                 </li>
             </ul>
@@ -71,15 +71,15 @@ if (isset($_SESSION['usuario'])) {
         </div>
         <table class="tabla">
             <tr>
-                <td><?php echo htmlspecialchars($usuario->nombre_usuario); ?></td>
-                <td><?php echo htmlspecialchars($usuario ->$apellido_usuario); ?></td>
+                <td><?php echo htmlspecialchars($nombre_usuario); ?></td>
+                <td><?php echo htmlspecialchars($apellido_usuario); ?></td>
             </tr>
             <tr>
                 <td>N° Runner: 251</td>
                 <td>Masculino</td>
             </tr>
             <tr>
-                <td colspan="3">jlb@running.com</td>
+                  <td><?php echo htmlspecialchars($correo_electronico); ?></td>
             </tr>
             <tr>
                 <td>Registro: 2025/02/02</td>

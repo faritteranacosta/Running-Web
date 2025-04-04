@@ -27,9 +27,13 @@ class Corredor {
         $stmt = $this->conexion->prepare('SELECT contrasena FROM corredores WHERE correo_electronico = ?');
         $stmt->bind_param("s",$correo_electronico);
         $stmt->execute();
+        $contrasena_hashed = null;
         $stmt->bind_result($contrasena_hashed);
         $stmt->fetch();
-        return password_verify( $contrasena, $contrasena_hashed );
+        if ($contrasena_hashed === null) {
+            return false;
+        }
+        return password_verify($contrasena, $contrasena_hashed);
     }
 
     public function getCorredor($correo_electronico) {
@@ -43,4 +47,13 @@ class Corredor {
         return $tabla_datos;
     }
 
+    public function getNombreUsuario() {
+        return $this->nombre_usuario;
+    }
+    public function getApellidoUsuario() {
+        return $this->apellido_usuario;
+    }
+    public function getCorreoElectronico() {
+        return $this->correo_electronico;
+    }
 }   
