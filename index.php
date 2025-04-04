@@ -37,6 +37,13 @@ if (isset($_GET['action'])) {
             $controlador->mostrarRegistro();
 
             break;
+        
+        case 'cerrarSesion':
+
+            // Cerrar sesión y redirigir al formulario de inicio de sesión
+
+            $controlador->cerrarSesion();
+            break;
 
 
         default:

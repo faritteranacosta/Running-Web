@@ -49,8 +49,8 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        Productos
+                    <a href="../index.php?action=cerrarSesion">
+                        Cerrar sesión
                     </a>
                 </li>
             </ul>

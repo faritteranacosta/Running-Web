@@ -71,5 +71,13 @@ class ControladorCorredor{
         }
 
     }
+    public function cerrarSesion()
+    {
+        session_start();
+        session_unset(); // Elimina todas las variables de sesión
+        session_destroy();
+
+        require 'view/iniciar_sesion.html';
+    }
 
 }
