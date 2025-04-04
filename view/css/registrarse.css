@@ -1,10 +1,7 @@
 body {
     background-color: #ffffff;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    
 }
 
 img {
@@ -16,10 +13,21 @@ img {
 
 nav {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
     background-color: #f0f0f0;
     padding: 10px 20px;
+}
+
+.form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Limitar el ancho máximo */
+    margin: 80px auto; /* Centrar horizontal y agregar espacio arriba */
+    text-align: center;
 }
 
 nav ul {
@@ -86,19 +94,6 @@ h1, h2 {
     text-align: left;
 }
 
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    margin-top: 80px; /* Espacio arriba para dejar la distancia deseada */
-    text-align: center;
-}
 
 .form-container h2 {
     font-size: 22px;
