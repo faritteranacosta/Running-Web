@@ -5,7 +5,11 @@ class Conexion {
 
     public function __construct() {
 
-        $config = require_once 'config/config.php';
+        $config = require 'config/config.php';
+        
+        if (!is_array($config)) {
+            die("Error: Config file is missing or does not return an array.");
+        }
 
         $this->conexion = new mysqli($config['host'], $config['usuario'], $config['contrasena'], $config['base_de_datos']);
         
@@ -21,4 +25,6 @@ class Conexion {
     public function cerrarConexion(){
         $this->conexion->close();
     }
+
+
 }

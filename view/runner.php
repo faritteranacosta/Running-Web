@@ -1,11 +1,17 @@
 <?php
+require_once '../model/Corredor.php'; // Adjusted the path to the correct location of Corredor.php
 session_start();
 
 if (!isset($_SESSION['usuario'])) {
     header('Location: ../index.php');
     exit();
 }
-?>
+
+if (isset($_SESSION['usuario'])) {
+    $usuario = $_SESSION['usuario'];
+}
+
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,8 +71,8 @@ if (!isset($_SESSION['usuario'])) {
         </div>
         <table class="tabla">
             <tr>
-                <td><?php echo htmlspecialchars($apellido_usuario); ?></td>
-                <td><?php echo htmlspecialchars($nombre_usuario); ?></td>
+                <td><?php echo htmlspecialchars($usuario->nombre_usuario); ?></td>
+                <td><?php echo htmlspecialchars($usuario ->$apellido_usuario); ?></td>
             </tr>
             <tr>
                 <td>N° Runner: 251</td>

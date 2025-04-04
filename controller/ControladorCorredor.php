@@ -25,11 +25,20 @@ class ControladorCorredor{
         if ($this->modelo->verificarCredenciales($correo_electronico, $contrasena)) {
 
             session_start();
+            $tabla = $this->modelo->getCorredor($correo_electronico);
+            foreach ($tabla as $indice => $value) {
+                if (count($tabla) == 1) {
+                    $_SESSION['usuario'] = new Corredor(
+                        $tabla[$indice]['nombre_usuario'],
+                        $tabla[$indice]['apellido_usuario'],
+                        $tabla[$indice]['correo_electronico'],
+                        $tabla[$indice]['contrasena']
+                    );
 
-            $_SESSION['usuario'] = $correo_electronico;
-
-            header('Location: view/runner.php');
-
+                    header('Location: view/runner.php');
+                }
+            }
+                     
         } else {
 
             echo "Credenciales incorrectas.";
