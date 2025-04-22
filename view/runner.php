@@ -49,6 +49,22 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     </a>
                 </li>
                 <li>
+                    <a href="#" onclick="confirmarEliminacion()">Eliminar mi cuenta</a>
+                        <script>
+                        function confirmarEliminacion() {
+                            if (confirm("¿Está seguro que desea eliminar su cuenta? Tenga en cuenta que después de eliminarla no podrá acceder más con esta cuenta.")) {
+                                // Redirige al servidor para eliminar la cuenta
+                                document.getElementById('formEliminar').submit();
+                            }
+                        }
+                        </script>
+
+                        <!-- Formulario oculto para enviar la solicitud de eliminación -->
+                        <form id="formEliminar" method="post" action="index.php?action=eliminarCorredor">
+                            <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+                        </form>
+                </li>
+                <li>
                     <a href="../index.php?action=cerrarSesion">
                         Cerrar sesión
                     </a>

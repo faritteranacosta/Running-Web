@@ -44,6 +44,14 @@ if (isset($_GET['action'])) {
 
             $controlador->cerrarSesion();
             break;
+        
+        case 'eliminarCorredor':
+            // Llamar al método que maneja la eliminación de un corredor
+            
+
+            $controlador->eliminarCorredor($_POST['correo_electronico']);
+
+            break;
 
 
         default:

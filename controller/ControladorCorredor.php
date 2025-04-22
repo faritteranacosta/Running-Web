@@ -61,15 +61,24 @@ class ControladorCorredor{
     {
 
         if ($this->modelo->registrar($nombre_usuario,  $apellido_usuario, $correo_electronico, $contrasena)) {
-
             echo "Registro exitoso. Ahora puedes iniciar sesión.";
-
         } else {
-
             echo "Error al registrar.";
-
         }
-
+    }
+    public function eliminarCorredor($correo_electronico)
+    {
+        if ($this->modelo->eliminarCorredor($correo_electronico)) {
+            echo "<script>
+                alert('Su cuenta ha sido eliminada exitosamente.');
+                window.location.href = 'index.php';
+            </script>";
+        } else {    
+            echo "<script>
+                alert('Hubo un error al intentar eliminar su cuenta. Por favor, inténtelo de nuevo.');
+                window.location.href = 'index.php';
+            </script>";
+        }
     }
     public function cerrarSesion()
     {

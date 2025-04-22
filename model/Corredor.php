@@ -47,6 +47,16 @@ class Corredor {
         return $tabla_datos;
     }
 
+    public function eliminarCorredor($correo_electronico) {
+        $stmt = $this->conexion->prepare('DELETE FROM corredores WHERE correo_electronico = ?');
+        $stmt->bind_param("s", $correo_electronico);
+        if ($stmt->execute()) {
+            return true; // La eliminación fue exitosa
+        } else {
+            return false; // Hubo un error al ejecutar la consulta
+        }
+    }
+
     public function getNombreUsuario() {
         return $this->nombre_usuario;
     }
