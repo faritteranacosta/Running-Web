@@ -70,6 +70,11 @@ class ControladorCorredor
 
     }
 
+    public function mostrarHome()
+    {
+        require 'view/home.html';
+
+    }
 
     public function mostrarRegistro()
     {

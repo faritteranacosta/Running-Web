@@ -71,5 +71,5 @@ if (isset($_GET['action'])) {
 
     // Si no se ha especificado ninguna acción, mostrar el formulario de inicio de sesión por defecto
 
-    $controlador->mostrarLogin();
+    $controlador->mostrarHome();
 }
