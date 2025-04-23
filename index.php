@@ -52,7 +52,10 @@ if (isset($_GET['action'])) {
             $controlador->eliminarCorredor($_POST['correo_electronico']);
 
             break;
-
+        case 'cambiarContrasena':
+            // Llamar al método que maneja el cambio de contraseña
+            $controlador->cambiarContrasena($_POST['correo_electronico'], $_POST['current-password'], $_POST['new-password'], $_POST['confirm-password']);
+            break;
 
         default:
 

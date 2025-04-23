@@ -1,4 +1,14 @@
+<?php
+session_start();
 
+if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSION['correo_electronico'])) {
+    $apellido = $_SESSION['apellido'];
+    $nombre = $_SESSION['nombre'];
+    $correo = $_SESSION['correo_electronico'];
+} else {
+    header('Location: ../index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,10 +30,10 @@
             <ul>
                 <li>
                     <a href="./index.html">
-                        <div class= "contain-logo">
-                            <img class= "logo" src="./view/assets/img/icon-black.jpg" alt="icono">
+                        <div class="contain-logo">
+                            <img class="logo" src="./view/assets/img/icon-black.jpg" alt="icono">
                             <h2>Running Web</h1>
-                         </div>
+                        </div>
                     </a>
                 </li>
                 <li>
@@ -55,22 +65,24 @@
 
     <div class="form-container">
         <h2>Ingresa tus datos</h2>
-        <form method="post" action="index.php?action=iniciarSesion">
-            <div class="input-box">
-                <label for="email">Email</label>
-                <input name= "correo_electronico" required type="email" id="email" placeholder="email@running.net">
+        <form method="post" action="index.php?action=cambiarContrasena" >
+            <div class="form-group">
+                <input type="hidden" name="correo_electronico"
+                    value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
             </div>
-
-            <div class="input-group">
-                <div class="input-box">
-                    <label for="password">Contraseña</label>
-                    <input name= "contrasena" required type="password" id="password" placeholder="Contrasena">
-                </div>
+            <div class="form-group">
+                <label for="current-password">Contraseña Actual</label>
+                <input type="password" id="current-password" name="current-password" required>
             </div>
-
-            <button type="submit" class="btn">Iniciar Sesión</button>
-            <p class="login-link"><a href="./index.php?action=mostrarRegistro">Registrarse</a></p>
-            <p class="forgot-password"><a href="./index.php?action=recuperarContrasena">¿Olvidaste tu contraseña?</a></p>
+            <div class="form-group">
+                <label for="new-password">Nueva Contraseña</label>
+                <input type="password" id="new-password" name="new-password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirmar Contraseña</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit" class="btn">Guardar Cambios</button>
         </form>
     </div>
 

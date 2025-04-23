@@ -80,6 +80,24 @@ class ControladorCorredor{
             </script>";
         }
     }
+
+    public function cambiarContrasena($correo_electronico, $new_password, $confirm_password, $current_password)
+    {
+        if ($this->modelo->verificarCredenciales($correo_electronico, $current_password)) {
+            if ($new_password === $confirm_password) {
+                if ($this->modelo->cambiarContrasena($correo_electronico, $new_password)) {
+                    echo "Contraseña cambiada exitosamente.";
+                } else {
+                    echo "Error al cambiar la contraseña.";
+                }
+            } else {
+                echo "Las contraseñas no coinciden.";
+            }
+        } else {
+            echo "La contraseña actual es incorrecta.";
+        }
+    }
+
     public function cerrarSesion()
     {
         session_start();

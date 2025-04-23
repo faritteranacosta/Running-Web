@@ -2,7 +2,6 @@
 
 class Corredor {
     private $conexion;
-   
     private $nombre_usuario;
     private $apellido_usuario;
     private $correo_electronico;
@@ -52,6 +51,18 @@ class Corredor {
         $stmt->bind_param("s", $correo_electronico);
         if ($stmt->execute()) {
             return true; // La eliminación fue exitosa
+        } else {
+            return false; // Hubo un error al ejecutar la consulta
+        }
+    
+    }
+
+    public function cambiarContrasena($correo_electronico, $new_password) {
+        $stmt = $this->conexion->prepare("UPDATE corredores SET contrasena = ? WHERE correo_electronico = ?");
+        $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $correo_electronico, $new_password_hashed);
+        if ($stmt->execute()) {
+            return true; // La actualización fue exitosa
         } else {
             return false; // Hubo un error al ejecutar la consulta
         }
