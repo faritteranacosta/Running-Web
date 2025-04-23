@@ -21,6 +21,8 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <script src="js/runner.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -56,19 +58,10 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
 
                 <li>
                     <a href="#" onclick="confirmarEliminacion()">Eliminar mi cuenta</a>
-                    <script>
-                        function confirmarEliminacion() {
-                            if (confirm("¿Está seguro que desea eliminar su cuenta? Tenga en cuenta que después de eliminarla no podrá acceder más con esta cuenta.")) {
-                                // Redirige al servidor para eliminar la cuenta
-                                document.getElementById('formElim2inar').submit();
-                            }
-                        }
-                    </script>
 
                     <!-- Formulario oculto para enviar la solicitud de eliminación -->
-                    <form id="formEliminar" method="post" action="index.php?action=eliminarCorredor">
-                        <input type="hidden" name="correo_electronico"
-                            value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+                    <form id="formEliminar" method="post" action="../index.php?action=eliminarCorredor">
+                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
                     </form>
                 </li>
                 <li>

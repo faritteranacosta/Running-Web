@@ -47,7 +47,6 @@ if (isset($_GET['action'])) {
         
         case 'eliminarCorredor':
             // Llamar al método que maneja la eliminación de un corredor
-            
 
             $controlador->eliminarCorredor($_POST['correo_electronico']);
 
