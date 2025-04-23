@@ -20,6 +20,8 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <script src="js/runner.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/modal.js"> </script>
 </head>
 <body>
@@ -48,6 +50,18 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     <a href="carreras.html">
                         Carreras
                     </a>
+                </li>
+                <li>
+                    <a href="cambiarcontrasena.php">Cambiar contraseña</a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="confirmarEliminacion()">Eliminar mi cuenta</a>
+
+                    <!-- Formulario oculto para enviar la solicitud de eliminación -->
+                    <form id="formEliminar" method="post" action="../index.php?action=eliminarCorredor">
+                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+                    </form>
                 </li>
                 <li>
                     <a href="../index.php?action=cerrarSesion">

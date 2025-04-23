@@ -48,13 +48,16 @@ class Corredor {
 
     public function eliminarCorredor($correo_electronico) {
         $stmt = $this->conexion->prepare('DELETE FROM corredores WHERE correo_electronico = ?');
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->conexion->error);
+        }
         $stmt->bind_param("s", $correo_electronico);
         if ($stmt->execute()) {
             return true; // La eliminación fue exitosa
         } else {
+            error_log("Error al ejecutar la consulta: " . $stmt->error);
             return false; // Hubo un error al ejecutar la consulta
         }
-    
     }
 
     public function cambiarContrasena($correo_electronico, $new_password) {
