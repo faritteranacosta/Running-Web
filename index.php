@@ -54,7 +54,8 @@ if (isset($_GET['action'])) {
             break;
         case 'cambiarContrasena':
             // Llamar al método que maneja el cambio de contraseña
-            $controlador->cambiarContrasena($_POST['correo_electronico'], $_POST['current-password'], $_POST['new-password'], $_POST['confirm-password']);
+            $controlador->cambiarContrasena($_POST['correo_electronico'],$_POST['new_password'],$_POST['confirm_password'],$_POST['current_password']);
+    
             break;
 
         default:

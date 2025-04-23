@@ -60,7 +60,7 @@ class Corredor {
     public function cambiarContrasena($correo_electronico, $new_password) {
         $stmt = $this->conexion->prepare("UPDATE corredores SET contrasena = ? WHERE correo_electronico = ?");
         $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
-        $stmt->bind_param("ss", $correo_electronico, $new_password_hashed);
+        $stmt->bind_param("ss", $new_password_hashed, $correo_electronico);
         if ($stmt->execute()) {
             return true; // La actualización fue exitosa
         } else {

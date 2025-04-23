@@ -12,7 +12,6 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,18 +20,18 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <script src="js/modal.js"> </script>
 </head>
-
 <body>
     <header>
         <nav>
             <ul>
                 <li>
                     <a href="index.html">
-                        <div class="contain-logo">
-                            <img class="logo" src="assets/img/icon-black.jpg" alt="icono">
+                        <div class= "contain-logo">
+                            <img class= "logo" src="assets/img/icon-black.jpg" alt="icono">
                             <h2>Running Web</h1>
-                        </div>
+                         </div>
                     </a>
                 </li>
                 <li>
@@ -51,27 +50,6 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     </a>
                 </li>
                 <li>
-                    <a href="cambiarcontrasena.php">Cambiar contraseña</a>
-                </li>
-
-                <li>
-                    <a href="#" onclick="confirmarEliminacion()">Eliminar mi cuenta</a>
-                    <script>
-                        function confirmarEliminacion() {
-                            if (confirm("¿Está seguro que desea eliminar su cuenta? Tenga en cuenta que después de eliminarla no podrá acceder más con esta cuenta.")) {
-                                // Redirige al servidor para eliminar la cuenta
-                                document.getElementById('formElim2inar').submit();
-                            }
-                        }
-                    </script>
-
-                    <!-- Formulario oculto para enviar la solicitud de eliminación -->
-                    <form id="formEliminar" method="post" action="index.php?action=eliminarCorredor">
-                        <input type="hidden" name="correo_electronico"
-                            value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
-                    </form>
-                </li>
-                <li>
                     <a href="../index.php?action=cerrarSesion">
                         Cerrar sesión
                     </a>
@@ -82,7 +60,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
             </div>
         </nav>
     </header>
-
+      
     <div>
         <h2>DATOS PERSONALES</h2>
     </div>
@@ -180,6 +158,40 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
         </table>
         <br>
     </section>
+    <section>
+        <button class="details-btn" id="boton">Actualizar contraseña</button>
+        <button class="details-btn" i="boton">Eliminar cuenta</button>
+          <!-- Ventana modal, por defecto no visiblel -->
+          <div id="ventanaModal" class="modal" style="display: none;">
+            <div class="contenido-modal">
+              <span class="cerrar">&times;</span>
+              <div class="form-container">
+                <h2>Actualizar contrasena</h2>
+                <form method="post" action="../index.php?action=cambiarContrasena">
+                <div class="input-box">
+                <label for="email">Email</label>
+                <input type="hidden" name="correo_electronico"
+                value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+            </div>
+                    <div class="input-box">
+                        <input name= "current_password" required type="password" id="password1" placeholder="Contraseña actual">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-box">
+                            <input name= "new_password" required type="password" id="password2" placeholder="Contraseña nueva">
+                        </div>
+
+                        <div class="input-box">
+                            <input name= "confirm_password" required type="password" id="password3" placeholder="Confirmar contraseña">
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn">Cambiar contraseña</button>    
+                </form>
+            </div>
+            </div>
+          </div>
+        </section>
 
     <footer>
         <link rel="stylesheet" type="text/css" href="css/footer.css">
@@ -188,7 +200,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                 <h3>Running web</h3>
             </div>
             <div class="footer-links">
-
+    
                 <div class="footer-section">
                     <h4>Contacto</h4>
                     <ul>
@@ -213,5 +225,4 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
         </div>
     </footer>
 </body>
-
 </html>
