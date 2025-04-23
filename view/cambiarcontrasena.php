@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <?php
 session_start();
 
@@ -9,16 +10,16 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
     header('Location: ../index.php');
 }
 ?>
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./view/css/registrarse.css" />
+    <link rel="stylesheet" type="text/css" href="./view/css/registrarse.css">
     <link rel="stylesheet" type="text/css" href="./view/css/footer.css">
-    <link rel="stylesheet" type="text/css" href="./view/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./view/css/style.css">
     <link rel="icon" href="./view/assets/img/icon.ico" type="image/x-icon">
     <title>Inicio de sesion</title>
 </head>
@@ -32,7 +33,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     <a href="./index.html">
                         <div class="contain-logo">
                             <img class="logo" src="./view/assets/img/icon-black.jpg" alt="icono">
-                            <h2>Running Web</h1>
+                            <h2>Running Web</h2>
                         </div>
                     </a>
                 </li>
@@ -64,8 +65,8 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
     </div>
 
     <div class="form-container">
-        <h2>Ingresa tus datos</h2>
-        <form method="post" action="index.php?action=cambiarContrasena" >
+        <h1>Ingresa tus datos</h1>
+        <form method="post" action="index.php?action=cambiarContrasena">
             <div class="form-group">
                 <input type="hidden" name="correo_electronico"
                     value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
