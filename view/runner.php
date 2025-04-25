@@ -42,7 +42,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                     </a>
                 </li>
                 <li>
-                    <a href="eventos.html">
+                    <a href="eventos.php">
                         Eventos
                     </a>
                 </li>
