@@ -15,10 +15,21 @@ class Corredor {
         $this->conexion = (new Conexion())->getConexion();
     }
 
-    public function registrar($nombre_usuario, $apellido_usuario,  $correo_electronico, $contrasena){
+    public function registrar($nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena) {
+        // Verificar si el correo ya existe
+        $stmt = $this->conexion->prepare('SELECT correo_electronico FROM corredores WHERE correo_electronico = ?');
+        $stmt->bind_param('s', $correo_electronico);
+        $stmt->execute();
+        $stmt->store_result();
+        
+        if ($stmt->num_rows > 0) {
+            return false; // El correo ya está registrado
+        }
+
+        // Registrar el nuevo corredor
         $contrasena_hashed = password_hash($contrasena, PASSWORD_DEFAULT);
         $stmt = $this->conexion->prepare('INSERT INTO corredores (nombre_usuario, apellido_usuario, correo_electronico, contrasena) VALUES (?, ?, ?, ?)');
-        $stmt->bind_param('ssss', $nombre_usuario,$apellido_usuario, $correo_electronico, $contrasena_hashed);
+        $stmt->bind_param('ssss', $nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena_hashed);
         return $stmt->execute();
     }
 

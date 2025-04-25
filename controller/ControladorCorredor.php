@@ -19,6 +19,10 @@ class ControladorCorredor
         require 'view/iniciar_sesion.html';
     }
 
+    public function mostrarPerfil(){
+        require 'view/runner.php';
+    }
+
 
     public function iniciarSesion($correo_electronico, $contrasena)
     {
@@ -61,7 +65,7 @@ class ControladorCorredor
                             icon: 'error',
                             confirmButtonText: 'Aceptar'
                         }).then(() => {
-                            window.location.href = 'index.php';
+                            window.location.href = './index.php?action=login';
                         });
                     </script>
                 </body>
@@ -102,6 +106,8 @@ class ControladorCorredor
                             text: 'Registro exitoso. Ahora puedes iniciar sesión.',
                             icon: 'success',
                             confirmButtonText: 'Aceptar'
+                        }).then(() => {
+                            window.location.href = './index.php?action=login';
                         });
                      </script>
                 </body>
@@ -123,6 +129,8 @@ class ControladorCorredor
                             text: 'Error al registrar.',
                             icon: 'error',
                             confirmButtonText: 'Aceptar'
+                        }).then(() => {
+                            window.location.href = './index.php?action=registro';
                         });
                     </script>;
                 </body>
@@ -148,7 +156,7 @@ class ControladorCorredor
                             icon: 'success',
                             confirmButtonText: 'Aceptar'
                         }).then(() => {
-                            window.location.href = 'index.php';
+                            window.location.href = './index.php?action=login';
                         });
                     </script>
                 </body>
@@ -170,7 +178,7 @@ class ControladorCorredor
                             icon: 'error',
                             confirmButtonText: 'Aceptar'
                         }).then(() => {
-                            window.location.href = 'index.php';
+                            window.location.href = './index.php?action=perfil';
                         });
                     </script>
                 </body>
@@ -200,7 +208,7 @@ class ControladorCorredor
                                 confirmButtonText: 'Aceptar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
+                                    window.location.href = './index.php?action=perfil';
                                 }
                             });
                         </script>
@@ -224,7 +232,7 @@ class ControladorCorredor
                                 confirmButtonText: 'Aceptar'
                             }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
+                                    window.location.href = './index.php?action=perfil';
                                 }
                             });;
                         </script>
@@ -249,7 +257,7 @@ class ControladorCorredor
                             confirmButtonText: 'Aceptar'
                         }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
+                                    window.location.href = './index.php?action=perfil';
                                 }
                             });;
                     </script>
@@ -274,7 +282,7 @@ class ControladorCorredor
                         confirmButtonText: 'Aceptar'
                     }).then((result) => {
                                 if (result.isConfirmed) {
-                                    window.location.href = 'index.php';
+                                    window.location.href = './index.php?action=perfil';
                                 }
                             });;
                 </script>

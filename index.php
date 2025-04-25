@@ -56,6 +56,16 @@ if (isset($_GET['action'])) {
             $controlador->cambiarContrasena($_POST['correo_electronico'],$_POST['new_password'],$_POST['confirm_password'],$_POST['current_password']);
     
             break;
+        
+        case 'registro':
+
+            $controlador->mostrarRegistro();
+            break;
+
+        case 'perfil':
+
+            $controlador->mostrarPerfil();
+            break;
 
         default:
 
