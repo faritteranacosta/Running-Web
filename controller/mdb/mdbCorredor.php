@@ -2,16 +2,17 @@
 require_once '../../model/dao/CorredorDAO.php';
 require_once '../../model/entidad/Corredor.php';
 
-function autenticarCorredor($correo_electronico, $contrasena) {
+function autenticarCorredor($correo, $contrasena) {
     $dao = new CorredorDAO();
-    return $dao->autenticarCorredor($correo_electronico, $contrasena);
+    return $dao->autenticarCorredor($correo, $contrasena);
 }
 
-
-
-function agregarCorredor($nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena) {
+function agregarCorredor($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null) {
+    $usuario = new Usuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro);
+    $ciudadObj = $ciudad ? new Ciudad($ciudad) : null;
+    $equipoObj = $equipo ? new Equipo($equipo) : null;
+    $corredor = new Corredor($usuario, $ciudadObj, $equipoObj);
     $dao = new CorredorDAO();
-    $corredor = new Corredor($nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena);
     return $dao->agregarCorredor($corredor);
 }
 
@@ -25,19 +26,20 @@ function buscarCorredorPorId($id_corredor) {
     return $dao->obtenerCorredorPorId($id_corredor);
 }
 
-function buscarCorredorPorCorreo($correo_electronico) {
+function buscarCorredorPorCorreo($correo) {
     $dao = new CorredorDAO();
-    return $dao->obtenerCorredorPorCorreo($correo_electronico);
+    return $dao->obtenerCorredorPorCorreo($correo);
 }
 
-function modificarCorredor($nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena) {
+function modificarCorredor($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento) {
+    $usuario = new Usuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento);
+    $corredor = new Corredor($usuario);
     $dao = new CorredorDAO();
-    $corredor = new Corredor($nombre_usuario, $apellido_usuario, $correo_electronico, $contrasena);
     return $dao->actualizarCorredor($corredor);
 }
 
-function eliminarCorredor($correo_electronico) {
+function eliminarCorredor($correo) {
     $dao = new CorredorDAO();
-    return $dao->eliminarCorredor($correo_electronico);
+    return $dao->eliminarCorredor($correo);
 }
 

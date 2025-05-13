@@ -1,12 +1,25 @@
 <?php
 session_start();
+require_once '../model/entidad/Corredor.php';
+require_once '../controller/mdb/mdbCorredor.php';
 
-if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSION['correo_electronico'])) {
-    $apellido = $_SESSION['apellido'];
-    $nombre = $_SESSION['nombre'];
-    $correo = $_SESSION['correo_electronico'];
+if (isset($_SESSION['correo'])) {
+    $correo = $_SESSION['correo'];
+    $corredor = buscarCorredorPorCorreo($correo);
+    if ($corredor) {
+        $usuario = $corredor->getUsuario();
+        $apellido = $usuario->getApellido();
+        $nombre = $usuario->getNombre();
+        $correo = $usuario->getCorreo();
+        $sexo = $usuario->getSexo();
+        $fecha_registro = $usuario->getFechaRegistro();
+    } else {
+        header('Location: ../index.php');
+        exit;
+    }
 } else {
     header('Location: ../index.php');
+    exit;
 }
 ?>
 
@@ -60,7 +73,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
 
                     <!-- Formulario oculto para enviar la solicitud de eliminación -->
                     <form id="formEliminar" method="post" action="../index.php?action=eliminarCorredor">
-                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo']); ?>">
                     </form>
                 </li>
                 <li>
@@ -88,15 +101,15 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                 <td><?php echo htmlspecialchars($nombre); ?></td>
             </tr>
             <tr>
-                <td>N° Runner: 251</td>
-                <td>Masculino</td>
+                <td>N° Runner: <?php echo htmlspecialchars($corredor->getIdCorredor()); ?></td>
+                <td><?php echo htmlspecialchars($sexo); ?></td>
             </tr>
             <tr>
                 <td colspan="3"><?php echo htmlspecialchars($correo); ?></td>
             </tr>
             <tr>
-                <td>Registro: 2025/02/02</td>
-                <td>3894156224</td>
+                <td>Registro: <?php echo htmlspecialchars($fecha_registro); ?></td>
+                <td></td>
             </tr>
         </table>
         <br>
@@ -185,7 +198,7 @@ if (isset($_SESSION['nombre']) && isset($_SESSION['apellido']) && isset($_SESSIO
                 <div class="input-box">
                 <label for="email">Email</label>
                 <input type="hidden" name="correo_electronico"
-                value="<?php echo htmlspecialchars($_SESSION['correo_electronico']); ?>">
+                value="<?php echo htmlspecialchars($_SESSION['correo']); ?>">
             </div>
                     <div class="input-box">
                         <input name= "current_password" required type="password" id="password1" placeholder="Contraseña actual">
