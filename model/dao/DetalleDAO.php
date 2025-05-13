@@ -11,25 +11,26 @@ class DetalleDAO {
 
     public function obtenerDetalles() {
         $sql = "SELECT 
-    e.nombre_evento,
-    p.nombre_patrocinador, 
-    e.descripcion_evento,
-    e.fecha_evento, 
-    e.hora_evento, 
+    e.nombre AS nombre_evento,
+    p.nombre AS nombre_patrocinador, 
+    e.descripcion,
+    e.fecha, 
+    e.hora, 
     c.distancia, 
-    c.categoria
+    cat.nombre AS categoria
 FROM evento e
 JOIN carrera c ON e.id_evento = c.id_evento
-JOIN patrocinador p ON e.id_patrocinador = p.id_patrocinador";
+JOIN patrocinador p ON e.id_patrocidador = p.id_patrocidador
+JOIN categoria cat ON c.id_categoria = cat.id_categoria";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $detalles= array();
         foreach ($result as $row) {
             $detalles[] = new Detalle(
                 $row['nombre_evento'],
                 $row['nombre_patrocinador'],
-                $row['descripcion_evento'],
-                $row['fecha_evento'],
-                $row['hora_evento'],
+                $row['descripcion'],
+                $row['fecha'],
+                $row['hora'],
                 $row['distancia'],
                 $row['categoria']
             );
@@ -39,16 +40,17 @@ JOIN patrocinador p ON e.id_patrocinador = p.id_patrocinador";
 
     public function obtenerDetallesPorId($id_evento) {
         $sql = "SELECT 
-    e.nombre_evento,
-    p.nombre_patrocinador, 
-    e.descripcion_evento,
-    e.fecha_evento, 
-    e.hora_evento, 
+    e.nombre AS nombre_evento,
+    p.nombre AS nombre_patrocinador, 
+    e.descripcion,
+    e.fecha, 
+    e.hora, 
     c.distancia, 
-    c.categoria
+    cat.nombre AS categoria
 FROM evento e
 JOIN carrera c ON e.id_evento = c.id_evento
-JOIN patrocinador p ON e.id_patrocinador = p.id_patrocinador
+JOIN patrocinador p ON e.id_patrocidador = p.id_patrocidador
+JOIN categoria cat ON c.id_categoria = cat.id_categoria
 WHERE e.id_evento = ?";
         $result = $this->dataSource->ejecutarConsulta($sql, array($id_evento));
         $detalles= array();
@@ -56,9 +58,9 @@ WHERE e.id_evento = ?";
             $detalles[] = new Detalle(
                 $row['nombre_evento'],
                 $row['nombre_patrocinador'],
-                $row['descripcion_evento'],
-                $row['fecha_evento'],
-                $row['hora_evento'],
+                $row['descripcion'],
+                $row['fecha'],
+                $row['hora'],
                 $row['distancia'],
                 $row['categoria']
             );
