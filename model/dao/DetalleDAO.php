@@ -9,37 +9,9 @@ class DetalleDAO {
         $this->dataSource = new DataSource();
     }
 
-    public function obtenerDetalles() {
+    public function obtenerDetalles($id_evento) {
         $sql = "SELECT 
-    e.nombre AS nombre_evento,
-    p.nombre AS nombre_patrocinador, 
-    e.descripcion,
-    e.fecha, 
-    e.hora, 
-    c.distancia, 
-    cat.nombre AS categoria
-FROM evento e
-JOIN carrera c ON e.id_evento = c.id_evento
-JOIN patrocinador p ON e.id_patrocidador = p.id_patrocidador
-JOIN categoria cat ON c.id_categoria = cat.id_categoria";
-        $result = $this->dataSource->ejecutarConsulta($sql);
-        $detalles= array();
-        foreach ($result as $row) {
-            $detalles[] = new Detalle(
-                $row['nombre_evento'],
-                $row['nombre_patrocinador'],
-                $row['descripcion'],
-                $row['fecha'],
-                $row['hora'],
-                $row['distancia'],
-                $row['categoria']
-            );
-        }
-        return $detalles;
-    }
-
-    public function obtenerDetallesPorId($id_evento) {
-        $sql = "SELECT 
+    e.id_evento,
     e.nombre AS nombre_evento,
     p.nombre AS nombre_patrocinador, 
     e.descripcion,
@@ -62,7 +34,8 @@ WHERE e.id_evento = ?";
                 $row['fecha'],
                 $row['hora'],
                 $row['distancia'],
-                $row['categoria']
+                $row['categoria'],
+                $row['id_evento']
             );
         }
         return $detalles;

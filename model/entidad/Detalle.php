@@ -13,8 +13,9 @@ class Detalle {
     private $hora_evento; //obtenido de la tabla evento
     private $distancia; //obtener el id del evento actual en la tabla carrera
     private $categoria; ///obtenido el id categoria de la tabla carrera y sacarlo de dicha tabla
-    
-    public function __construct($nonmbre_evento = null, $patrocinador = null, $descripcion_evento = null, $fecha_evento = null, $hora_evento = null, $distancia = null, $categoria = null) {
+    private $id_evento;
+
+    public function __construct($nonmbre_evento = null, $patrocinador = null, $descripcion_evento = null, $fecha_evento = null, $hora_evento = null, $distancia = null, $categoria = null, $id_evento = null) {
         $this->nonmbre_evento = $nonmbre_evento;
         $this->patrocinador = $patrocinador;
         $this->descripcion_evento = $descripcion_evento;
@@ -22,6 +23,7 @@ class Detalle {
         $this->hora_evento = $hora_evento;
         $this->distancia = $distancia;
         $this->categoria = $categoria;
+        $this->id_evento = $id_evento;
     }
 
     public function getNombreEvento() {
@@ -44,4 +46,7 @@ class Detalle {
     }
     public function getCategoria() {
         return $this->categoria;
+    }
+    public function getIdEvento() {
+        return $this->id_evento;
     }

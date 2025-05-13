@@ -3,7 +3,7 @@ require_once '../../model/mdb/mdbDetalle.php';
 
 $id_evento = isset($_GET['id_evento']) ? $_GET['id_evento'] : null;
 if ($id_evento !== null) {
-    $detalles = obtenerDetallesPorId($id_evento);
+    $detalles = obtenerDetalles($id_evento);
 } else {
     $detalles = array();
 }
