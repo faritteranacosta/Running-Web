@@ -22,20 +22,31 @@ class CarreraDAO {
     }
 
     public function obtenerCarreraPorId($id_carrera) {
-        $sql = "SELECT * FROM carrera WHERE id_carrera = ?";
+        $sql = "SELECT c.*, e.nombre AS evento_nombre, e.fecha AS evento_fecha, e.descripcion AS evento_descripcion, cat.nombre AS categoria_nombre FROM carrera c
+                LEFT JOIN evento e ON c.id_evento = e.id_evento
+                LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+                WHERE c.id_carrera = ?";
         $params = [$id_carrera];
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
         if (count($result) > 0) {
             $row = $result[0];
             $evento = new Evento();
-            $evento->setIdEvento( $row['id_evento']);
+            $evento->setIdEvento($row['id_evento']);
+            $evento->setNombreEvento($row['evento_nombre']);
+            $evento->setFechaEvento($row['evento_fecha']);
+            $evento->setDescripcionEvento($row['evento_descripcion']);
             $tipoCarrera = new TipoCarrera();
             $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
             $categoria = new Categoria();
             $categoria->setIdCategoria($row['id_categoria']);
+            $categoria->setNombre($row['categoria_nombre']);
             $ruta = new Ruta();
             $ruta->setIdRuta($row['id_ruta']);
-            return new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
+            $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
+            if (method_exists($carrera, 'setIdCarrera')) {
+                $carrera->setIdCarrera($row['id_carrera']);
+            }
+            return $carrera;
         }
         return null;
     }
@@ -87,4 +98,5 @@ class CarreraDAO {
         $params = [$id_carrera];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
+    
 }

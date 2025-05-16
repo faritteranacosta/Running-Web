@@ -86,15 +86,19 @@ function cargarCarreras() {
             }) : 'No disponible';
             const tarjeta = document.createElement('div');
             tarjeta.className = 'card';
+            let botonParticipar = '';
+            if (carrera.idCarrera) {
+                botonParticipar = `<a href="detalles.html?id=${carrera.idCarrera}" class="enlace_boton"><button class="details-btn">Participar</button></a>`;
+            } else {
+                botonParticipar = `<button class="details-btn" disabled>Participar</button>`;
+            }
             tarjeta.innerHTML = `
                 <img src="assets/img/runner5.png" alt="${carrera.nombre || 'Carrera'}">
                 <h3>${carrera.nombre || 'Nombre no disponible'}</h3>
                 <p>${carrera.descripcion || 'Descripción no disponible'}</p>
                 <strong>${fechaFormateada}</strong>
                 <p><strong>Categoría:</strong> ${carrera.categoria || 'No disponible'}</p>
-                <a href="detalles.html?id=${carrera.idCarrera || ''}" class="enlace_boton">
-                    <button class="details-btn">Participar</button>
-                </a>
+                ${botonParticipar}
             `;
             contenedor.appendChild(tarjeta);
         });
