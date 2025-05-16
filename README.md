@@ -22,7 +22,7 @@
 
 ## 📸 Vista previa
 
-![RunningWeb Screenshot](https://via.placeholder.com/800x400?text=RunningWeb+Preview)
+![RunningWeb Screenshot](https://www.runtastic.com/training-plans/running/walk-to-run?lang=es)
 
 ---
 
@@ -39,6 +39,7 @@
 📦 RunningWeb/
 ├── config/ # Configuración general y conexión a la BD
 ├── controller/
+
 │ ├── action/ # Acciones que manejan peticiones del usuario
 │ └── mdb/ # Controladores para acceso a modelo de datos
 ├── model/
