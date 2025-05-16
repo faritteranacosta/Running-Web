@@ -37,10 +37,11 @@ function obtenerTodasLasCarrerasMDB() {
         $categoriaNombre = method_exists($carrera->getCategoria(), 'getNombre') ? $carrera->getCategoria()->getNombre() : null;
         $eventoNombre = method_exists($carrera->getEvento(), 'getNombreEvento') ? $carrera->getEvento()->getNombreEvento() : null;
         $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
+        $descripcion = method_exists($carrera->getEvento(), 'getDescripcionEvento') ? $carrera->getEvento()->getDescripcionEvento() : null;
         $result[] = array(
             'idCarrera' => $carrera->getIdCarrera(),
             'nombre' => $eventoNombre,
-            'descripcion' => '',
+            'descripcion' => $descripcion,
             'fecha' => $fecha,
             'distancia' => $carrera->getDistancia(),
             'categoria' => $categoriaNombre,

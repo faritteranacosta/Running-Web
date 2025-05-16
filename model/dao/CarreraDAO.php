@@ -41,7 +41,7 @@ class CarreraDAO {
     }
 
     public function listarCarreras() {
-        $sql = "SELECT c.*, e.nombre AS evento_nombre, e.fecha AS evento_fecha, cat.nombre AS categoria_nombre FROM carrera c
+        $sql = "SELECT c.*, e.nombre AS evento_nombre, e.fecha AS evento_fecha, e.descripcion AS evento_descripcion, cat.nombre AS categoria_nombre FROM carrera c
                 LEFT JOIN evento e ON c.id_evento = e.id_evento
                 LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria";
         $result = $this->dataSource->ejecutarConsulta($sql);
@@ -51,6 +51,7 @@ class CarreraDAO {
             $evento->setIdEvento($row['id_evento']);
             $evento->setNombreEvento($row['evento_nombre']);
             $evento->setFechaEvento($row['evento_fecha']);
+            $evento->setDescripcionEvento($row['evento_descripcion']);
             $tipoCarrera = new TipoCarrera();
             $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
             $categoria = new Categoria();
