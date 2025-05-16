@@ -1,148 +1,306 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" type="text/css" href="css/footer.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <title>Registro - RunningWeb</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/styles.js"></script>
+    <link rel="stylesheet" href="js/registro.js">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="css/form.css" />
-    <title>Registro</title>
-</head>
-<body>
+    <style>
+        /* Estilos base */
+.gradient-bg {
+    background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
+}
 
-    <header>
-        <nav>
-            <ul>
-                <li>
-                    <a href="index.html">
-                        <div class= "contain-logo">
-                            <img class= "logo" src="./assets/img/icon-black.jpg" alt="icono">
-                            <h2>Running Web</h1>
-                         </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="index.html">
-                        Inicio
-                    </a>
-                </li>
-                <li>
-                    <a href="./index.php">
-                        Iniciar sesion
-                    </a>
-                </li>
-            </ul>
+.card-hover {
+    transition: all 0.3s ease;
+}
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.2);
+}
+
+.smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Formularios */
+.form-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.input-box input, 
+.input-box select,
+.input-box textarea {
+    transition: all 0.3s ease;
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.input-box input:focus, 
+.input-box select:focus,
+.input-box textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col font-sans">
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img alt="Logo RunningWeb" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md transform hover:scale-105 transition-transform duration-300" 
+                     src="assets/img/icon-black.jpg" />
+                <h1 class="text-2xl font-bold font-heading tracking-tight text-white drop-shadow-md">RunningWeb</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8 font-medium">
+                <a class="hover:text-gray-100 smooth-transition px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300 flex items-center" 
+                   href="index.html">
+                    <i class="fas fa-home mr-2 text-primary-200"></i> Inicio
+                </a>
+                <a class="hover:text-gray-100 smooth-transition px-3 py-2 rounded-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300 flex items-center" 
+                   href="./index.php">
+                    <i class="fas fa-sign-in-alt mr-2 text-primary-200"></i> Iniciar sesión
+                </a>
+            </nav>
+            <button class="md:hidden text-white focus:outline-none p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-all" 
+                    id="menu-btn" aria-label="Menú">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+        </div>
+        <nav class="hidden md:hidden bg-primary-800 shadow-xl" id="mobile-menu">
+            <a class="block px-6 py-4 border-b border-primary-700 hover:bg-primary-700 smooth-transition flex items-center" 
+               href="index.html">
+                <i class="fas fa-home mr-3 text-primary-300 w-5 text-center"></i> Inicio
+            </a>
+            <a class="block px-6 py-4 hover:bg-primary-700 smooth-transition flex items-center" 
+               href="./index.php">
+                <i class="fas fa-sign-in-alt mr-3 text-primary-300 w-5 text-center"></i> Iniciar sesión
+            </a>
         </nav>
     </header>
 
-    <div class="event-card">
-        <div class="event-info">
-            <h2>Crea tu cuenta personal</h2>
-            <p class="status">Empezar en el running puede ser un desafío</p>
-            <p class="description">
-                Si estás comenzando en el mundo del running, es normal sentirte un poco perdido: ¿cómo empezar?, ¿dónde
-                entrenar?, ¿cómo encontrar grupos y eventos cerca de ti? Nuestra plataforma está diseñada para ayudarte
-                a resolver estas dudas y conectar con una comunidad apasionada por correr. ¡Crea tu cuenta y empieza a
-                correr con confianza! </p>
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Hero Card -->
+        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-md overflow-hidden mb-10 card-hover">
+            <div class="p-8 md:w-2/3">
+                <h2 class="text-3xl font-bold text-primary-700 mb-4">Crea tu cuenta personal</h2>
+                <p class="text-lg text-gray-600 mb-4">Empezar en el running puede ser un desafío</p>
+                <p class="text-gray-600">
+                    Si estás comenzando en el mundo del running, es normal sentirte un poco perdido: ¿cómo empezar?, ¿dónde
+                    entrenar?, ¿cómo encontrar grupos y eventos cerca de ti? Nuestra plataforma está diseñada para ayudarte
+                    a resolver estas dudas y conectar con una comunidad apasionada por correr. ¡Crea tu cuenta y empieza a
+                    correr con confianza!
+                </p>
+            </div>
+            <div class="md:w-1/3 flex items-center justify-center p-4">
+                <img src="assets/img/runner9.png" alt="Corredor" class="max-h-80 object-contain">
+            </div>
         </div>
-        <img src="./assets/img/runner9.png" alt="Imagen del evento">
-    </div>
 
-    <div class="form-container">
-        <h2>Ingresa tus datos</h2>
-        <form method="POST">
-            <div class="input-group">
-                <div class="input-box">
-                    <label for="nombre">Nombres</label>
-                    <input type="text" id="nombre" placeholder="Jane" name="nombre_usuario" required>
+        <!-- Registration Form -->
+        <div class="form-container p-8 max-w-2xl mx-auto fade-in">
+            <h2 class="text-2xl font-bold text-primary-700 mb-6 text-center">
+                <i class="fas fa-user-plus mr-2"></i>Ingresa tus datos
+            </h2>
+            <form method="POST" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="nombre">
+                            <i class="fas fa-user mr-2 text-primary-600"></i>Nombres
+                        </label>
+                        <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                               type="text" id="nombre" placeholder="Jane" name="nombre_usuario" required>
+                    </div>
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="apellido">
+                            <i class="fas fa-user mr-2 text-primary-600"></i>Apellidos
+                        </label>
+                        <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                               type="text" id="apellido" placeholder="Smitherton" name="apellido_usuario" required>
+                    </div>
                 </div>
-                <div class="input-box">
-                    <label for="apellido">Apellidos</label>
-                    <input type="text" id="apellido" placeholder="Smitherton" name="apellido_usuario" required>
 
+                <div class="input-box">
+                    <label class="block text-gray-700 font-medium mb-2" for="email">
+                        <i class="fas fa-envelope mr-2 text-primary-600"></i>Email
+                    </label>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                           type="email" id="email" placeholder="email@running.net" name="correo_electronico" required>
                 </div>
-            </div>
 
-            <div class="input-box">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="email@running.net" name="correo_electronico" required>
-            </div>
-
-            <div class="input-group">
-                <div class="input-box">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" placeholder="Contraseña" name="contrasena" required>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="password">
+                            <i class="fas fa-lock mr-2 text-primary-600"></i>Contraseña
+                        </label>
+                        <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                               type="password" id="password" placeholder="Contraseña" name="contrasena" required>
+                    </div>
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="confirm-password">
+                            <i class="fas fa-lock mr-2 text-primary-600"></i>Repetir Contraseña
+                        </label>
+                        <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                               type="password" id="confirm-password" placeholder="Contraseña" name="contrasena" required>
+                    </div>
                 </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="sexo">
+                            <i class="fas fa-venus-mars mr-2 text-primary-600"></i>Sexo
+                        </label>
+                        <select class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition appearance-none bg-white" 
+                                id="sexo" name="sexo" required>
+                            <option value="">Seleccione...</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                            <option value="prefiero-no-decir">Prefiero no decir</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-box">
+                        <label class="block text-gray-700 font-medium mb-2" for="fechaNacimiento">
+                            <i class="fas fa-birthday-cake mr-2 text-primary-600"></i>Fecha de Nacimiento
+                        </label>
+                        <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
+                               type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                    </div>
+                </div>
+
                 <div class="input-box">
-                    <label for="confirm-password">Repetir Contraseña</label>
-                    <input type="password" id="confirm-password" placeholder="Contraseña" name="contrasena" required>
+                    <label class="block text-gray-700 font-medium mb-2" for="rol">
+                        <i class="fas fa-user-tag mr-2 text-primary-600"></i>Rol
+                    </label>
+                    <select class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition appearance-none bg-white" 
+                            id="rol" name="rol" required>
+                        <option value="">Seleccione...</option>
+                        <option value="vendedor">Vendedor</option>
+                        <option value="corredor">Corredor</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg smooth-transition">
+                    <i class="fas fa-user-plus mr-2"></i>Crear Cuenta
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿Ya tienes cuenta? <a href="iniciar_sesion.html" class="text-primary-600 hover:text-primary-800 font-medium">Inicia sesión aquí</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-3">
+                        <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover" src="assets/img/icon-black.jpg"/>
+                        <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
+                    </div>
+                    <p class="mt-2 text-gray-600 max-w-md">
+                        La plataforma líder para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-8 md:gap-16">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Enlaces</h3>
+                        <div class="mt-4 space-y-2">
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Inicio</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Eventos</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Comunidad</a>
+                            <a href="#contacto" class="text-gray-600 hover:text-primary-600 block smooth-transition">Contacto</a>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contacto</h3>
+                        <div class="mt-4 space-y-2">
+                            <a href="mailto:contacto@runningweb.com" class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-envelope mr-2"></i> contacto@runningweb.com
+                            </a>
+                            <a href="tel:+1234567890" class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-phone mr-2"></i> +1 234 567 890
+                            </a>
+                            <div class="flex space-x-4 mt-3">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="form-group">
-            <label for="sexo">Sexo:</label>
-                <select id="sexo" name="sexo" required>
-                    <option value="">Seleccione...</option>
-                    <option value="masculino">Masculino</option>
-                    <option value="femenino">Femenino</option>
-                    <option value="otro">Otro</option>
-                    <option value="prefiero-no-decir">Prefiero no decir</option>
-                </select>
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+                <p>© 2024 RunningWeb. Todos los derechos reservados.</p>
             </div>
-            
-            <div class="form-group">
-                <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
-            </div>
-
-             <div class="form-group">
-            <label for="rol">Rol:</label>
-                <select id="rol" name="rol" required>
-                    <option value="">Seleccione...</option>
-                    <option value="masculino">Vendedor</option>
-                    <option value="femenino">Corredor</option>
-                </select>
-            </div>
-
-            <button type="submit" class="btn">Crear Cuenta</button>
-            <p class="login-link"><a href="iniciar_sesion.html">¿Ya tienes cuenta?</a></p>
-        </form>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="js/registro.js"></script>
-    </div>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-logo">
-                <h3>Running web</h3>
-            </div>
-            <div class="footer-links">
-
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li>Email: info@runningweb.com</li>
-                        <li>Teléfono: +123 456 7890</li>
-                        <li>Dirección: Calle Corredores 123</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-social">
-                <h4>Síguenos</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="facebook-icon"></i></a>
-                    <a href="#"><i class="linkedin-icon"></i></a>
-                    <a href="#"><i class="youtube-icon"></i></a>
-                    <a href="#"><i class="instagram-icon"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Running web. Todos los derechos reservados.</p>
         </div>
     </footer>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/registro.js"></script>
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+
+        // Validación de contraseñas
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Las contraseñas no coinciden',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        });
+    </script>
+</body>
 </html>

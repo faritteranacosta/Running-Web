@@ -464,6 +464,8 @@ function setupEventListeners() {
         renderProducts();
         clearForm();
     });
+
+    
 }
 
 // Make functions available globally
