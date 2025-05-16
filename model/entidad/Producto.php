@@ -12,8 +12,7 @@ class Producto {
     private $vendedor_id;
     private $imagenUrl;
 
-    public function __construct($id_producto, $nombre = null, $descripcion = null, $precio = null, $fecha_publicacion = null, $vendedor_id = null, $categoria = null, $stock = null, $imagenUrl = null) {
-        $this->id_producto = $id_producto;
+    public function __construct($nombre = null, $descripcion = null, $precio = null, $fecha_publicacion = null, $vendedor_id = null, $categoria = null, $stock = null, $imagenUrl = null) {
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->precio = $precio;

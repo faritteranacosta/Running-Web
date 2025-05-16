@@ -53,7 +53,6 @@ class ProductoDAO {
         $productos = [];
         foreach ($result as $row) {
             $producto = new Producto(
-                $row['id_producto'],
                 $row['nombre'],
                 $row['descripcion'],
                 $row['precio'],

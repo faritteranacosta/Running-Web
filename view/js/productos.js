@@ -1,8 +1,101 @@
  // Datos iniciales de productos
 let products = [];
+// Variables de paginación
+let currentPage = 1;
+const itemsPerPage = 5; // Número de productos por página
 
-// Cargar productos usando AJAX (fetch)
-document.addEventListener("DOMContentLoaded", () => {
+// Función para actualizar la paginación
+function updatePagination() {
+    const totalItems = products.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    
+    // Actualizar contadores
+    document.getElementById('total-items').textContent = totalItems;
+    document.getElementById('showing-from').textContent = ((currentPage - 1) * itemsPerPage) + 1;
+    document.getElementById('showing-to').textContent = Math.min(currentPage * itemsPerPage, totalItems);
+    
+    // Actualizar botones de navegación
+    document.getElementById('prev-btn').disabled = currentPage === 1;
+    document.getElementById('next-btn').disabled = currentPage === totalPages;
+    
+    // Generar números de página
+    const paginationControls = document.getElementById('pagination-controls');
+    const pageNumberContainer = document.createElement('div');
+    pageNumberContainer.className = 'flex space-x-2';
+    
+    // Limpiar números de página existentes (excepto los botones prev/next)
+    while (paginationControls.children.length > 2) {
+        paginationControls.removeChild(paginationControls.children[1]);
+    }
+    
+    // Determinar rango de páginas a mostrar (máximo 5)
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    // Ajustar si estamos cerca del final
+    if (endPage - startPage < 4 && startPage > 1) {
+        startPage = Math.max(1, endPage - 4);
+    }
+    
+    // Botón para la primera página si no está visible
+    if (startPage > 1) {
+        const firstPageBtn = document.createElement('button');
+        firstPageBtn.className = `px-3 py-1 border border-gray-300 rounded-md ${1 === currentPage ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`;
+        firstPageBtn.textContent = '1';
+        firstPageBtn.onclick = () => goToPage(1);
+        if (startPage > 2) {
+            firstPageBtn.after(document.createTextNode('...'));
+        }
+        pageNumberContainer.appendChild(firstPageBtn);
+    }
+    
+    // Botones para las páginas en el rango
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `px-3 py-1 border rounded-md ${i === currentPage ? 'bg-primary-600 text-white' : 'border-gray-300 text-gray-600 hover:bg-gray-100'}`;
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => goToPage(i);
+        pageNumberContainer.appendChild(pageBtn);
+    }
+    
+    // Botón para la última página si no está visible
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            pageNumberContainer.appendChild(document.createTextNode('...'));
+        }
+        const lastPageBtn = document.createElement('button');
+        lastPageBtn.className = `px-3 py-1 border border-gray-300 rounded-md ${totalPages === currentPage ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-100'}`;
+        lastPageBtn.textContent = totalPages;
+        lastPageBtn.onclick = () => goToPage(totalPages);
+        pageNumberContainer.appendChild(lastPageBtn);
+    }
+    
+    // Insertar los números de página entre los botones prev/next
+    paginationControls.insertBefore(pageNumberContainer, document.getElementById('next-btn'));
+}
+
+// Funciones de navegación
+function goToPage(page) {
+    currentPage = page;
+    renderProducts();
+    updatePagination();
+}
+
+function previousPage() {
+    if (currentPage > 1) {
+        goToPage(currentPage - 1);
+    }
+}
+
+function nextPage() {
+    const totalPages = Math.ceil(products.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        goToPage(currentPage + 1);
+    }
+}
+
+
+function cargarProductos() {
     fetch("../controller/action/ajax_productos.php")
         .then(response => response.json())
         .then(data => {
@@ -21,12 +114,19 @@ document.addEventListener("DOMContentLoaded", () => {
                         parseInt(item.stock) < 10 ? 'low-stock' : 'active'
                 )
             }));
-            console.log(products);
             renderProducts();
         })
         .catch(error => {
             console.error("Error al cargar productos:", error);
         });
+}
+
+// Cargar productos usando AJAX (fetch)
+document.addEventListener("DOMContentLoaded", () => {
+    cargarProductos();
+    renderProducts();
+    updatePagination();
+    setupEventListeners();
 });
 
 // DOM Elements
@@ -47,7 +147,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderProducts() {
     productList.innerHTML = "";
 
-    products.forEach((product, index) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, products.length);
+    const productsToShow = products.slice(startIndex, endIndex);
+
+    productsToShow.forEach((product, index) => {
         const statusClass = {
             'active': 'bg-green-100 text-green-800',
             'low-stock': 'bg-yellow-100 text-yellow-800',
@@ -96,6 +200,10 @@ function renderProducts() {
 `;
         productList.appendChild(tr);
     });
+    
+    // Actualizar paginación   
+    updatePagination();
+
 }
 
 function editProduct(index) {
@@ -231,7 +339,6 @@ function setupEventListeners() {
                     category: category,
                     stock: stock,
                     image: image
-                    
                 })
                
             })
@@ -280,14 +387,13 @@ function setupEventListeners() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    nombre: name,
-                    descripcion: description,
-                    precio: price,
-                    fecha_publicacion: new Date().toISOString().slice(0, 10),
-                    vendedor_id: 1, // Cambia esto por el id real del vendedor/logueado si lo tienes
-                    categoria: category,
+                    name: name,
+                    description: description,
+                    price: price,
+                    vendedor_id: 17, // Cambia esto por el id real del vendedor/logueado si lo tienes
+                    category: category,
                     stock: stock,
-                    imagenUrl: image
+                    image: image
                 })
             })
                 .then(response => response.json())
@@ -301,25 +407,7 @@ function setupEventListeners() {
                             confirmButtonColor: '#22c55e'
                         });
                         // Recargar productos desde el servidor para mantener sincronizado
-                        fetch('../controller/action/ajax_productos.php')
-                            .then(response => response.json())
-                            .then(data => {
-                                products = data.map(item => ({
-                                    id: item.id,
-                                    name: item.name,
-                                    description: item.description,
-                                    price: parseFloat(item.price),
-                                    category: item.category,
-                                    stock: parseInt(item.stock),
-                                    image: item.imagenUrl,
-                                    status: item.status || (
-                                        parseInt(item.stock) === 0 ? 'out-of-stock' :
-                                            parseInt(item.stock) < 10 ? 'low-stock' : 'active'
-                                    )
-                                }));
-                                renderProducts();
-                                clearForm();
-                            });
+                        cargarProductos();
                     } else {
                         Swal.fire({
                             icon: 'error',

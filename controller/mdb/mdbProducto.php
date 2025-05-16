@@ -20,7 +20,8 @@ function listarProductos() {
 
 function actualizarProducto($id_producto, $nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria = null, $stock = null, $imagenUrl = null) {
     $productoDAO = new ProductoDAO();
-    $producto = new Producto($nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria, $stock, $imagenUrl);
+    $producto = new Producto($nombre, $descripcion, $precio, $fecha_publicacion
+    , $vendedor_id, $categoria, $stock, $imagenUrl);
     $producto->setIdProducto($id_producto);
     return $productoDAO->actualizarProducto($producto);
 }
