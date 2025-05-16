@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 
 class Ruta {
     private $id_ruta;
@@ -12,6 +12,9 @@ class Ruta {
 
     public function getIdRuta() {
         return $this->id_ruta;
+    }
+    public function setIdRuta($id_ruta) {
+        $this->id_ruta = $id_ruta;
     }
     public function setDescripcionRuta($descripcion_ruta) {
         $this->descripcion_ruta = $descripcion_ruta;

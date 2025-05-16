@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 
 class Usuario{
 
@@ -25,6 +25,10 @@ class Usuario{
 
     public function getIdUsuario() {
         return $this->id_usuario;
+    }
+
+    public function setIdUsuario($id_usuario) {
+        $this->id_usuario = $id_usuario;
     }
 
     public function setRol($rol) {

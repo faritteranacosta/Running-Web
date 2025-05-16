@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 class Categoria {
     private $id_categoria;
     private $nombre;
@@ -11,6 +11,10 @@ class Categoria {
     public function getIdCategoria() {
         return $this->id_categoria;
     }
+    public function setIdCategoria($id_categoria) {
+        $this->id_categoria = $id_categoria;
+    }
+    
     public function setNombre($nombre) {
         $this->nombre = $nombre;
     }
@@ -24,3 +28,4 @@ class Categoria {
         return $this->descripcion;
     }
 
+}

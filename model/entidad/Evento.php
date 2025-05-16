@@ -1,6 +1,6 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 require_once __DIR__ . '/Patrocinador.php';
-require_once __DIR__ . 'Ubicacion.php';
+require_once __DIR__ . '/Ubicacion.php';
 
 
 class Evento { 
@@ -15,7 +15,7 @@ class Evento {
     private $ubicacion; //instancia de Ubicacion
 
 
-    public function __construct($nombre_evento = null, $tipo_evento = null, $fecha_evento = null, $hora_evento = null, $descripcion_evento = null, Patrocinador $patrocinador = null, Ubicacion $ubicacion = null) {
+    public function __construct($nombre_evento = null, $tipo_evento = null, $fecha_evento = null, $hora_evento = null, $descripcion_evento = null, $patrocinador = null, $ubicacion = null) {
         $this->nombre_evento = $nombre_evento;
         $this->tipo_evento = $tipo_evento;
         $this->fecha_evento = $fecha_evento;
@@ -28,6 +28,10 @@ class Evento {
 
     public function getIdEvento() {
         return $this->id_evento;
+    }
+
+    public function setIdEvento($id_evento) {
+        $this->id_evento = $id_evento;
     }
 
     public function setNombreEvento($nombre_evento) {

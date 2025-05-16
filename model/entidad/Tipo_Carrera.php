@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 
 class TipoCarrera {
     private $id_tipo_carrera;
@@ -14,6 +14,9 @@ class TipoCarrera {
     public function getIdTipoCarrera() {
         return $this->id_tipo_carrera;
     }
+    public function setIdTipoCarrera($id_tipo_carrera) {
+        $this->id_tipo_carrera = $id_tipo_carrera;
+    }   
     public function setNombre($nombre) {
         $this->nombre = $nombre;
     }

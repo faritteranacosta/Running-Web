@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php 
 require_once __DIR__ . '/Ciudad.php';
 
 class Ubicacion{

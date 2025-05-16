@@ -20,7 +20,7 @@ class DataSource {
     
     public function __construct(){
         try{
-            $config=fopen(__DIR__."/../../conf/config.json","r");
+            $config=fopen(__DIR__."/../../config/config.json","r");
             if(!$config){
                 die("Cannot open configuration file!");
             }
@@ -48,7 +48,7 @@ class DataSource {
             $this->conexion=null;
             return $tabla_datos;
         }else{
-            return 0;
+            return $tabla_datos = array();
         }
     }
     
@@ -64,6 +64,10 @@ class DataSource {
             return 0;
         }
     }
+
+    public function getLastInsertId(){
+        return $this->conexion->lastInsertId();
+    }    
     
 }
 

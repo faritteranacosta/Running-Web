@@ -1,20 +1,19 @@
 <?php
 session_start();
-require_once '../model/entidad/Corredor.php';
-require_once '../controller/mdb/mdbCorredor.php';
+require_once '../model/entidad/Usuario.php';
+require_once '../controller/mdb/mdbUsuario.php';
 
-if (isset($_SESSION['correo'])) {
-    $correo = $_SESSION['correo'];
-    $corredor = buscarCorredorPorCorreo($correo);
-    if ($corredor) {
-        $usuario = $corredor->getUsuario();
+if (isset($_SESSION['ID_USUARIO'])) {
+    $id = $_SESSION['ID_USUARIO'];
+    $usuario = obtenerUsuarioPorId($id);
+    if ($usuario) {
         $apellido = $usuario->getApellido();
         $nombre = $usuario->getNombre();
         $correo = $usuario->getCorreo();
         $sexo = $usuario->getSexo();
         $fecha_registro = $usuario->getFechaRegistro();
     } else {
-        header('Location: ../index.php');
+        header('Location: ../index.html');
         exit;
     }
 } else {
@@ -72,8 +71,8 @@ if (isset($_SESSION['correo'])) {
                     <a href="#" onclick="confirmarEliminacion()">Eliminar mi cuenta</a>
 
                     <!-- Formulario oculto para enviar la solicitud de eliminación -->
-                    <form id="formEliminar" method="post" action="../index.php?action=eliminarCorredor">
-                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['correo']); ?>">
+                    <form id="formEliminar" method="post" action="">
+                        <input type="hidden" name="correo_electronico" value="<?php echo htmlspecialchars($_SESSION['CORREO_USUARIO']); ?>">
                     </form>
                 </li>
                 <li>
@@ -101,7 +100,7 @@ if (isset($_SESSION['correo'])) {
                 <td><?php echo htmlspecialchars($nombre); ?></td>
             </tr>
             <tr>
-                <td>N° Runner: <?php echo htmlspecialchars($corredor->getIdCorredor()); ?></td>
+                <td>N° Runner: <?php echo htmlspecialchars($usuario->getIdUsuario()); ?></td>
                 <td><?php echo htmlspecialchars($sexo); ?></td>
             </tr>
             <tr>

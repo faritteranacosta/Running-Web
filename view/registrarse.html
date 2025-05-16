@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./view/css/registrarse.css" />
-    <link rel="stylesheet" type="text/css" href="./view/css/footer.css">
-    <link rel="stylesheet" type="text/css" href="./view/css/style.css" />
-    <link rel="icon" href="./view/assets/img/icon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" type="text/css" href="css/footer.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/form.css" />
     <title>Registro</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
                 <li>
                     <a href="index.html">
                         <div class= "contain-logo">
-                            <img class= "logo" src="./view/assets/img/icon-black.jpg" alt="icono">
+                            <img class= "logo" src="./assets/img/icon-black.jpg" alt="icono">
                             <h2>Running Web</h1>
                          </div>
                     </a>
@@ -46,12 +47,12 @@
                 a resolver estas dudas y conectar con una comunidad apasionada por correr. ¡Crea tu cuenta y empieza a
                 correr con confianza! </p>
         </div>
-        <img src="./view/assets/img/runner9.png" alt="Imagen del evento">
+        <img src="./assets/img/runner9.png" alt="Imagen del evento">
     </div>
 
     <div class="form-container">
         <h2>Ingresa tus datos</h2>
-        <form method="POST" action="index.php?action=registrar">
+        <form method="POST">
             <div class="input-group">
                 <div class="input-box">
                     <label for="nombre">Nombres</label>
@@ -79,12 +80,38 @@
                     <input type="password" id="confirm-password" placeholder="Contraseña" name="contrasena" required>
                 </div>
             </div>
+            
+            <div class="form-group">
+            <label for="sexo">Sexo:</label>
+                <select id="sexo" name="sexo" required>
+                    <option value="">Seleccione...</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="femenino">Femenino</option>
+                    <option value="otro">Otro</option>
+                    <option value="prefiero-no-decir">Prefiero no decir</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+            </div>
+
+             <div class="form-group">
+            <label for="rol">Rol:</label>
+                <select id="rol" name="rol" required>
+                    <option value="">Seleccione...</option>
+                    <option value="masculino">Vendedor</option>
+                    <option value="femenino">Corredor</option>
+                </select>
+            </div>
 
             <button type="submit" class="btn">Crear Cuenta</button>
-            <p class="login-link"><a href="./index.php?action=login">¿Ya tienes cuenta?</a></p>
+            <p class="login-link"><a href="iniciar_sesion.html">¿Ya tienes cuenta?</a></p>
         </form>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="js/registro.js"></script>
     </div>
-
 
     <footer>
         <div class="footer-container">

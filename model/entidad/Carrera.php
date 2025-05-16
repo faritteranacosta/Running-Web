@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 require_once __DIR__ . '/Tipo_Carrera.php';
 require_once __DIR__ . '/Categoria.php';
 require_once __DIR__ . '/Ruta.php';

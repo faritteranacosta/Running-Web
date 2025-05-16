@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php
 
 class Equipo {
 private $id_equipo;
@@ -10,6 +10,10 @@ public function __construct($nombre = null) {
 
 public function getIdEquipo() {
     return $this->id_equipo;
+}
+
+public function setIdEquipo($id_equipo) {
+    $this->id_equipo = $id_equipo;
 }
 
 public function setNombre($nombre) {

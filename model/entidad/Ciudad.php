@@ -1,4 +1,4 @@
-<?php  require_once __DIR__ . '/Conexion.php'; 
+<?php  
 
 class Ciudad {
     private $id_ciudad;
@@ -10,6 +10,9 @@ class Ciudad {
     }
     public function getIdCiudad() {
         return $this->id_ciudad;
+    }
+    public function setIdCiudad($id_ciudad) {
+        $this->id_ciudad = $id_ciudad;
     }
     public function setNombre($nombre) {
         $this->nombre = $nombre;
