@@ -1,7 +1,8 @@
 // carreras.js
 // Funciones AJAX para gestionar carreras
 
-const API_URL = '/controller/action/ajax_carreras.php';
+// Cambiado a ruta relativa para que funcione desde view/
+const API_URL = '../controller/action/ajax_carreras.php';
 
 export function insertarCarrera(data) {
     return fetch(API_URL, {
