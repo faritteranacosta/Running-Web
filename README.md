@@ -40,12 +40,19 @@
 
 ├── config/ # Configuración general y conexión a la BD
 ├── controller/
+| |
 │ ├── action/ # Acciones que manejan peticiones del usuario
+| |
 │ └── mdb/ # Controladores para acceso a modelo de datos
+|
 ├── model/
+|
 │ ├── dao/ # Acceso a datos (CRUD)
+| |
 │ └── entidad/ # Clases entidad (Corredor, Vendedor, etc.)
+|
 ├── view/ # Interfaz de usuario (HTML + PHP)
+|
 └── README.md # Este archivo :)
 
 ---
