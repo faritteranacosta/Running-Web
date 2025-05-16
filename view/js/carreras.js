@@ -89,7 +89,8 @@ function cargarCarreras() {
             tarjeta.innerHTML = `
                 <img src="assets/img/runner5.png" alt="${carrera.nombre || 'Carrera'}">
                 <h3>${carrera.nombre || 'Nombre no disponible'}</h3>
-                <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+                <p>${carrera.descripcion || 'Descripción no disponible'}</p>
+                <strong>${fechaFormateada}</strong>
                 <p><strong>Categoría:</strong> ${carrera.categoria || 'No disponible'}</p>
                 <a href="detalles.html?id=${carrera.idCarrera || ''}" class="enlace_boton">
                     <button class="details-btn">Participar</button>

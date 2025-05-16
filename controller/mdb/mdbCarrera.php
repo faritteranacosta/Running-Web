@@ -34,15 +34,16 @@ function obtenerTodasLasCarrerasMDB() {
     $carreras = $dao->listarCarreras();
     $result = array();
     foreach ($carreras as $carrera) {
-        $evento = $carrera->getEvento();
-        $categoria = $carrera->getCategoria();
+        $categoriaNombre = method_exists($carrera->getCategoria(), 'getNombre') ? $carrera->getCategoria()->getNombre() : null;
+        $eventoNombre = method_exists($carrera->getEvento(), 'getNombreEvento') ? $carrera->getEvento()->getNombreEvento() : null;
+        $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
         $result[] = array(
             'idCarrera' => $carrera->getIdCarrera(),
-            'nombre' => $evento && method_exists($evento, 'getNombreEvento') ? $evento->getNombreEvento() : '',
-            'descripcion' => $evento && method_exists($evento, 'getDescripcionEvento') ? $evento->getDescripcionEvento() : '',
-            'fecha' => $evento && method_exists($evento, 'getFechaEvento') ? $evento->getFechaEvento() : '',
+            'nombre' => $eventoNombre,
+            'descripcion' => '',
+            'fecha' => $fecha,
             'distancia' => $carrera->getDistancia(),
-            'categoria' => $categoria && method_exists($categoria, 'getNombre') ? $categoria->getNombre() : ($categoria ? $categoria->getIdCategoria() : ''),
+            'categoria' => $categoriaNombre,
         );
     }
     return $result;
