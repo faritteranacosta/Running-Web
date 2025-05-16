@@ -32,19 +32,17 @@ function obtenerCarreraPorIdMDB($idCarrera) {
 function obtenerTodasLasCarrerasMDB() {
     $dao = new CarreraDAO();
     $carreras = $dao->listarCarreras();
-    // Convertir objetos Carrera a arrays simples para JSON
     $result = array();
     foreach ($carreras as $carrera) {
+        $evento = $carrera->getEvento();
+        $categoria = $carrera->getCategoria();
         $result[] = array(
             'idCarrera' => $carrera->getIdCarrera(),
-            'nombre' => 'Carrera ' . $carrera->getIdCarrera(), // Puedes ajustar esto si tienes un campo nombre
-            'descripcion' => '', // Ajusta si tienes descripción
-            'fecha' => '', // Ajusta si tienes fecha
+            'nombre' => $evento && method_exists($evento, 'getNombreEvento') ? $evento->getNombreEvento() : '',
+            'descripcion' => $evento && method_exists($evento, 'getDescripcionEvento') ? $evento->getDescripcionEvento() : '',
+            'fecha' => $evento && method_exists($evento, 'getFechaEvento') ? $evento->getFechaEvento() : '',
             'distancia' => $carrera->getDistancia(),
-            'evento' => $carrera->getEvento() ? $carrera->getEvento()->getIdEvento() : null,
-            'tipoCarrera' => $carrera->getTipoCarrera() ? $carrera->getTipoCarrera()->getIdTipoCarrera() : null,
-            'categoria' => $carrera->getCategoria() ? $carrera->getCategoria()->getIdCategoria() : null,
-            'ruta' => $carrera->getRuta() ? $carrera->getRuta()->getIdRuta() : null
+            'categoria' => $categoria && method_exists($categoria, 'getNombre') ? $categoria->getNombre() : ($categoria ? $categoria->getIdCategoria() : ''),
         );
     }
     return $result;
