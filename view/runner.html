@@ -14,7 +14,10 @@
         .sidebar-collapsed {
             width: 80px;
         }
-        .sidebar-collapsed .nav-text {
+        .sidebar-collapsed .nav-text,
+        .sidebar-collapsed .user-name,
+        .sidebar-collapsed .user-role,
+        .sidebar-collapsed .logo-text {
             display: none;
         }
         .main-content {
@@ -55,9 +58,8 @@
         <!-- Perfil del Administrador -->
         <div class="p-4 border-b flex items-center justify-center">
             <div class="relative">
-                <img src="assets/img/admin-avatar.jpg" alt="Perfil"
+                <img src="assets/img/milei.png" alt="Perfil"
                     class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
-                <span class="notification-badge bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">24</span>
             </div>
             <div class="ml-3">
                 <h3 class="font-semibold user-name">Admin RunningPro</h3>
@@ -200,7 +202,7 @@
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-1">
                         <h2 class="text-xl font-bold mb-4 text-gray-800">Información Personal</h2>
                         <div class="flex flex-col items-center mb-4">
-                            <img id="profile-avatar" src="assets/img/default-avatar.jpg" alt="Perfil" class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 mb-4">
+                            <img id="profile-avatar" src="assets/img/milei.png" alt="Perfil" class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 mb-4">
                             <button class="text-blue-500 text-sm hover:text-blue-700">
                                 <i class="fas fa-camera mr-1"></i> Cambiar foto
                             </button>
