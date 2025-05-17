@@ -24,6 +24,11 @@ function eliminarCarreraMDB($idCarrera) {
     return $dao->eliminarCarrera($idCarrera);
 }
 
+function obtenerTodasLasCarrerasMDB() {
+    $dao = new CarreraDAO();
+    return $dao->listarCarreras();
+}
+
 function obtenerCarreraPorIdMDB($idCarrera) {
     $dao = new CarreraDAO();
     $carrera = $dao->obtenerCarreraPorId($idCarrera);
@@ -38,7 +43,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
     if ($ubicacion && method_exists($ubicacion, 'getDescripcion')) {
         $punto_encuentro = $ubicacion->getDescripcion();
     }
-    return array(
+    $patrocinador = property_exists($carrera, 'patrocinador_nombre') ? $carrera->patrocinador_nombre : null;
+    return [
         'id' => $carrera->getIdCarrera(),
         'nombre' => $eventoNombre,
         'descripcion' => $descripcion,
@@ -46,12 +52,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         'hora' => $hora,
         'distancia' => $carrera->getDistancia(),
         'categoria' => $categoriaNombre,
-        'punto_encuentro' => $punto_encuentro
-    );
-}
-
-function obtenerTodasLasCarrerasMDB() {
-    $dao = new CarreraDAO();
-    return $dao->listarCarreras();
+        'punto_encuentro' => $punto_encuentro,
+        'patrocinador' => $patrocinador
+    ];
 }
 ?>

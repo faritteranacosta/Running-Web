@@ -69,6 +69,10 @@ class DataSource {
         return $this->conexion->lastInsertId();
     }    
     
+    public function getConnection() {
+        return $this->conexion;
+    }
+
 }
 
 ?>
