@@ -106,7 +106,8 @@ public function obtenerCarreraPorId($id_carrera) {
 
     //agregar una participacion a un evento
     public function agregarParticipacion($id_usuario, $id_evento) {
-    $sql = "INSERT INTO participacion_evento (id_usuario, id_evento) VALUES (?, ?)";
+    // Cambiar los nombres de columna para que coincidan con la base de datos
+    $sql = "INSERT INTO participacion_evento (corredor_id, evento_id) VALUES (?, ?)";
     $params = [$id_usuario, $id_evento];
     return $this->dataSource->ejecutarActualizacion($sql, $params);
 }

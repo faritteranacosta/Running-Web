@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function registrarParticipacion(id_evento) {
-    fetch('../controller/action/ajax_participar.php', { // Cambia la URL si usaste ajax_carreras.php
+    fetch('../controller/action/ajax_participar.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -70,11 +70,10 @@ function registrarParticipacion(id_evento) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert(data.message); // Muestra un mensaje de éxito
-            // Opcional: Deshabilitar el botón para evitar múltiples inscripciones
+            alert(data.message);
             document.querySelector('.participate-btn').disabled = true;
         } else {
-            alert(data.message); // Muestra un mensaje de error
+            alert(data.message);
         }
     })
     .catch(error => {
