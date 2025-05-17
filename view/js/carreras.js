@@ -1,7 +1,3 @@
-// carreras.js
-// Funciones AJAX para gestionar carreras
-
-// Cambiado a ruta relativa para que funcione desde view/
 const API_URL = '../controller/action/ajax_carreras.php';
 
 export function insertarCarrera(data) {
@@ -78,6 +74,23 @@ function cargarCarreras() {
         const contenedor = document.querySelector('.contenedor');
         contenedor.innerHTML = '';
         carreras.forEach(carrera => {
+            let carreraId;
+
+            //  Intenta encontrar el ID en varios nombres comunes
+            if (carrera.idCarrera) {
+                carreraId = carrera.idCarrera;
+            } else if (carrera.id) {
+                carreraId = carrera.id;
+            } else if (carrera.carrera_id) {
+                carreraId = carrera.carrera_id;
+            } else if (carrera.id_carrera) {
+                carreraId = carrera.id_carrera;
+            } else {
+                carreraId = null;  // Si no se encuentra ningún ID
+            }
+
+            console.log("ID de la carrera:", carreraId);  // Para depuración
+
             const fecha = carrera.fecha ? new Date(carrera.fecha) : null;
             const fechaFormateada = fecha ? fecha.toLocaleDateString('es-ES', {
                 day: '2-digit',
@@ -87,8 +100,8 @@ function cargarCarreras() {
             const tarjeta = document.createElement('div');
             tarjeta.className = 'card';
             let botonParticipar = '';
-            if (carrera.idCarrera) {
-                botonParticipar = `<a href="detalles.html?id=${carrera.idCarrera}" class="enlace_boton"><button class="details-btn">Participar</button></a>`;
+            if (carreraId) {
+                botonParticipar = `<a href="detalles.html?id=${carreraId}" class="enlace_boton"><button class="details-btn">Participar</button></a>`;
             } else {
                 botonParticipar = `<button class="details-btn" disabled>Participar</button>`;
             }
