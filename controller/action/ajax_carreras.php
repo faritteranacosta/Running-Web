@@ -1,45 +1,33 @@
 <?php
 require_once __DIR__ . '/../mdb/mdbCarrera.php';
 
-header('Content-Type: application/json');
+// Mostrar errores para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : null);
+header('Content-Type: application/json; charset=utf-8');
 
-switch ($action) {
-    case 'insertar':
-        $distancia = $_POST['distancia'];
-        $evento = $_POST['evento'];
-        $tipoCarrera = $_POST['tipoCarrera'];
-        $categoria = $_POST['categoria'];
-        $ruta = $_POST['ruta'];
-        $result = insertarCarreraMDB($distancia, $evento, $tipoCarrera, $categoria, $ruta);
-        echo json_encode($result);
-        break;
-    case 'actualizar':
-        $idCarrera = $_POST['idCarrera'];
-        $distancia = $_POST['distancia'];
-        $evento = $_POST['evento'];
-        $tipoCarrera = $_POST['tipoCarrera'];
-        $categoria = $_POST['categoria'];
-        $ruta = $_POST['ruta'];
-        $result = actualizarCarreraMDB($idCarrera, $distancia, $evento, $tipoCarrera, $categoria, $ruta);
-        echo json_encode($result);
-        break;
-    case 'eliminar':
-        $idCarrera = $_POST['idCarrera'];
-        $result = eliminarCarreraMDB($idCarrera);
-        echo json_encode($result);
-        break;
-    case 'obtener':
-        $idCarrera = $_GET['idCarrera'];
-        $result = obtenerCarreraPorIdMDB($idCarrera);
-        echo json_encode($result);
-        break;
-    case 'listar':
-        $result = obtenerTodasLasCarrerasMDB();
-        echo json_encode($result);
-        break;
-    default:
-        echo json_encode(['success' => false, 'message' => 'Acción no válida']);
-        break;
+if (isset($_GET['action']) && $_GET['action'] === 'obtener' && isset($_GET['idCarrera'])) {
+    // Endpoint para obtener detalles de una carrera específica
+    $result = obtenerCarreraPorIdMDB($_GET['idCarrera']);
+    if(ob_get_length()) ob_clean();
+    echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+    exit;
 }
+
+try {
+    $carreras = obtenerTodasLasCarrerasMDB();
+    if ($carreras === null || $carreras === false) {
+        throw new Exception("Error al obtener carreras de la base de datos");
+    }
+    if(ob_get_length()) ob_clean();
+    echo json_encode($carreras, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+} catch(Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => $e->getMessage(),
+        'success' => false
+    ]);
+}
+?>

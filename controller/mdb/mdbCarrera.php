@@ -26,10 +26,32 @@ function eliminarCarreraMDB($idCarrera) {
 
 function obtenerCarreraPorIdMDB($idCarrera) {
     $dao = new CarreraDAO();
-    return $dao->obtenerCarreraPorId($idCarrera);
+    $carrera = $dao->obtenerCarreraPorId($idCarrera);
+    if (!$carrera) return null;
+    $categoriaNombre = method_exists($carrera->getCategoria(), 'getNombre') ? $carrera->getCategoria()->getNombre() : null;
+    $eventoNombre = method_exists($carrera->getEvento(), 'getNombreEvento') ? $carrera->getEvento()->getNombreEvento() : null;
+    $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
+    $hora = method_exists($carrera->getEvento(), 'getHoraEvento') ? $carrera->getEvento()->getHoraEvento() : null;
+    $descripcion = method_exists($carrera->getEvento(), 'getDescripcionEvento') ? $carrera->getEvento()->getDescripcionEvento() : null;
+    $ubicacion = $carrera->getEvento() && method_exists($carrera->getEvento(), 'getUbicacion') ? $carrera->getEvento()->getUbicacion() : null;
+    $punto_encuentro = null;
+    if ($ubicacion && method_exists($ubicacion, 'getDescripcion')) {
+        $punto_encuentro = $ubicacion->getDescripcion();
+    }
+    return array(
+        'id' => $carrera->getIdCarrera(),
+        'nombre' => $eventoNombre,
+        'descripcion' => $descripcion,
+        'fecha' => $fecha,
+        'hora' => $hora,
+        'distancia' => $carrera->getDistancia(),
+        'categoria' => $categoriaNombre,
+        'punto_encuentro' => $punto_encuentro
+    );
 }
 
 function obtenerTodasLasCarrerasMDB() {
     $dao = new CarreraDAO();
     return $dao->listarCarreras();
 }
+?>
