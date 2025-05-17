@@ -21,44 +21,47 @@ class CarreraDAO {
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
 
-    public function obtenerCarreraPorId($id_carrera) {
-        $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
-                       e.descripcion AS evento_descripcion, e.id_patrocinador, cat.nombre AS nombre_categoria,
-                       r.descripcion AS descripcion_ruta, r.url_mapa
-                FROM carrera c
-                LEFT JOIN evento e ON c.id_evento = e.id_evento
-                LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
-                LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
-                WHERE c.id_carrera = ?";
-        $params = [$id_carrera];
-        $result = $this->dataSource->ejecutarConsulta($sql, $params);
-        if (count($result) > 0) {
-            $row = $result[0];
-            $evento = new Evento();
-            $evento->setIdEvento($row['id_evento']);
-            $evento->setNombreEvento($row['evento_nombre']);
-            $evento->setFechaEvento($row['evento_fecha']);
-            $evento->setDescripcionEvento($row['evento_descripcion']);
-            $evento->setHoraEvento($row['hora_evento']);
-            $tipoCarrera = new TipoCarrera();
-            $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
-            $categoria = new Categoria();
-            $categoria->setIdCategoria($row['id_categoria']);
-            $categoria->setNombre($row['nombre_categoria']);
-            $ruta = new Ruta();
-            $ruta->setIdRuta($row['id_ruta']);
-            // Añadido set para descripcion y url de ruta (CORREGIDO)
-            $ruta->setDescripcionRuta($row['descripcion_ruta']);
-            $ruta->setUrlMapa($row['url_mapa']);
-            $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
-            if (method_exists($carrera, 'setIdCarrera')) {
-                $carrera->setIdCarrera($row['id_carrera']);
-            }
-
-            return $carrera;
+public function obtenerCarreraPorId($id_carrera) {
+    $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
+                   e.descripcion AS evento_descripcion, p.nombre AS patrocinador_nombre, cat.nombre AS nombre_categoria,
+                   r.descripcion AS descripcion_ruta, r.url_mapa
+            FROM carrera c
+            LEFT JOIN evento e ON c.id_evento = e.id_evento
+            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador -- Asegúrate de que esta unión es correcta
+            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+            LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
+            WHERE c.id_carrera = ?";
+    $params = [$id_carrera];
+    $result = $this->dataSource->ejecutarConsulta($sql, $params);
+    if (count($result) > 0) {
+        $row = $result[0];
+        $evento = new Evento();
+        $evento->setIdEvento($row['id_evento']);
+        $evento->setNombreEvento($row['evento_nombre']);
+        $evento->setFechaEvento($row['evento_fecha']);
+        $evento->setDescripcionEvento($row['evento_descripcion']);
+        $evento->setHoraEvento($row['hora_evento']);
+        // Crear instancia de Patrocinador y asignar el nombre
+        $patrocinador = new Patrocinador();
+        $patrocinador->setNombre($row['patrocinador_nombre']);
+        $evento->setPatrocinador($patrocinador); // Asignar el patrocinador al evento
+        $tipoCarrera = new TipoCarrera();
+        $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
+        $categoria = new Categoria();
+        $categoria->setIdCategoria($row['id_categoria']);
+        $categoria->setNombre($row['nombre_categoria']);
+        $ruta = new Ruta();
+        $ruta->setIdRuta($row['id_ruta']);
+        $ruta->setDescripcionRuta($row['descripcion_ruta']);
+        $ruta->setUrlMapa($row['url_mapa']);
+        $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
+        if (method_exists($carrera, 'setIdCarrera')) {
+            $carrera->setIdCarrera($row['id_carrera']);
         }
-        return null;
+        return $carrera;
     }
+    return null;
+}
 
     public function listarCarreras() {
         $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria
@@ -98,5 +101,14 @@ class CarreraDAO {
         $params = [$id_carrera];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
+
+
+
+    //agregar una participacion a un evento
+    public function agregarParticipacion($id_usuario, $id_evento) {
+    $sql = "INSERT INTO participacion_evento (id_usuario, id_evento) VALUES (?, ?)";
+    $params = [$id_usuario, $id_evento];
+    return $this->dataSource->ejecutarActualizacion($sql, $params);
+}
 }
 ?>

@@ -16,8 +16,9 @@ function cargarDetallesCarrera(idCarrera) {
             if (!carrera) return;
             // Actualizar título y datos principales
             document.getElementById('titulo').textContent = carrera.nombre || 'Carrera';
-            document.querySelector('.date').textContent = carrera.fecha ? formatearFecha(carrera.fecha) : '';
-            document.querySelector('.description').textContent = carrera.descripcion || '';
+            document.querySelector('.date').textContent = carrera.fecha ? formatearFecha(carrera.fecha) : 'No disponible';
+            document.querySelector('.description').textContent = carrera.descripcion || 'No disponible';
+
             // Actualizar detalles adicionales
             const detalles = document.querySelector('.details');
             if (detalles) {
@@ -31,12 +32,55 @@ function cargarDetallesCarrera(idCarrera) {
                         <p>${carrera.distancia || 'No disponible'} km</p>
                         <h3>Categoría:</h3>
                         <p>${carrera.categoria || 'No disponible'}</p>
-                        <h3>Punto de encuentro:</h3>
-                        <p>${carrera.punto_encuentro || 'No disponible'}</p>
                     </div>
                 `;
             }
+
+            // Actualizar el patrocinador
+            const sponsorElement = document.querySelector('.sponsor');
+            if (sponsorElement) {
+                sponsorElement.textContent = `Patrocinador: ${carrera.patrocinador || 'No disponible'}`;
+            }
         });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const params = new URLSearchParams(window.location.search);
+    const idCarrera = params.get('id');
+    if (idCarrera) {
+        cargarDetallesCarrera(idCarrera);
+    }
+
+    const participarBtn = document.querySelector('.participate-btn');
+    if (participarBtn) {
+        participarBtn.addEventListener('click', function() {
+            registrarParticipacion(idCarrera);
+        });
+    }
+});
+
+function registrarParticipacion(id_evento) {
+    fetch('../controller/action/ajax_participar.php', { // Cambia la URL si usaste ajax_carreras.php
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `id_evento=${encodeURIComponent(id_evento)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message); // Muestra un mensaje de éxito
+            // Opcional: Deshabilitar el botón para evitar múltiples inscripciones
+            document.querySelector('.participate-btn').disabled = true;
+        } else {
+            alert(data.message); // Muestra un mensaje de error
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al intentar registrar la participación');
+    });
 }
 
 function formatearFecha(fechaStr) {

@@ -43,6 +43,13 @@ function obtenerCarreraPorIdMDB($idCarrera) {
             $categoriaNombre = $categoria['nombre'];
         }
     }
+
+    // Obtener el nombre del patrocinador del objeto Evento
+    $patrocinadorNombre = null;
+    if ($carrera->getEvento() && $carrera->getEvento()->getPatrocinador()) {
+        $patrocinadorNombre = $carrera->getEvento()->getPatrocinador()->getNombre();
+    }
+
     $eventoNombre = method_exists($carrera->getEvento(), 'getNombreEvento') ? $carrera->getEvento()->getNombreEvento() : null;
     $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
     $hora = method_exists($carrera->getEvento(), 'getHoraEvento') ? $carrera->getEvento()->getHoraEvento() : null;
@@ -54,14 +61,20 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         $descripcion = $ubicacion['descripcion'];
     }
     return [
-        'id' => $carrera->getIdCarrera(),
+        'id' => $idCarrera,
         'nombre' => $eventoNombre,
         'descripcion' => $descripcion,
         'fecha' => $fecha,
         'hora' => $hora,
         'distancia' => $carrera->getDistancia(),
-        'categoria' => $categoriaNombre  //,
-        //'patrocinador' => $patrocinador
+        'categoria' => $categoriaNombre,
+        'patrocinador' => $patrocinadorNombre
     ];
 }
+
+function agregarParticipacionMDB($id_usuario, $id_evento) {
+    $dao = new CarreraDAO(); // O new ParticipacionEventoDAO()
+    return $dao->agregarParticipacion($id_usuario, $id_evento);
+}
+
 ?>
