@@ -1,0 +1,130 @@
+const API_URL = '../controller/action/ajax_carreras.php';
+
+export function insertarCarrera(data) {
+    return fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            action: 'insertar',
+            ...data
+        })
+    }).then(r => r.json());
+}
+
+export function actualizarCarrera(data) {
+    return fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            action: 'actualizar',
+            ...data
+        })
+    }).then(r => r.json());
+}
+
+export function eliminarCarrera(idCarrera) {
+    return fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            action: 'eliminar',
+            idCarrera
+        })
+    }).then(r => r.json());
+}
+
+export function obtenerCarreraPorId(idCarrera) {
+    return fetch(`${API_URL}?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`)
+        .then(r => r.json());
+}
+
+export function listarCarreras() {
+    return fetch(`${API_URL}?action=listar`)
+        .then(r => r.json());
+}
+
+// Renderizado dinámico de carreras en carreras.html
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCarreras();
+});
+
+function cargarCarreras() {
+    fetch('../controller/action/ajax_carreras.php?action=listar', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(async response => {
+        if (!response.ok) {
+            const error = await response.json().catch(() => null);
+            throw new Error(error?.message || `Error HTTP: ${response.status}`);
+        }
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            throw new TypeError('La respuesta no es JSON válido');
+        }
+        return response.json();
+    })
+    .then(carreras => {
+        if (!carreras || !Array.isArray(carreras)) {
+            throw new Error('Formato de datos inválido');
+        }
+        const contenedor = document.querySelector('.contenedor');
+        contenedor.innerHTML = '';
+        carreras.forEach(carrera => {
+            let carreraId;
+
+            //  Intenta encontrar el ID en varios nombres comunes
+            if (carrera.idCarrera) {
+                carreraId = carrera.idCarrera;
+            } else if (carrera.id) {
+                carreraId = carrera.id;
+            } else if (carrera.carrera_id) {
+                carreraId = carrera.carrera_id;
+            } else if (carrera.id_carrera) {
+                carreraId = carrera.id_carrera;
+            } else {
+                carreraId = null;  // Si no se encuentra ningún ID
+            }
+
+            console.log("ID de la carrera:", carreraId);  // Para depuración
+
+            const fecha = carrera.fecha ? new Date(carrera.fecha) : null;
+            const fechaFormateada = fecha ? fecha.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }) : 'No disponible';
+            const tarjeta = document.createElement('div');
+            tarjeta.className = 'card';
+            let botonParticipar = '';
+            if (carreraId) {
+                botonParticipar = `<a href="detalles.html?id=${carreraId}" class="enlace_boton"><button class="details-btn">Participar</button></a>`;
+            } else {
+                botonParticipar = `<button class="details-btn" disabled>Participar</button>`;
+            }
+            tarjeta.innerHTML = `
+                <img src="assets/img/runner5.png" alt="${carrera.nombre || 'Carrera'}">
+                <h3>${carrera.nombre || 'Nombre no disponible'}</h3>
+                <p>${carrera.descripcion || 'Descripción no disponible'}</p>
+                <strong>${fechaFormateada}</strong>
+                <p><strong>Categoría:</strong> ${carrera.categoria || 'No disponible'}</p>
+                ${botonParticipar}
+            `;
+            contenedor.appendChild(tarjeta);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        if (window.Swal) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                html: `No se pudieron cargar las carreras.<br><small>${error.message}</small>`,
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
+}
