@@ -23,6 +23,10 @@ class Carrera {
         return $this->id_carrera;
     }
 
+    public function setIdCarrera($id_carrera){
+        $this->id_carrera = $id_carrera;
+    }
+
     public function setDistancia($distancia) {
         $this->distancia = $distancia;
     }

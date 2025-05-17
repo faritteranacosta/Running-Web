@@ -14,7 +14,7 @@ function insertarCarreraMDB($distancia, $evento, $tipoCarrera, $categoria, $ruta
 
 function actualizarCarreraMDB($idCarrera, $distancia, $evento, $tipoCarrera, $categoria, $ruta) {
     $carrera = new Carrera($distancia, new Evento($evento), new TipoCarrera($tipoCarrera), new Categoria($categoria), new Ruta($ruta));
-    $carrera->id_carrera = $idCarrera;
+    $carrera->setIdCarrera($idCarrera);
     $dao = new CarreraDAO();
     return $dao->actualizarCarrera($carrera);
 }

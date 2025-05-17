@@ -1,0 +1,56 @@
+/* Estilos para las tarjetas de carrera */
+.event-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e5e7eb;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.2);
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Estados de la carrera */
+.status-proxima {
+    background-color: #10b981; /* Verde */
+}
+
+.status-hoy {
+    background-color: #f59e0b; /* Amarillo */
+}
+
+.status-finalizada {
+    background-color: #6b7280; /* Gris */
+}
+
+.status-pendiente {
+    background-color: #8b5cf6; /* Violeta */
+}
+
+/* Efecto hover para la imagen */
+.event-card img {
+    transition: transform 0.5s ease;
+}
+
+.event-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Contenedor responsive */
+.contenedor {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+@media (max-width: 640px) {
+    .contenedor {
+        grid-template-columns: 1fr;
+    }
+}
