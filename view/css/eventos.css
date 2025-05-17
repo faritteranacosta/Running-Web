@@ -1,50 +1,46 @@
-.contenedor {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    transition: transform 0.3s ease;
 }
 
-.card:hover {
+.status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-proximo {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.status-en-curso {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.status-finalizado {
+    background-color: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+.event-card img {
+    transition: transform 0.5s ease;
 }
 
-.card h3 {
-    padding: 15px 15px 0;
-    margin: 0;
-    color: #333;
-    font-size: 1.2rem;
-}
-
-.card p {
-    padding: 10px 15px;
-    margin: 0;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.card strong, .card span {
-    display: block;
-    padding: 0 15px 15px;
-    color: #4299e1;
-    font-size: 0.9rem;
-}
-
-.card span {
-    color: #666;
-    padding-top: 0;
+.event-card:hover img {
+    transform: scale(1.05);
 }
