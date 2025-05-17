@@ -33,17 +33,26 @@ function obtenerCarreraPorIdMDB($idCarrera) {
     $dao = new CarreraDAO();
     $carrera = $dao->obtenerCarreraPorId($idCarrera);
     if (!$carrera) return null;
-    $categoriaNombre = method_exists($carrera->getCategoria(), 'getNombre') ? $carrera->getCategoria()->getNombre() : null;
+    // Obtener el nombre de la categoría de forma robusta
+    $categoria = $carrera->getCategoria();
+    $categoriaNombre = null;
+    if ($categoria) {
+        if (is_object($categoria) && method_exists($categoria, 'getNombre')) {
+            $categoriaNombre = $categoria->getNombre();
+        } elseif (is_array($categoria) && isset($categoria['nombre'])) {
+            $categoriaNombre = $categoria['nombre'];
+        }
+    }
     $eventoNombre = method_exists($carrera->getEvento(), 'getNombreEvento') ? $carrera->getEvento()->getNombreEvento() : null;
     $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
     $hora = method_exists($carrera->getEvento(), 'getHoraEvento') ? $carrera->getEvento()->getHoraEvento() : null;
     $descripcion = method_exists($carrera->getEvento(), 'getDescripcionEvento') ? $carrera->getEvento()->getDescripcionEvento() : null;
     $ubicacion = $carrera->getEvento() && method_exists($carrera->getEvento(), 'getUbicacion') ? $carrera->getEvento()->getUbicacion() : null;
-    $punto_encuentro = null;
     if ($ubicacion && method_exists($ubicacion, 'getDescripcion')) {
-        $punto_encuentro = $ubicacion->getDescripcion();
+        $descripcion = $ubicacion->getDescripcion();
+    } elseif (is_array($ubicacion) && isset($ubicacion['descripcion'])) {
+        $descripcion = $ubicacion['descripcion'];
     }
-    $patrocinador = property_exists($carrera, 'patrocinador_nombre') ? $carrera->patrocinador_nombre : null;
     return [
         'id' => $carrera->getIdCarrera(),
         'nombre' => $eventoNombre,
@@ -51,9 +60,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         'fecha' => $fecha,
         'hora' => $hora,
         'distancia' => $carrera->getDistancia(),
-        'categoria' => $categoriaNombre,
-        'punto_encuentro' => $punto_encuentro,
-        'patrocinador' => $patrocinador
+        'categoria' => $categoriaNombre  //,
+        //'patrocinador' => $patrocinador
     ];
 }
 ?>

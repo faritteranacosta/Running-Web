@@ -29,3 +29,4 @@ class Ruta {
         return $this->url_mapa;
     }
 }
+?>
