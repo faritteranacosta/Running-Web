@@ -48,19 +48,8 @@
 ├── view/ # Interfaz de usuario (HTML + PHP)
 └── README.md # Este archivo :)
 
----
 
-## 🧑‍💻 ¿Cómo contribuir?
 
-1. Haz un fork del repositorio  
-2. Crea una nueva rama: `git checkout -b feature/mi-mejora`  
-3. Realiza tus cambios y haz commit: `git commit -m "Agrega nueva funcionalidad"`  
-4. Sube los cambios: `git push origin feature/mi-mejora`  
-5. Abre un Pull Request 🧵
-
-¡Tu contribución será más que bienvenida!
-
----
 
 ## 🏁 ¡Empieza a correr con confianza!
 
