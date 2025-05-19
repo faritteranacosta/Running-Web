@@ -6,13 +6,7 @@ function agregarParticipacionMDB($id_usuario, $id_evento) {
     return $dao->agregarParticipacion($id_usuario, $id_evento);
 }
 
-function obtenerParticipacionPorId($id_participacion) {
+function obtenerParticipacionesPorUsuarioMDB($id_usuario) {
     $dao = new ParticipacionEventoDAO();
-    return $participacionEventoDAO->obtenerParticipacionPorId($id_participacion);
-}
-
-
-function eliminarParticipacion($id_participacion) {
-    $dao = new ParticipacionEventoDAO();
-    return $participacionEventoDAO->eliminarParticipacion($id_participacion);
+    return $dao->obtenerParticipacionesPorUsuario($id_usuario);
 }
