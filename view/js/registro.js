@@ -1,81 +1,77 @@
-document.querySelector('.form-container form').addEventListener('submit', function(e) {
-    e.preventDefault();
+$(document).ready(function () {
+    $(document).on('click', '#register', function() {
 
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
-    const correo = document.getElementById('email').value;
-    const contrasena = document.getElementById('password').value;
-    const repetir = document.getElementById('confirm-password').value;
-    const sexo = document.getElementById('sexo').value;
-    const fecha = document.getElementById('fechaNacimiento').value;
+        const nombre = $('#inputName').val().trim();
+        const apellido = $('#inputSurname').val().trim();
+        const correo = $('#inputEmail').val().trim();
+        const contrasena = $('#inputPassword').val().trim();
+        const repetirContrasena = $('#inputConfirm-password').val().trim();
+        const sexo = $('#sexo').val();
+        const fecha_nacimiento = $('#fecha_nacimiento').val();
+        const rol = $('#tipo_usuario').val();
 
-    // Verificar que las contraseñas coincidan
-    if (contrasena !== repetir) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Las contraseñas no coinciden',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Entendido'
-        });
-        return;
-    }
-
-    // Mostrar loader mientras se procesa
-    Swal.fire({
-        title: 'Procesando registro',
-        html: 'Por favor espera...',
-        allowOutsideClick: false,
-        didOpen: () => {
-            Swal.showLoading();
-        }
-    });
-
-    fetch('../controller/action/ajax-registro.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            nombre: nombre,
-            apellido: apellido,
-            correo: correo,
-            contrasena: contrasena,
-            sexo: sexo,
-            fecha: fecha
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        Swal.close();
         
-        if (data.type === "success") {
-            Swal.fire({
-                icon: 'success',
-                title: '¡Registro exitoso!',
-                text: data.msg,
-                confirmButtonColor: '#28a745',
-                confirmButtonText: 'Continuar',
-                willClose: () => {
-                    window.location.href = data.ruta;
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error en el registro',
-                text: data.msg,
-                confirmButtonColor: '#dc3545',
-                confirmButtonText: 'Entendido'
-            });
+        let nombre_tienda = $('#inputEmpresa').val().trim();
+        if(rol === "vendedor"){
+            nombre_tienda = $('#inputEmpresa').val().trim();
+            console.log("El usuario es vendedor mi amor");
+            if (nombre_tienda === "") {
+                alert("Por favor, completa el campo de nombre de tienda.");
+                return;
+            }
         }
-    })
-    .catch(() => {
-        Swal.close();
-        Swal.fire({
-            icon: 'error',
-            title: 'Error de conexión',
-            text: 'No se pudo conectar con el servidor',
-            confirmButtonColor: '#dc3545',
-            confirmButtonText: 'Entendido'
-        });
+
+        if (
+            nombre !== "" &&
+            apellido !== "" &&
+            correo !== "" &&
+            contrasena !== "" &&
+            repetirContrasena !== "" &&
+            sexo !== "" &&
+            fecha_nacimiento !== "" &&
+            rol !== ""
+        ) {
+            if (contrasena !== repetirContrasena) {
+                alert("Las contraseñas no coinciden.");
+                return;
+            }
+            console.log(nombre, apellido, sexo, rol, correo, contrasena, nombre_tienda);
+   
+            ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, contrasena, nombre_tienda);
+        } else {
+            alert("Por favor, completa todos los campos.");
+        }
     });
 });
+
+function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, contrasena, nombre_tienda="") {
+    $.ajax({
+        url: '../../Running-web/controller/action/ajax_register.php',
+        type: 'POST',
+        data: {
+            nombre: nombre,
+            apellido: apellido,
+            sexo: sexo,
+            fecha_nacimiento: fecha_nacimiento,
+            rol: rol,
+            correo: correo,
+            contrasena: contrasena,
+            nombre_tienda: nombre_tienda
+        },
+        dataType: 'json'
+    }).done(function (response) {
+        if (response.message) {
+            alert(response.message);
+            if (response.ruta) {
+                window.location.href = response.ruta;
+            }
+        } else {
+            alert("Respuesta inesperada del servidor.");
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.error("Fallo en la solicitud AJAX:");
+        console.error("Estado:", textStatus);
+        console.error("Error:", errorThrown);
+        console.error("Respuesta del servidor:", jqXHR.responseText);
+    });
+}
