@@ -1,14 +1,31 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carreras - RunningWeb</title>
+    <title>Eventos - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/carreras.css">
+    <link rel="stylesheet" href="css/eventos.css">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
@@ -40,6 +57,26 @@
         .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-proximo {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .status-en-curso {
+            background-color: #10b981;
+            color: white;
+        }
+        .status-finalizado {
+            background-color: #6b7280;
+            color: white;
+        }
     </style>
 </head>
 
@@ -58,10 +95,10 @@
                         <a href="index.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-home mr-2"></i> Inicio
                         </a>
-                        <a href="eventos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="eventos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
                             <i class="fas fa-calendar-alt mr-2"></i> Eventos
                         </a>
-                        <a href="carreras.html" class="px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
+                        <a href="carreras.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-running mr-2"></i> Carreras
                         </a>
                         <a href="catalogo_productos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
@@ -71,8 +108,8 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <a href="runner.html" class="flex items-center">
-                        <img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
+                    <a href="runner.php" class="flex items-center gap-10"  >
+                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
                     <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                         <i class="fas fa-bars fa-lg"></i>
@@ -85,10 +122,10 @@
                 <a href="index.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
                 </a>
-                <a href="eventos.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
+                <a href="eventos.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
                     <i class="fas fa-calendar-alt mr-2"></i> Eventos
                 </a>
-                <a href="carreras.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
+                <a href="carreras.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-running mr-2"></i> Carreras
                 </a>
                 <a href="catalogo_productos.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
@@ -103,38 +140,38 @@
         <!-- Título Principal -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">
-                <i class="fas fa-running text-blue-500 mr-3"></i>
-                Carreras Disponibles
+                <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
+                Próximos Eventos
             </h1>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                Encuentra las mejores carreras para demostrar tu potencial y superar tus límites
+                Descubre eventos, charlas y actividades para mejorar tu rendimiento y conectar con otros runners
             </p>
         </div>
         
-        <!-- Carrera Destacada -->
+        <!-- Evento Destacado -->
         <section class="mb-16">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-star text-yellow-400 mr-2"></i>
-                Carrera Destacada
+                Evento Destacado
             </h2>
-            <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" id="carrera-destacada">
-                <!-- Contenido dinámico desde carreras.js -->
+            <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" id="evento-destacado">
+                <!-- Contenido dinámico desde eventos.js -->
                 <div class="flex items-center justify-center h-64 bg-gray-100">
-                    <p class="text-gray-500">Cargando carrera destacada...</p>
+                    <p class="text-gray-500">Cargando evento destacado...</p>
                 </div>
             </div>
         </section>
         
-        <!-- Más Carreras -->
+        <!-- Más Eventos -->
         <section>
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-list-ul text-blue-500 mr-2"></i>
-                Más Carreras
+                Más Eventos
             </h2>
-            <div class="contenedor" id="lista-carreras">
-                <!-- Contenido dinámico desde carreras.js -->
+            <div class="contenedor" id="lista-eventos">
+                <!-- Contenido dinámico desde eventos.js -->
                 <div class="bg-gray-100 rounded-lg h-48 flex items-center justify-center">
-                    <p class="text-gray-500">Cargando carreras...</p>
+                    <p class="text-gray-500">Cargando eventos...</p>
                 </div>
             </div>
         </section>
@@ -198,7 +235,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="js/carreras.js"></script>
+    <script src="js/eventos.js"></script>
     
     <script>
         // Toggle Mobile Menu
