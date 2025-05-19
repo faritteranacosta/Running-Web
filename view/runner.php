@@ -116,7 +116,7 @@ if (isset($_SESSION['ID_USUARIO'])) {
     <section class="seccion">
         <table class="tabla">
             <tr>
-                <th>Carreras a participar</th>
+                <th>Eventos a participar</th>
                 <th>Fecha</th>
                 <th>Categoría</th>
                 <th>Tipo</th>
@@ -150,36 +150,6 @@ if (isset($_SESSION['ID_USUARIO'])) {
                 <td>10 km</td>
                 <td><button class="details-btn" i="boton">Ver</button></td>
                 <td><button class="details-btn" i="boton">Eliminar</button></td>
-            </tr>
-        </table>
-        <table class="tabla">
-            <tr>
-                <th rowspan="2">Datos de carreras</th>
-                <th colspan="2"></th>
-            </tr>
-            <tr>
-                <th>N° de carreras</th>
-                <th>Km recorridos</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
         </table>
         <br>
