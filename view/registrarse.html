@@ -6,7 +6,7 @@
     <title>Registro - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/styles.js"></script>
-    <link rel="stylesheet" href="js/registro.js">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
@@ -127,46 +127,48 @@
             <h2 class="text-2xl font-bold text-primary-700 mb-6 text-center">
                 <i class="fas fa-user-plus mr-2"></i>Ingresa tus datos
             </h2>
-            <form method="POST" class="space-y-6">
+            
+            <form class="space-y-6" id="registerForm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="input-box">
-                        <label class="block text-gray-700 font-medium mb-2" for="nombre">
-                            <i class="fas fa-user mr-2 text-primary-600"></i>Nombres
+                        <label class="block text-gray-700 font-medium mb-2" for="inputName">
+                            <i class="fas fa-user mr-2 text-primary-600"></i>Nombre
                         </label>
                         <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                               type="text" id="nombre" placeholder="Jane" name="nombre_usuario" required>
+                               type="text" id="inputName" placeholder="Jane" name="nombre_usuario" required>
                     </div>
                     <div class="input-box">
-                        <label class="block text-gray-700 font-medium mb-2" for="apellido">
-                            <i class="fas fa-user mr-2 text-primary-600"></i>Apellidos
+                        <label class="block text-gray-700 font-medium mb-2" for="inputSurname">
+                            <i class="fas fa-user mr-2 text-primary-600"></i>Apellido
                         </label>
                         <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                               type="text" id="apellido" placeholder="Smitherton" name="apellido_usuario" required>
+                               type="text" id="inputSurname" placeholder="Smitherton" name="apellido_usuario" required>
                     </div>
                 </div>
 
                 <div class="input-box">
-                    <label class="block text-gray-700 font-medium mb-2" for="email">
-                        <i class="fas fa-envelope mr-2 text-primary-600"></i>Email
+                    <label class="block text-gray-700 font-medium mb-2" for="inputEmail">
+                        <i class="fas fa-envelope mr-2 text-primary-600"></i>Correo
                     </label>
                     <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                           type="email" id="email" placeholder="email@running.net" name="correo_electronico" required>
+                           type="email" id="inputEmail" placeholder="email@running.net" name="correo_electronico" required>
                 </div>
+              
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="input-box">
-                        <label class="block text-gray-700 font-medium mb-2" for="password">
+                        <label class="block text-gray-700 font-medium mb-2" for="inputPassword">
                             <i class="fas fa-lock mr-2 text-primary-600"></i>Contraseña
                         </label>
                         <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                               type="password" id="password" placeholder="Contraseña" name="contrasena" required>
+                               type="password" id="inputPassword" placeholder="Contraseña" name="contrasena" required>
                     </div>
                     <div class="input-box">
-                        <label class="block text-gray-700 font-medium mb-2" for="confirm-password">
+                        <label class="block text-gray-700 font-medium mb-2" for="inputConfirm-password">
                             <i class="fas fa-lock mr-2 text-primary-600"></i>Repetir Contraseña
                         </label>
                         <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                               type="password" id="confirm-password" placeholder="Contraseña" name="contrasena" required>
+                               type="password" id="inputConfirm-password" placeholder="Contraseña" name="contrasena" required>
                     </div>
                 </div>
                 
@@ -186,27 +188,42 @@
                     </div>
                     
                     <div class="input-box">
-                        <label class="block text-gray-700 font-medium mb-2" for="fechaNacimiento">
+                        <label class="block text-gray-700 font-medium mb-2" for="fecha_nacimiento">
                             <i class="fas fa-birthday-cake mr-2 text-primary-600"></i>Fecha de Nacimiento
                         </label>
                         <input class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition" 
-                               type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                               type="date" id="fecha_nacimiento" name="fechaNacimiento" required>
                     </div>
                 </div>
 
                 <div class="input-box">
-                    <label class="block text-gray-700 font-medium mb-2" for="rol">
+                    <label class="block text-gray-700 font-medium mb-2" for="tipo_usuario">
                         <i class="fas fa-user-tag mr-2 text-primary-600"></i>Rol
                     </label>
                     <select class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition appearance-none bg-white" 
-                            id="rol" name="rol" required>
+                            id="tipo_usuario" name="tipo_usuario" onchange="mostrarCampos()" required>
                         <option value="">Seleccione...</option>
                         <option value="vendedor">Vendedor</option>
                         <option value="corredor">Corredor</option>
                     </select>
                 </div>
 
-                <button type="submit" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg smooth-transition">
+                <!-- Campos adicionales para vendedor -->
+                <div id="camposVendedor" style="display:none;">
+                    <div class="input-box">
+                        <label for="inputEmpresa">Nombre de la empresa</label>
+                        <input type="text" id="inputEmpresa" name="empresa" placeholder="Empresa XYZ">
+                    </div>
+                </div>
+
+                <script>
+                    function mostrarCampos() {
+                        var tipo = document.getElementById('tipo_usuario').value;
+                        document.getElementById('camposVendedor').style.display = (tipo === 'vendedor') ? 'block' : 'none';
+                    }
+                </script>
+
+                <button type="button" class="w-full py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg smooth-transition" id="register">
                     <i class="fas fa-user-plus mr-2"></i>Crear Cuenta
                 </button>
                 
@@ -276,31 +293,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script src="js/registro.js"></script>
-    <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById("menu-btn");
-        const mobileMenu = document.getElementById("mobile-menu");
-
-        menuBtn.addEventListener("click", () => {
-            mobileMenu.classList.toggle("hidden");
-        });
-
-        // Validación de contraseñas
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Las contraseñas no coinciden',
-                    confirmButtonColor: '#ef4444'
-                });
-            }
-        });
-    </script>
 </body>
 </html>

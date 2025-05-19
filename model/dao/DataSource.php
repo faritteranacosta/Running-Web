@@ -58,19 +58,23 @@ class DataSource {
             $consulta=$this->conexion->prepare($sql);
             $consulta->execute($values);
             $numero_tablas_afectadas = $consulta->rowCount();
-            $this->conexion=null;
             return $numero_tablas_afectadas;
         }else{
             return 0;
         }
     }
+    
 
     public function getLastInsertId(){
         return $this->conexion->lastInsertId();
-    }    
+    } 
     
     public function getConnection() {
         return $this->conexion;
+    }
+
+    public function cerrarConexion(){
+        $this->conexion = null;
     }
 
 }
