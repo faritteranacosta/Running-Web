@@ -33,7 +33,7 @@ class ParticipacionEventoDAO {
             $evento->setDescripcionEvento($row['descripcion_evento']);
             $participacion = new ParticipacionEvento();
             $participacion->setIdParticipacion($row['id_participacion']);
-            $participacion->setUsuario(new Usuario($id_usuario)); // Asignar el usuario
+            $participacion->setUsuario(new Usuario($id_usuario));
             $participacion->setEvento($evento);
             $participaciones[] = $participacion;
         }
