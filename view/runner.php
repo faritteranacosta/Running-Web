@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
     header("Location: acceso_denegado.html");
     exit();
-}else{
+} else {
     $id = $_SESSION['ID_USUARIO'];
     $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
     $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
@@ -16,6 +16,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,116 +48,133 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             background-color: rgba(107, 114, 128, 0.1);
             color: #6b7280;
         }
+
         .sidebar {
             transition: all 0.3s;
         }
+
         .sidebar-collapsed {
             width: 80px;
         }
+
         .sidebar-collapsed .nav-text,
         .sidebar-collapsed .user-name,
         .sidebar-collapsed .user-role,
         .sidebar-collapsed .logo-text {
             display: none;
         }
+
         .main-content {
             transition: margin-left 0.3s;
         }
+
         .active-nav {
             background-color: #3b82f6;
             color: white;
         }
+
         .active-nav i {
             color: white;
         }
+
         .stats-card {
             transition: transform 0.3s, box-shadow 0.3s;
         }
+
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
     <!-- Contenedor Principal -->
     <div class="flex h-screen">
         <!-- Sidebar -->
-    <div class="sidebar bg-white shadow-lg">
-        <!-- Logo y Toggle -->
-        <div class="p-4 flex items-center justify-between border-b">
-            <div class="flex items-center">
-                <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
+        <div class="sidebar bg-white shadow-lg flex flex-col h-full">
+            <!-- Logo y Toggle -->
+            <div class="p-4 flex items-center justify-between border-b">
+                <div class="flex items-center">
+                    <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
+                    <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
+                </div>
+                <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
 
-        <!-- Perfil del Administrador -->
-        <div class="p-4 border-b flex items-center justify-center">
-            <div class="relative">
-                <img src="assets/img/milei.png" alt="Perfil"
-                    class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+            <!-- Perfil del Administrador -->
+            <div class="p-4 border-b flex items-center justify-center">
+                <div class="relative">
+                    <img src="assets/img/milei.png" alt="Perfil"
+                        class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre); ?>
+                        <?php echo htmlspecialchars($apellido); ?></h3>
+                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol); ?></p>
+                </div>
             </div>
-            <div class="ml-3">
-                <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
-                <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
-            </div>
-        </div>
 
-        <!-- Menú de Navegación -->
-        <nav class="flex-1 overflow-y-auto">
-            <ul class="p-2">
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg active-nav">
-                        <i class="fas fa-tachometer-alt text-blue-500"></i>
-                        <span class="nav-text ml-3">Dashboard</span>
-                        <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full notification-badge">24</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-boxes text-blue-500"></i>
-                        <span class="nav-text ml-3">Productos</span>
-                    </a>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-user-friends text-blue-500"></i>
-                        <span class="nav-text ml-3">Equipos</span>
-                    </a>
-                <li class="nav-item">
-                    <a href="eventos.php" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-calendar-alt text-blue-500"></i>
-                        <span class="nav-text ml-3">Eventos</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-chart-line text-blue-500"></i>
-                        <span class="nav-text ml-3">Estadísticas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-cog text-blue-500"></i>
-                        <span class="nav-text ml-3">Configuración</span>
-                    </a>
-                </li>
-            </ul>
+            <!-- Menú de Navegación -->
+            <nav class="flex-1 overflow-y-auto">
+                <ul class="p-2">
+                    <li class="nav-item">
+                        <a href="#" class="flex items-center p-3 rounded-lg active-nav">
+                            <i class="fas fa-tachometer-alt text-blue-500"></i>
+                            <span class="nav-text ml-3">Dashboard</span>
+                            <span
+                                class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full notification-badge">24</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="catalogo_productos.php"
+                            class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-boxes text-blue-500"></i>
+                            <span class="nav-text ml-3">Productos</span>
+                        </a>
+                    <li class="nav-item">
+                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-user-friends text-blue-500"></i>
+                            <span class="nav-text ml-3">Equipos</span>
+                        </a>
+                    <li class="nav-item">
+                        <a href="carreras.php" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-running text-blue-500"></i>
+                            <span class="nav-text ml-3">Carreras</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="eventos.php" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-calendar-alt text-blue-500"></i>
+                            <span class="nav-text ml-3">Eventos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-chart-line text-blue-500"></i>
+                            <span class="nav-text ml-3">Estadísticas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                            <i class="fas fa-cog text-blue-500"></i>
+                            <span class="nav-text ml-3">Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-                <!-- Cerrar Sesión -->
-            <div class="p-4 border-t flex justify-center">
+            <!-- Cerrar Sesión -->
+            <div class="p-4 border-t">
                 <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="nav-text ml-3">Cerrar Sesión</span>
                 </a>
             </div>
-        </nav>
-        
-    </div>
-        
+        </div>
+
         <!-- Contenido Principal -->
         <div class="main-content flex-1 overflow-y-auto">
             <!-- Header -->
@@ -166,18 +184,20 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     <div class="relative">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-bell text-xl"></i>
-                            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                            <span
+                                class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                         </button>
                     </div>
                     <div class="relative">
                         <button class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-envelope text-xl"></i>
-                            <span class="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                            <span
+                                class="absolute top-0 right-0 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
                         </button>
                     </div>
                 </div>
             </header>
-            
+
             <!-- Contenido -->
             <main class="p-6">
                 <!-- Estadísticas Rápidas -->
@@ -227,14 +247,15 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Sección de Perfil -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                     <!-- Información Personal -->
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-1">
                         <h2 class="text-xl font-bold mb-4 text-gray-800">Información Personal</h2>
                         <div class="flex flex-col items-center mb-4">
-                            <img id="profile-avatar" src="assets/img/milei.png" alt="Perfil" class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 mb-4">
+                            <img id="profile-avatar" src="assets/img/milei.png" alt="Perfil"
+                                class="w-32 h-32 rounded-full object-cover border-4 border-blue-500 mb-4">
                             <button class="text-blue-500 text-sm hover:text-blue-700">
                                 <i class="fas fa-camera mr-1"></i> Cambiar foto
                             </button>
@@ -242,26 +263,30 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <div class="space-y-3">
                             <div>
                                 <p class="text-sm text-gray-500">Nombre completo</p>
-                                <p id="full-name" class="font-medium"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?> </p>
+                                <p id="full-name" class="font-medium"><?php echo htmlspecialchars($nombre); ?>
+                                    <?php echo htmlspecialchars($apellido); ?> </p>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Correo electrónico</p>
-                                <p id="user-email" class="font-medium"><?php echo htmlspecialchars($correo);?></p>
+                                <p id="user-email" class="font-medium"><?php echo htmlspecialchars($correo); ?></p>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Fecha de nacimiento</p>
-                                <p id="register-date" class="font-medium"><?php echo htmlspecialchars($fecha_nacimiento);?></p>
+                                <p id="register-date" class="font-medium">
+                                    <?php echo htmlspecialchars($fecha_nacimiento); ?></p>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Fecha de registro</p>
-                                <p id="register-date" class="font-medium"><?php echo htmlspecialchars($fecha_registro);?></p>
+                                <p id="register-date" class="font-medium">
+                                    <?php echo htmlspecialchars($fecha_registro); ?></p>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500">Nivel</p>
                                 <div class="flex items-center">
                                     <span id="user-level" class="font-medium mr-2">Principiante</span>
                                     <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div id="level-progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 45%"></div>
+                                        <div id="level-progress" class="bg-blue-600 h-2.5 rounded-full"
+                                            style="width: 45%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +295,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                             Editar Perfil
                         </button>
                     </div>
-                    
+
                     <!-- Carreras y Eventos -->
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
@@ -279,16 +304,26 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                                 <i class="fas fa-plus mr-1"></i> Agregar carrera
                             </button>
                         </div>
-                        
+
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Carrera</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distancia</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Carrera</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Fecha</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Distancia</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Estado</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="races-table-body" class="bg-white divide-y divide-gray-200">
@@ -296,14 +331,14 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <h2 class="text-xl font-bold mt-8 mb-4 text-gray-800">Próximos Eventos</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="events-container">
                             <!-- Los eventos se cargarán aquí dinámicamente -->
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Productos Recomendados -->
                 <div class="bg-white p-6 rounded-lg shadow mb-8">
                     <div class="flex justify-between items-center mb-4">
@@ -312,7 +347,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                             Ver todos <i class="fas fa-chevron-right ml-1"></i>
                         </a>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="products-container">
                         <!-- Los productos se cargarán aquí dinámicamente -->
                     </div>
@@ -323,4 +358,5 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/runner.js"></script>
 </body>
+
 </html>
