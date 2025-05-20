@@ -60,7 +60,7 @@
                 </div>
                 
                 <div class="flex justify-center space-x-4">
-                    <a href="iniciar_sesion.html" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                    <a href="../controller/action/act_logout.php" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                         <i class="fas fa-sign-in-alt mr-2"></i> Ir a Login
                     </a>
                     <a href="index.html" class="px-6 py-3 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors">
@@ -90,11 +90,11 @@
         // Función para redirigir al usuario
         function redirectUser() {
             // Intentar redirigir a la página anterior
-            if (document.referrer && !document.referrer.includes('login') && !document.referrer.includes('denegado')) {
+            if (document.referrer ) {
                 window.location.href = document.referrer;
             } else {
                 // Si no hay página anterior válida, ir a login
-                window.location.href = 'iniciar_sesion.html';
+                window.location.href = '../controller/action/act_logout.php';
             }
         }
         

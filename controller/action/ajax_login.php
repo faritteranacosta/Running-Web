@@ -20,8 +20,15 @@ if ($usuario != null) {
     $_SESSION['FECHA_NACIMIENTO'] = $usuario->getFechaNacimiento();
     $_SESSION['FECHA_REGISTRO'] = $usuario->getFechaRegistro();
     $_SESSION['ROL_USUARIO'] = $usuario->getRol();
-    $ruta = "runner.php";
-    $msg = "Puede iniciar sesión satisfactoriamente";
+    if($usuario->getRol() == "vendedor"){
+        $ruta = "vendedor.php";
+        $msg = "Puede iniciar sesión satisfactoriamente como administrador";
+
+    }else{
+        $ruta = "runner.php";
+        $msg = "Puede iniciar sesión satisfactoriamente como corredor";
+    }
+    
 }
 
 $resultado = [
