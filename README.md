@@ -22,7 +22,8 @@
 
 ## 📸 Vista previa
 
-![RunningWeb Screenshot](https://www.runtastic.com/training-plans/running/walk-to-run?lang=es)
+![Uploading image.png…]()
+
 
 ---
 
