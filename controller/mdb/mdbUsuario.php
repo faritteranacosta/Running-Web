@@ -1,10 +1,46 @@
 <?php
 require_once __DIR__ . '/../../model/dao/UsuarioDAO.php';
+require_once '../../model/entidad/Corredor.php';
+require_once '../../model/dao/CorredorDAO.php';
+require_once '../../model/dao/VendedorDAO.php';
+require_once '../../model/entidad/Corredor.php';
+require_once '../../model/entidad/Vendedor.php';
+require_once '../../model/entidad/Usuario.php';
+require_once '../../model/dao/UsuarioDAO.php';
 
-function agregarUsuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro) {
-    $usuarioDAO = new UsuarioDAO();
+function autenticarUsuario($correo, $contrasena) {
+    $dao = new UsuarioDAO();
+    return $dao->autenticarUsuario($correo, $contrasena);
+}
+
+function agregarUsuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null, $nombre_tienda = null) {
+    // 1. Crear y guardar usuario
     $usuario = new Usuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro);
-    return $usuarioDAO->agregarUsuario($usuario);
+    $userDao = new UsuarioDAO();
+    $id_usuario = $userDao->agregarUsuario($usuario); // Esto debe retornar el ID del usuario insertado
+
+    if (!$id_usuario) {
+        throw new Exception("Error al registrar el usuario.");
+    }
+
+    // 2. Insertar en la tabla correspondiente según el rol
+    if ($rol === 'corredor') {
+        $daoCorredor = new CorredorDAO();
+        $corredor = new Corredor($id_usuario, $ciudad, $equipo);
+        $daoCorredor->agregarCorredor($corredor);
+        
+
+    } elseif ($rol === 'vendedor') {
+        if (!$nombre_tienda) {
+            throw new Exception("Debe proporcionar el nombre de la tienda para registrar un vendedor.");
+        }
+        $vendedor = new Vendedor($id_usuario, $nombre_tienda);
+
+        $daoVendedor = new VendedorDAO();
+        $daoVendedor->agregarVendedor($vendedor);
+    }
+
+    return $usuario; // Usuario común
 }
 
 function obtenerUsuarioPorId($id_usuario) {
@@ -29,11 +65,3 @@ function eliminarUsuario($id_usuario) {
     return $usuarioDAO->eliminarUsuario($id_usuario);
 }
 
-function autenticarUsuario($correo, $contrasena) {
-    $usuarioDAO = new UsuarioDAO();
-    $usuario = $usuarioDAO->obtenerUsuarioPorCorreo($correo);
-    if ($usuario && $usuario->getContrasena() === $contrasena) {
-        return $usuario;
-    }
-    return null;
-}

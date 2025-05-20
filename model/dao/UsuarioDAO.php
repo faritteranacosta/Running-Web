@@ -8,20 +8,39 @@ class UsuarioDAO {
     public function __construct() {
         $this->dataSource = new DataSource();
     }
+    public function autenticarUsuario($correo, $contrasena) {
+        $sql = "SELECT * FROM usuario WHERE correo = :correo AND contrasena = :contrasena";
+        $params = array(
+            ':correo' => $correo,
+            ':contrasena' => $contrasena
+        );
+        $result = $this->dataSource->ejecutarConsulta($sql, $params);
+        if (count($result) > 0) {
+            $row = $result[0];
+            return new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+        }
+        return null;
+    }
 
     public function agregarUsuario(Usuario $usuario) {
-        $sql = "INSERT INTO usuario (rol, nombre, apellido, correo, contrasena, sexo, fecha_nacimiento, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        $params = [
-            $usuario->getRol(),
-            $usuario->getNombre(),
-            $usuario->getApellido(),
-            $usuario->getCorreo(),
-            $usuario->getContrasena(),
-            $usuario->getSexo(),
-            $usuario->getFechaNacimiento(),
-            $usuario->getFechaRegistro()
-        ];
-        return $this->dataSource->ejecutarActualizacion($sql, $params);
+        // Primero insertar el usuario
+        $sqlUsuario = "INSERT INTO usuario (rol, nombre, apellido, correo, contrasena, sexo, fecha_nacimiento, fecha_registro) VALUES (:rol, :nombre, :apellido, :correo, :contrasena, :sexo, :fecha_nacimiento, :fecha_registro)";
+        $paramsUsuario = array(
+            ':rol' => $usuario->getRol(),
+            ':nombre' => $usuario->getNombre(),
+            ':apellido' => $usuario->getApellido(),
+            ':correo' => $usuario->getCorreo(),
+            ':contrasena' => $usuario->getContrasena(),
+            ':sexo' => $usuario->getSexo(),
+            ':fecha_nacimiento' => $usuario->getFechaNacimiento(),
+            ':fecha_registro' => $usuario->getFechaRegistro()
+        );
+        $this->dataSource->ejecutarActualizacion($sqlUsuario, $paramsUsuario);
+        $id_usuario = $this->dataSource->getLastInsertId();
+        
+        $this->dataSource->cerrarConexion();
+        return $id_usuario;
+        
     }
 
     public function obtenerUsuarioPorCorreo($correo) {

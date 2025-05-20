@@ -2,4 +2,4 @@
 session_start();
 session_destroy();
 
-header("Location: ../../view/usuarios/login.php");
+header("Location: ../../view/iniciar_sesion.html");

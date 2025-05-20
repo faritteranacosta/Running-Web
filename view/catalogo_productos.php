@@ -1,6 +1,21 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,19 +98,16 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <a href="perfil.html" class="flex items-center">
-                        <img src="assets/img/milei.png" alt="Perfil"
-                            class="w-10 h-10 rounded-full border-2 border-white">
+                    <a href="runner.php" class="flex items-center gap-10">
+                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
-                    <div class="relative">
-                        <li>
-                            <a href="carrito.html" class="relative">
-                                <i class="fas fa-shopping-cart text-xl"></i>
-                                <span
-                                    class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-                                    style="display: none;">0</span>
-                            </a>
-                        </li>
+                    <div class="relative">                       
+                        <a href="carrito.html" class="relative">
+                            <i class="fas fa-shopping-cart text-xl"></i>
+                            <span
+                                class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                                style="display: none;">0</span>
+                        </a> 
                     </div>
                     <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                         <i class="fas fa-bars fa-lg"></i>

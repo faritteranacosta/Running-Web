@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -89,8 +105,8 @@
                 </div>
                 
                 <div class="flex items-center space-x-4">
-                    <a href="perfil.html" class="flex items-center">
-                        <img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
+                    <a href="runner.php" class="flex items-center gap-10"  >
+                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
                     <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                         <i class="fas fa-bars fa-lg"></i>

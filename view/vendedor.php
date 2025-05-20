@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -65,8 +81,8 @@
                     class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
             </div>
             <div class="ml-3">
-                <h3 class="font-semibold user-name">Admin RunningPro</h3>
-                <p class="text-sm text-gray-500 user-role">Administrador</p>
+                <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
+                <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
             </div>
         </div>
             
@@ -128,7 +144,7 @@
             
             <!-- Cerrar Sesión -->
             <div class="p-4 border-t">
-                <a href="logout.html" class="flex items-center p-2 rounded-lg hover:bg-red-50 text-red-500">
+                <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="nav-text ml-3">Cerrar Sesión</span>
                 </a>

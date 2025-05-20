@@ -15,9 +15,20 @@ if ($usuario != null) {
     $_SESSION['ID_USUARIO'] = $usuario->getIdUsuario();
     $_SESSION['CORREO_USUARIO'] = $usuario->getCorreo();
     $_SESSION['NOMBRE_USUARIO'] = $usuario->getNombre();
+    $_SESSION['APELLIDO_USUARIO'] = $usuario->getApellido();
+    $_SESSION['SEXO_USUARIO'] = $usuario->getSexo();
+    $_SESSION['FECHA_NACIMIENTO'] = $usuario->getFechaNacimiento();
+    $_SESSION['FECHA_REGISTRO'] = $usuario->getFechaRegistro();
     $_SESSION['ROL_USUARIO'] = $usuario->getRol();
-    $ruta = "./runner.php";
-    $msg = "Puede iniciar sesión satisfactoriamente";
+    if($usuario->getRol() == "vendedor"){
+        $ruta = "vendedor.php";
+        $msg = "Puede iniciar sesión satisfactoriamente como administrador";
+
+    }else{
+        $ruta = "runner.php";
+        $msg = "Puede iniciar sesión satisfactoriamente como corredor";
+    }
+    
 }
 
 $resultado = [
@@ -26,4 +37,5 @@ $resultado = [
     "ruta" => $ruta
 ];
 
+header('Content-Type: application/json; charset=utf-8');
 echo json_encode($resultado);
