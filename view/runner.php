@@ -24,6 +24,29 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
     <style>
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-proximo {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .status-en-curso {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .status-finalizado {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
         .sidebar {
             transition: all 0.3s;
         }
@@ -87,32 +110,24 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         <nav class="flex-1 overflow-y-auto">
             <ul class="p-2">
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                    <a href="#" class="flex items-center p-3 rounded-lg active-nav">
                         <i class="fas fa-tachometer-alt text-blue-500"></i>
                         <span class="nav-text ml-3">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg active-nav">
-                        <i class="fas fa-boxes text-blue-500"></i>
-                        <span class="nav-text ml-3">Productos</span>
                         <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full notification-badge">24</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-shopping-cart text-blue-500"></i>
-                        <span class="nav-text ml-3">Ventas</span>
+                        <i class="fas fa-boxes text-blue-500"></i>
+                        <span class="nav-text ml-3">Productos</span>
                     </a>
-                </li>
                 <li class="nav-item">
                     <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                        <i class="fas fa-users text-blue-500"></i>
-                        <span class="nav-text ml-3">Clientes</span>
+                        <i class="fas fa-user-friends text-blue-500"></i>
+                        <span class="nav-text ml-3">Equipos</span>
                     </a>
-                </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                    <a href="eventos.php" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
                         <i class="fas fa-calendar-alt text-blue-500"></i>
                         <span class="nav-text ml-3">Eventos</span>
                     </a>
@@ -130,15 +145,16 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </a>
                 </li>
             </ul>
-        </nav>
 
-        <!-- Cerrar Sesión -->
-        <div class="p-4 border-t">
-            <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="nav-text ml-3">Cerrar Sesión</span>
-            </a>
-        </div>
+                <!-- Cerrar Sesión -->
+            <div class="p-4 border-t flex justify-center">
+                <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="nav-text ml-3">Cerrar Sesión</span>
+                </a>
+            </div>
+        </nav>
+        
     </div>
         
         <!-- Contenido Principal -->
@@ -304,229 +320,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </main>
         </div>
     </div>
-
-    <script>
-
-        //cerrar sesion
-        function cerrarSesion() {
-            // Aquí puedes agregar la lógica para cerrar sesión
-            window.location.href = 'act_logout.php';
-        }
-
-        // Simulación de datos de sesión (en un caso real, estos vendrían del backend)
-        const userData = {
-            id: 251,
-            firstName: "Lobo",
-            lastName: "Peralta",
-            fullName: "Lobo Javier Peralta",
-            email: "jlb@running.com",
-            phone: "3894156224",
-            gender: "Masculino",
-            registerDate: "2025/02/02",
-            avatar: "assets/img/milei.png",
-            level: "Intermedio",
-            levelProgress: 65,
-            stats: {
-                totalRaces: 12,
-                totalKm: 156,
-                bestTime: "42:15",
-                achievements: {
-                    completed: 8,
-                    total: 15
-                }
-            },
-            races: [
-                {
-                    id: 1,
-                    name: "La media maratón",
-                    date: "2025/03/21",
-                    distance: "8 km",
-                    category: "Libre",
-                    type: "Normal",
-                    status: "Inscrito"
-                },
-                {
-                    id: 2,
-                    name: "Carrera Insana",
-                    date: "2025/04/12",
-                    distance: "20 km",
-                    category: "Libre",
-                    type: "Insana",
-                    status: "Entrenando"
-                },
-                {
-                    id: 3,
-                    name: "Vuelta a Chibolo Town",
-                    date: "2025/05/22",
-                    distance: "10 km",
-                    category: "Libre",
-                    type: "Normal",
-                    status: "Inscrito"
-                }
-            ],
-            events: [
-                {
-                    id: 1,
-                    name: "Entrenamiento grupal mañanero",
-                    date: "2025/03/15",
-                    location: "Parque Central",
-                    type: "Entrenamiento"
-                },
-                {
-                    id: 2,
-                    name: "Charla de nutrición para runners",
-                    date: "2025/04/05",
-                    location: "Centro Deportivo",
-                    type: "Charla"
-                }
-            ],
-            products: [
-                {
-                    id: 1,
-                    name: "Zapatillas Running Pro",
-                    price: 89.99,
-                    category: "Calzado",
-                    image: "assets/img/shoes.jpg",
-                    rating: 4.5
-                },
-                {
-                    id: 2,
-                    name: "Reloj Deportivo GPS",
-                    price: 129.99,
-                    category: "Electrónica",
-                    image: "assets/img/watch.jpg",
-                    rating: 4.8
-                },
-                {
-                    id: 3,
-                    name: "Camiseta Térmica",
-                    price: 29.99,
-                    category: "Ropa",
-                    image: "assets/img/shirt.jpg",
-                    rating: 4.2
-                },
-                {
-                    id: 4,
-                    name: "Bebida Isotónica",
-                    price: 12.99,
-                    category: "Nutrición",
-                    image: "assets/img/drink.jpg",
-                    rating: 4.0
-                }
-            ]
-        };
-
-        // Función para cargar los datos del usuario
-        function loadUserData() {
-            // Datos del perfil
-            document.getElementById('user-avatar').src = userData.avatar;
-            document.getElementById('profile-avatar').src = userData.avatar;
-            document.getElementById('user-name').textContent = userData.firstName + ' ' + userData.lastName;
-            document.getElementById('full-name').textContent = userData.fullName;
-            document.getElementById('user-email').textContent = userData.email;
-            document.getElementById('user-phone').textContent = userData.phone;
-            document.getElementById('register-date').textContent = userData.registerDate;
-            document.getElementById('user-level').textContent = userData.level;
-            document.getElementById('level-progress').style.width = userData.levelProgress + '%';
-
-            // Estadísticas
-            document.getElementById('total-races').textContent = userData.stats.totalRaces;
-            document.getElementById('total-km').textContent = userData.stats.totalKm;
-            document.getElementById('best-time').textContent = userData.stats.bestTime;
-            document.getElementById('total-achievements').textContent = 
-                userData.stats.achievements.completed + '/' + userData.stats.achievements.total;
-
-            // Carreras
-            const racesTableBody = document.getElementById('races-table-body');
-            userData.races.forEach(race => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="font-medium text-gray-900">${race.name}</div>
-                        <div class="text-sm text-gray-500">${race.type} - ${race.category}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${race.date}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${race.distance}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                            ${race.status === 'Inscrito' ? 'bg-green-100 text-green-800' : 
-                              race.status === 'Entrenando' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
-                            ${race.status}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" class="text-blue-500 hover:text-blue-700 mr-3">Ver</a>
-                        <a href="#" class="text-red-500 hover:text-red-700">Eliminar</a>
-                    </td>
-                `;
-                racesTableBody.appendChild(row);
-            });
-
-            // Eventos
-            const eventsContainer = document.getElementById('events-container');
-            userData.events.forEach(event => {
-                const eventCard = document.createElement('div');
-                eventCard.className = 'bg-white border rounded-lg p-4 hover:shadow-md transition';
-                eventCard.innerHTML = `
-                    <div class="flex items-start">
-                        <div class="p-2 bg-blue-100 rounded-lg mr-3">
-                            <i class="fas fa-calendar-day text-blue-500"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-medium text-gray-900">${event.name}</h3>
-                            <p class="text-sm text-gray-500 mt-1">
-                                <i class="far fa-calendar-alt mr-1"></i> ${event.date}
-                            </p>
-                            <p class="text-sm text-gray-500">
-                                <i class="fas fa-map-marker-alt mr-1"></i> ${event.location}
-                            </p>
-                            <button class="mt-2 text-sm text-blue-500 hover:text-blue-700">
-                                Más información
-                            </button>
-                        </div>
-                    </div>
-                `;
-                eventsContainer.appendChild(eventCard);
-            });
-
-            // Productos
-            const productsContainer = document.getElementById('products-container');
-            userData.products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'border rounded-lg overflow-hidden hover:shadow-lg transition';
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-medium text-gray-900">${product.name}</h3>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">${product.category}</span>
-                        </div>
-                        <div class="mt-2 flex items-center">
-                            ${Array(Math.floor(product.rating)).fill('<i class="fas fa-star text-yellow-400"></i>').join('')}
-                            ${product.rating % 1 ? '<i class="fas fa-star-half-alt text-yellow-400"></i>' : ''}
-                            ${Array(5 - Math.ceil(product.rating)).fill('<i class="far fa-star text-yellow-400"></i>').join('')}
-                            <span class="text-gray-500 text-sm ml-2">${product.rating}</span>
-                        </div>
-                        <div class="mt-3 flex justify-between items-center">
-                            <span class="font-bold text-lg">$${product.price.toFixed(2)}</span>
-                            <button class="text-sm bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                                <i class="fas fa-shopping-cart mr-1"></i> Comprar
-                            </button>
-                        </div>
-                    </div>
-                `;
-                productsContainer.appendChild(productCard);
-            });
-        }
-
-        // Toggle sidebar
-        document.getElementById('toggle-sidebar').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
-            document.querySelector('.main-content').classList.toggle('ml-20');
-        });
-
-        // Cargar los datos cuando la página esté lista
-        document.addEventListener('DOMContentLoaded', loadUserData);
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/runner.js"></script>
 </body>
 </html>

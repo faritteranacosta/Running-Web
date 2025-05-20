@@ -111,8 +111,4 @@ function cargarEventos() {
       });
     });
 
-  fetch("../controller/action/ajax_eventos.php")
-    .then((r) => r.text())
-    .then(console.log)
-    .catch(console.error);
 }
