@@ -40,10 +40,17 @@ class ParticipacionEventoDAO {
         return $participaciones;
     }
 
-    public function eliminarParticipacion($id_participacion) {
-        $sql = "DELETE FROM participacion_evento WHERE id_participacion = ?";
-        $params = array($id_participacion);
-        return $this->dataSource->execute($sql, $params);
+    public function eliminarParticipacion($id_usuario, $id_evento) {
+        $sql = "DELETE FROM participacion_evento WHERE usuario_id = ? AND evento_id = ?";
+        $params = array($id_usuario, $id_evento);
+        return $this->dataSource->ejecutarActualizacion($sql, $params);
+    }
+
+    public function existeParticipacion($id_usuario, $id_evento) {
+        $sql = "SELECT COUNT(*) as total FROM participacion_evento WHERE usuario_id = ? AND evento_id = ?";
+        $params = [$id_usuario, $id_evento];
+        $result = $this->dataSource->ejecutarConsulta($sql, $params);
+        return isset($result[0]['total']) && $result[0]['total'] > 0;
     }
 
 

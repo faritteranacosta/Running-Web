@@ -120,10 +120,29 @@
 
                 // Configurar botón de inscripción para usar SIEMPRE el idEvento correcto
                 const btnInscribirse = document.getElementById('btn-inscribirse');
-                btnInscribirse.addEventListener('click', function() {
-                    // Usar window.idEvento, que siempre estará actualizado
-                    registrarParticipacion(window.idEvento);
-                });
+                
+                // Validar si ya existe la participación antes de habilitar el botón
+                let yaInscrito = false;
+                try {
+                    const checkResponse = await fetch(`../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(window.idEvento)}`);
+                    const checkData = await checkResponse.json();
+                    yaInscrito = checkData && checkData.exists;
+                } catch (e) {
+                    yaInscrito = false; // Si hay error, permitir inscripción
+                }
+
+                if (yaInscrito) {
+                    btnInscribirse.disabled = true;
+                    btnInscribirse.textContent = 'Ya estás inscrito';
+                    btnInscribirse.className = 'w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
+                } else {
+                    btnInscribirse.disabled = false;
+                    btnInscribirse.textContent = 'Confirmar inscripción';
+                    btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+                    btnInscribirse.addEventListener('click', function() {
+                        registrarParticipacion(window.idEvento);
+                    });
+                }
                 
                 // Cargar categorías y tallas (simulado)
                 cargarOpcionesInscripcion(carrera);
