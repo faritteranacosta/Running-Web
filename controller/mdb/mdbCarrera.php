@@ -61,7 +61,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         $descripcion = $ubicacion['descripcion'];
     }
     return [
-        'id' => $idCarrera,
+        'id' => $carrera->getIdCarrera(),
+        'evento' => $carrera->getEvento()->getIdEvento(),
         'nombre' => $eventoNombre,
         'descripcion' => $descripcion,
         'fecha' => $fecha,
@@ -72,9 +73,9 @@ function obtenerCarreraPorIdMDB($idCarrera) {
     ];
 }
 
-function agregarParticipacionMDB($id_usuario, $id_evento) {
-    $dao = new CarreraDAO(); // O new ParticipacionEventoDAO()
-    return $dao->agregarParticipacion($id_usuario, $id_evento);
-}
+// function agregarParticipacionMDB($id_usuario, $id_evento) {
+//     $dao = new CarreraDAO(); // O new ParticipacionEventoDAO()
+//     return $dao->agregarParticipacion($id_usuario, $id_evento);
+// }
 
 ?>

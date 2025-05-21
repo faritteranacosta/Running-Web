@@ -13,6 +13,8 @@ $usuario = autenticarUsuario($username, $password);
 
 if ($usuario != null) {
     $_SESSION['ID_USUARIO'] = $usuario->getIdUsuario();
+    // Log temporal para depuración
+    file_put_contents(__DIR__ . '/debug_login.txt', print_r($usuario, true) . "\nID: " . $usuario->getIdUsuario() . "\n", FILE_APPEND);
     $_SESSION['CORREO_USUARIO'] = $usuario->getCorreo();
     $_SESSION['NOMBRE_USUARIO'] = $usuario->getNombre();
     $_SESSION['APELLIDO_USUARIO'] = $usuario->getApellido();

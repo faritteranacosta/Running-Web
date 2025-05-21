@@ -13,7 +13,7 @@ class CarreraDAO {
         $sql = "INSERT INTO carrera (distancia, id_evento, tipo_carrera_id, id_categoria, id_ruta) VALUES (?, ?, ?, ?, ?)";
         $params = [
             $carrera->getDistancia(),
-            $carrera->getEvento(),
+            $carrera->getEvento()->getIdEvento(),
             $carrera->getTipoCarrera(),
             $carrera->getCategoria(),
             $carrera->getRuta()
@@ -27,7 +27,7 @@ public function obtenerCarreraPorId($id_carrera) {
                    r.descripcion AS descripcion_ruta, r.url_mapa
             FROM carrera c
             LEFT JOIN evento e ON c.id_evento = e.id_evento
-            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador -- Asegúrate de que esta unión es correcta
+            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador 
             LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
             LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
             WHERE c.id_carrera = ?";
@@ -87,7 +87,7 @@ public function obtenerCarreraPorId($id_carrera) {
         $sql = "UPDATE carrera SET distancia = ?, id_evento = ?, tipo_carrera_id = ?, id_categoria = ?, id_ruta = ? WHERE id_carrera = ?";
         $params = [
             $carrera->getDistancia(),
-            $carrera->getEvento(),
+            $carrera->getEvento()->getIdEvento(),
             $carrera->getTipoCarrera(),
             $carrera->getCategoria(),
             $carrera->getRuta(),
@@ -105,11 +105,13 @@ public function obtenerCarreraPorId($id_carrera) {
 
 
     //agregar una participacion a un evento
-    public function agregarParticipacion($id_usuario, $id_evento) {
-    // Cambiar los nombres de columna para que coincidan con la base de datos
-    $sql = "INSERT INTO participacion_evento (corredor_id, evento_id) VALUES (?, ?)";
-    $params = [$id_usuario, $id_evento];
-    return $this->dataSource->ejecutarActualizacion($sql, $params);
-}
+//     public function agregarParticipacion($id_usuario, $id_evento) {
+//     $sql = "INSERT INTO participacion_evento (usuario_id, evento_id) VALUES (?, ?)";
+//     $params = [$id_usuario, $id_evento];
+//     return $this->dataSource->ejecutarActualizacion($sql, $params);
+// }
+
+
+
 }
 ?>

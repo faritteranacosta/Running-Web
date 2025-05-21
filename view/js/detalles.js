@@ -37,6 +37,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const idCarrera = params.get('id');
+            const idEvento = params.get('evento');
             
             if (idCarrera) {
                 cargarDetallesCarrera(idCarrera);
@@ -109,7 +110,7 @@
                 // Configurar botón de inscripción
                 const btnInscribirse = document.getElementById('btn-inscribirse');
                 btnInscribirse.addEventListener('click', function() {
-                    registrarParticipacion(idCarrera);
+                    registrarParticipacion(idEvento);
                 });
                 
                 // Cargar categorías y tallas (simulado)
@@ -164,7 +165,7 @@
         }
 
         // Función para registrar participación
-        async function registrarParticipacion(idCarrera) {
+        async function registrarParticipacion(idEvento) {
             const selectCategoria = document.getElementById('select-categoria');
             const selectTalla = document.getElementById('select-talla');
             const btnInscribirse = document.getElementById('btn-inscribirse');
@@ -183,7 +184,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id_evento=${encodeURIComponent(idCarrera)}&categoria=${encodeURIComponent(selectCategoria.value)}&talla=${encodeURIComponent(selectTalla.value)}`
+                    body: `id_evento=${encodeURIComponent(idEvento)}&categoria=${encodeURIComponent(selectCategoria.value)}&talla=${encodeURIComponent(selectTalla.value)}`
                 });
                 
                 const data = await response.json();
