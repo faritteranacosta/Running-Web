@@ -12,7 +12,8 @@ class Usuario{
     private $fecha_nacimiento; 
     private $fecha_registro;
 
-    public function __construct($rol = null, $nombre = null, $apellido = null, $correo = null, $contrasena = null, $sexo = null, $fecha_nacimiento = null, $fecha_registro = null) {
+    public function __construct($id_usuario = null, $rol = null, $nombre = null, $apellido = null, $correo = null, $contrasena = null, $sexo = null, $fecha_nacimiento = null, $fecha_registro = null) {
+        $this->id_usuario = $id_usuario;
         $this->rol = $rol;
         $this->nombre = $nombre;
         $this->apellido = $apellido;

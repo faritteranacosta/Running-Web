@@ -102,6 +102,7 @@ function cargarEventos() {
         `;
 
         tarjeta.addEventListener("click", () => {
+            
         });
 
         contenedor.appendChild(tarjeta);

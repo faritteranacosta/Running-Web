@@ -81,6 +81,9 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     <img src="assets/img/milei.png" alt="Perfil"
                         class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
                 </div>
+                <div>
+                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id);?>" hidden>
+                </div>
                 <div class="ml-3">
                     <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
                     <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
@@ -288,105 +291,28 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 <div class="bg-white p-6 rounded-lg shadow mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Mis Productos</h2>
-                        <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium">
+                        <a href= "productos.php" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium">
                             <i class="fas fa-plus mr-1"></i> Nuevo Producto
-                        </button>
+                        </a>
                     </div>
-                    
+                    <table class="min-w-full divide-y divide-gray-200 product-table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ventas</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+
+                        </tbody>
+                    </table>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 product-table">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Producto</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ventas</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-md object-cover" src="assets/img/shoes.jpg" alt="Zapatillas">
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Zapatillas Running Pro</div>
-                                                <div class="text-sm text-gray-500">#PRD-001</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Calzado</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$89.99</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">15</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" class="text-blue-500 hover:text-blue-700 mr-3">Editar</a>
-                                        <a href="#" class="text-red-500 hover:text-red-700">Eliminar</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-md object-cover" src="assets/img/watch.jpg" alt="Reloj">
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Reloj Deportivo GPS</div>
-                                                <div class="text-sm text-gray-500">#PRD-002</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Electrónica</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$129.99</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">3</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">28</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Activo</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" class="text-blue-500 hover:text-blue-700 mr-3">Editar</a>
-                                        <a href="#" class="text-red-500 hover:text-red-700">Eliminar</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-md object-cover" src="assets/img/shirt.jpg" alt="Camiseta">
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Camiseta Térmica</div>
-                                                <div class="text-sm text-gray-500">#PRD-003</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ropa</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$29.99</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">0</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">36</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Sin stock</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#" class="text-blue-500 hover:text-blue-700 mr-3">Editar</a>
-                                        <a href="#" class="text-red-500 hover:text-red-700">Eliminar</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        
                     </div>
                 </div>
                 
@@ -447,32 +373,13 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             </main>
         </div>
     </div>
-
+    <script src="js/productosVendedor.js"></script>
     <script>
         // Toggle sidebar
         document.getElementById('toggle-sidebar').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
             document.querySelector('.main-content').classList.toggle('ml-20');
-        });
-
-        // Simulación de datos del vendedor (en un caso real vendrían del backend)
-        const sellerData = {
-            name: "Tienda RunnerPro",
-            avatar: "assets/img/seller-avatar.jpg",
-            tier: "Vendedor Premium",
-            stats: {
-                salesToday: 1245,
-                orders: 18,
-                products: 24,
-                rating: 4.7
-            }
-        };
-
-        // Cargar datos del vendedor
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('seller-name').textContent = sellerData.name;
-            document.getElementById('seller-avatar').src = sellerData.avatar;
-        });
+        });        
     </script>
 </body>
 </html>

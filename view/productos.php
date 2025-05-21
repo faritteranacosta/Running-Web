@@ -23,6 +23,44 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
     <title>Gestión de Productos - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         .sidebar {
             transition: all 0.3s ease;
@@ -73,14 +111,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             max-height: 70px;
         }
 
-        .toggle-chevron {
-            transition: transform 0.3s ease;
-        }
-
-        .toggle-chevron.collapsed {
-            transform: rotate(180deg);
-        }
-
         body {
             overflow-x: hidden;
         }
@@ -103,11 +133,14 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </button>
             </div>
 
-            <!-- Perfil del Administrador -->
+            <!-- Perfil -->
             <div class="p-4 border-b flex items-center justify-center">
                 <div class="relative">
                     <img src="assets/img/milei.png" alt="Perfil"
                         class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+                </div>
+                <div>
+                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id);?>" hidden>
                 </div>
                 <div class="ml-3">
                     <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
@@ -305,7 +338,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                                 class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 smooth-transition">
                                 <i class="fas fa-times mr-2"></i> Cancelar
                             </button>
-                            <button type="submit"
+                            <button type="submit " id = "save-product" 
                                 class="px-6 py-3 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-medium smooth-transition">
                                 <i class="fas fa-save mr-2"></i> Guardar Producto
                             </button>
@@ -437,22 +470,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             </footer>
         </div>
     </div>
-    <script>
-        // Toggle Sidebar
-        document.getElementById('toggle-sidebar').addEventListener('click', function () {
-            document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
-            document.querySelector('.main-content').classList.toggle('ml-20');
-        });
-
-        // Toggle Form Visibility
-        document.getElementById('toggle-form').addEventListener('click', function () {
-            const form = document.getElementById('product-form');
-            const chevron = document.querySelector('.toggle-chevron');
-
-            form.classList.toggle('collapsed');
-            chevron.classList.toggle('collapsed');
-        });       
-    </script>
 
     <script src="js/productos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
