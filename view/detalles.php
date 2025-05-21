@@ -89,16 +89,16 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </a>
                     
                     <nav class="hidden md:flex space-x-1">
-                        <a href="index.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="carreras.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-home mr-2"></i> Inicio
                         </a>
-                        <a href="eventos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="eventos.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-calendar-alt mr-2"></i> Eventos
                         </a>
-                        <a href="carreras.html" class="px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
+                        <a href="carreras.php" class="px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
                             <i class="fas fa-running mr-2"></i> Carreras
                         </a>
-                        <a href="productos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="productos.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-store mr-2"></i> Productos
                         </a>
                     </nav>
@@ -116,16 +116,16 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             
             <!-- Mobile Menu -->
             <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
-                <a href="index.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
+                <a href="carreras.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
                 </a>
-                <a href="eventos.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
+                <a href="eventos.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-calendar-alt mr-2"></i> Eventos
                 </a>
-                <a href="carreras.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
+                <a href="carreras.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
                     <i class="fas fa-running mr-2"></i> Carreras
                 </a>
-                <a href="productos.html" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
+                <a href="productos.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-store mr-2"></i> Productos
                 </a>
             </div>

@@ -27,10 +27,6 @@ tailwind.config = {
                             900: '#4c1d95',
                         }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif']
-                    }
                 }
             }
         }

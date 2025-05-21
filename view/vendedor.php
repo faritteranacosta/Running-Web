@@ -56,6 +56,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             background-color: #f8fafc;
             z-index: 10;
         }
+
     </style>
 </head>
 <body class="bg-gray-100">
@@ -65,41 +66,34 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
         <div class="sidebar bg-white shadow-lg flex flex-col h-full">
             <!-- Logo y Toggle -->
             <div class="p-4 flex items-center justify-between border-b">
-            <div class="flex items-center">
-                <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
+                <div class="flex items-center">
+                    <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
+                    <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
+                </div>
+                <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
-            <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
 
-        <!-- Perfil del Administrador -->
-        <div class="p-4 border-b flex items-center justify-center">
-            <div class="relative">
-                <img src="assets/img/milei.png" alt="Perfil"
-                    class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+            <!-- Perfil del Administrador -->
+            <div class="p-4 border-b flex items-center justify-center">
+                <div class="relative">
+                    <img src="assets/img/milei.png" alt="Perfil"
+                        class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+                </div>
+                <div class="ml-3">
+                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
+                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
+                </div>
             </div>
-            <div class="ml-3">
-                <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
-                <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
-            </div>
-        </div>
             
             <!-- Menú de Navegación -->
             <nav class="flex-1 overflow-y-auto">
                 <ul class="p-2">
                     <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg active-nav">
+                        <a href="vendedor.php" class="flex items-center p-3 rounded-lg active-nav">
                             <i class="fas fa-tachometer-alt text-blue-500"></i>
                             <span class="nav-text ml-3">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
-                            <i class="fas fa-boxes text-blue-500"></i>
-                            <span class="nav-text ml-3">Productos</span>
-                            <span class="ml-auto bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">24</span>
                         </a>
                     </li>
                     <li>
@@ -128,7 +122,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
+                        <a href="productos.php" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
                             <i class="fas fa-store text-blue-500"></i>
                             <span class="nav-text ml-3">Mi Tienda</span>
                         </a>
