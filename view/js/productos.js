@@ -1,4 +1,3 @@
-// Variables globales
 let products = [];
 let currentPage = 1;
 const itemsPerPage = 5;
@@ -71,6 +70,7 @@ function saveProduct() {
     if (!validateProduct(productData)) return;
 
     const isEdit = productForm.dataset.editId;
+  
     const url = isEdit 
         ? `../controller/action/ajax_productos.php?id=${productForm.dataset.editId}`
         : '../controller/action/ajax_productos.php';
@@ -83,8 +83,7 @@ function saveProduct() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData)
     })
-    .then(handleResponse)
-    .then(data => {
+    .then(handleResponse).then(data => {
         showSuccess(isEdit ? 'Producto actualizado' : 'Producto creado');
         loadProducts();
         clearForm();
@@ -92,6 +91,7 @@ function saveProduct() {
     })
     .catch(handleError)
     .finally(() => showLoading(false, saveProductBtn));
+    
 }
 
 // Validar producto

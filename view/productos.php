@@ -262,6 +262,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 
                     <form class="space-y-6" id="product-form" novalidate="">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2" for="product-name">
                                     Nombre del producto <span class="text-primary-600">*</span>
@@ -302,7 +303,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2" for="product-price">
-                                    Precio (USD) <span class="text-primary-600">*</span>
+                                    Precio (COP) <span class="text-primary-600">*</span>
                                 </label>
                                 <div class="relative">
                                     <span class="absolute left-3 top-3 text-gray-500">$</span>

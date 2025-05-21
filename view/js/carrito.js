@@ -75,7 +75,7 @@ function renderizarCarrito() {
 // Función para calcular subtotal, envío y total
 function calcularTotales() {
     const subtotal = carrito.reduce((total, item) => total + (item.price * item.cantidad), 0);
-    const envio = subtotal > 50 ? 0 : 5.99; // Envío gratis para compras > $50
+    const envio = subtotal > 70000 ? 0 : 14000; // Envío gratis para compras > $70000
     const total = subtotal + envio;
     
     subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
@@ -126,7 +126,7 @@ function eliminarDelCarrito(productoId) {
     });
 }
 
-// Función para guardar carrito en localStorage
+// Función para guardar carrito
 function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
@@ -157,7 +157,7 @@ function procederAlPago() {
                 // Limpiar carrito después del pago
                 carrito = [];
                 guardarCarrito();
-                window.location.href = 'gracias.html';
+                window.location.href = '#';
             });
         }
     });
