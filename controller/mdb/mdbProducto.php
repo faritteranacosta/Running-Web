@@ -18,13 +18,19 @@ function listarProductos() {
     return $productoDAO->listarProductos();
 }
 
-function actualizarProducto($id_producto, $nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria = null, $stock = null, $imagenUrl = null) {
+function obtenerProductoPorVendedor($vendedor_id) {
+    $productoDAO = new ProductoDAO();
+    return $productoDAO->obtenerProductosPorVendedor($vendedor_id);
+}
+
+function updateProducto($id_producto, $nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria = null, $stock = null, $imagenUrl = null) {
     $productoDAO = new ProductoDAO();
     $producto = new Producto($nombre, $descripcion, $precio, $fecha_publicacion
     , $vendedor_id, $categoria, $stock, $imagenUrl);
     $producto->setIdProducto($id_producto);
     return $productoDAO->actualizarProducto($producto);
 }
+
 
 function eliminarProducto($id_producto) {
     $productoDAO = new ProductoDAO();

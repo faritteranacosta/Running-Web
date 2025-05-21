@@ -102,7 +102,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
                     <div class="relative">                       
-                        <a href="carrito.html" class="relative">
+                        <a href="carrito.php" class="relative">
                             <i class="fas fa-shopping-cart text-xl"></i>
                             <span
                                 class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"

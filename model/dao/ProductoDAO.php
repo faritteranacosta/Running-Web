@@ -89,4 +89,26 @@ class ProductoDAO {
         $params = [$id_producto];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
+
+    public function obtenerProductosPorVendedor($vendedor_id) {
+        $sql = "SELECT * FROM producto WHERE vendedor_id = ?";
+        $params = [$vendedor_id];
+        $result = $this->dataSource->ejecutarConsulta($sql, $params);
+        $productos = [];
+        foreach ($result as $row) {
+            $producto = new Producto(
+                $row['nombre'],
+                $row['descripcion'],
+                $row['precio'],
+                $row['fecha_publicacion'],
+                $row['vendedor_id'],
+                $row['categoria'],
+                $row['stock'],
+                $row['imagenUrl']
+            );
+            $producto->setIdProducto($row['id_producto']);
+            $productos[] = $producto;
+        }
+        return $productos;
+    }
 }

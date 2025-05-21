@@ -48,13 +48,13 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <h1 class="text-2xl font-bold">RunningWeb</h1>
                     </a>
                     <nav class="hidden md:flex space-x-1">
-                        <a href="index.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="carrito.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-home mr-2"></i> Inicio
                         </a>
-                        <a href="eventos.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="eventos.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-calendar-alt mr-2"></i> Eventos
                         </a>
-                        <a href="carreras.html" class="px-4 py-2 rounded-lg nav-link smooth-transition">
+                        <a href="carreras.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-running mr-2"></i> Carreras
                         </a>
                         <a href="catalogo_productos.html"
@@ -69,7 +69,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
                     <div class="relative">
-                        <a href="carrito.html" class="relative">
+                        <a href="carrito.php" class="relative">
                             <i class="fas fa-shopping-cart text-xl"></i>
                                 <span
                                     class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"

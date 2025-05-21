@@ -1,86 +1,135 @@
 <?php
+session_start();
 
+// Verificar autenticación al inicio del script
+if (!isset($_SESSION['ID_USUARIO'])) {
+    http_response_code(401); // No autorizado
+    echo json_encode(['success' => false, 'msg' => 'Debe iniciar sesión para acceder a este recurso']);
+    exit;
+}
+
+require_once(__DIR__ . '/../mdb/mdbProducto.php');
+header('Content-Type: application/json');
+
+// Resto del código...
 require_once(__DIR__ . '/../mdb/mdbProducto.php');
 
 header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-if ($method === 'GET') {
-    // Listar productos
-    $productos = listarProductos();
-    $respuesta = [];
-    foreach ($productos as $producto) {
-        $respuesta[] = [
-            'id' => $producto->getIdProducto(),
-            'name' => $producto->getNombre(),
-            'description' => $producto->getDescripcion(),
-            'price' => $producto->getPrecio(),
-            'fecha_publicacion' => $producto->getFechaPublicacion(),
-            'vendedor_id' => $producto->getVendedorId(),
-            'categoria' => $producto->getCategoria(),
-            'stock' => $producto->getStock(),
-            'imagenUrl' => $producto->getImagenUrl()
-        ];
-    }
-    echo json_encode($respuesta);
-    exit;
-}
-
-$data = json_decode(file_get_contents('php://input'), true);
-
-switch ($method) {
-    case 'POST':
-        // Crear producto
-        $nombre = $data['name'] ?? '';
-        $descripcion = $data['description'] ?? '';
-        $precio = $data['price'] ?? '';
-        $fecha_publicacion = date('Y-m-d');
-        $vendedor_id = $data['vendedor_id'] ?? '';
-        $categoria = $data['category'] ?? null;
-        $stock = $data['stock'] ?? null;
-        $imagenUrl = $data['image'] ?? null;
-        $result = agregarProducto($nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria, $stock, $imagenUrl);
-        echo json_encode([
-            'success' => (bool)$result,
-            'msg' => $result ? 'Producto creado correctamente.' : 'No se pudo crear el producto.'
-        ]);
-        break;
-
-    case 'PUT':
-        // Editar producto
-        $id_producto = $data['id'] ?? '';
-        $nombre = $data['name'] ?? '';
-        $descripcion = $data['description'] ?? '';
-        $precio = $data['price'] ?? '';
-        $fecha_publicacion = date('Y-m-d');
-        $vendedor_id = $data['vendedor_id'] ?? '';
-        $categoria = $data['category'] ?? null;
-        $stock = $data['stock'] ?? null;
-        $imagenUrl = $data['image'] ?? null;
-
-        // Imprimir los datos recibidos para depuración
-        error_log("Datos recibidos en PUT: " . print_r($data, true));
+try {
+    if ($method === 'GET') {
+        // Listar productos con filtro por vendedor si se proporciona
+        $vendedor_id = $_GET['vendedor_id'] ?? null;
         
-        $result = actualizarProducto($id_producto, $nombre, $descripcion, $precio,
-         $fecha_publicacion, $vendedor_id, $categoria, $stock, $imagenUrl);
-        echo json_encode([
-            'success' => (bool)$result,
-            'msg' => $result ? 'Producto actualizado correctamente.' : 'No se pudo actualizar el producto.'
-        ]);
-        break;
+        if ($vendedor_id) {
+            $productos = obtenerProductoPorVendedor($vendedor_id);
+        } else {
+            $productos = listarProductos();
+        }
+        
+        $respuesta = array_map(function($producto) {
+            $stock = $producto->getStock();
+            return [
+                'id' => $producto->getIdProducto(),
+                'name' => $producto->getNombre(),
+                'description' => $producto->getDescripcion(),
+                'price' => (float)$producto->getPrecio(),
+                'fecha_publicacion' => $producto->getFechaPublicacion(),
+                'vendedor_id' => $producto->getVendedorId(),
+                'categoria' => $producto->getCategoria(),
+                'stock' => (int)$stock,
+                'image' => $producto->getImagenUrl(),
+                'status' => $stock === 0 ? 'out-of-stock' : ($stock < 10 ? 'low-stock' : 'active')
+            ];
+        }, $productos);
+        
+        echo json_encode($respuesta);
+        exit;
+    }
 
-    case 'DELETE':
-        // Eliminar producto
-        $id_producto = $data['id'] ?? '';
-        $result = eliminarProducto($id_producto);
-        echo json_encode([
-            'success' => (bool)$result,
-            'msg' => $result ? 'Producto eliminado correctamente.' : 'No se pudo eliminar el producto.'
-        ]);
-        break;
+    // Para otros métodos (POST, PUT, DELETE) obtenemos los datos del body
+    $data = json_decode(file_get_contents('php://input'), true);
+    switch ($method) {
+        case 'POST':
+            // Validar datos requeridos
+            $required = ['name', 'description', 'price', 'vendedor_id', 'categoria', 'stock', 'image'];
+            foreach ($required as $field) {
+                if (empty($data[$field])) {
+                    throw new Exception("El campo $field es requerido.");
+                }
+            }
 
-    default:
-        echo json_encode(['success' => false, 'msg' => 'Método no soportado.']);
-        break;
+            $result = agregarProducto(
+                $data['name'],
+                $data['description'],
+                (float)$data['price'],
+                date('Y-m-d'),
+                $data['vendedor_id'],
+                $data['categoria'],
+                (int)$data['stock'],
+                $data['image']
+            );
+            
+            echo json_encode([
+                'success' => (bool)$result,
+                'msg' => $result ? 'Producto creado correctamente.' : 'No se pudo crear el producto.'
+            ]);
+            break;
+
+        case 'PUT':
+            // Validar datos requeridos incluyendo ID
+            if (empty($_GET['id'])) {
+                throw new Exception("Se requiere el ID del producto para actualizar.");
+            }
+
+            $required = ['name', 'description', 'price', 'vendedor_id', 'categoria', 'stock', 'image'];
+            foreach ($required as $field) {
+                if (empty($data[$field])) {
+                    throw new Exception("El campo $field es requerido.");
+                }
+            }
+
+            $result = updateProducto(
+                $_GET['id'],
+                $data['name'],
+                $data['description'],
+                (float)$data['price'],
+                date('Y-m-d'),
+                $data['vendedor_id'],
+                $data['categoria'],
+                (int)$data['stock'],
+                $data['image']
+            );
+            
+            echo json_encode([
+                'success' => (bool)$result,
+                'msg' => $result ? 'Producto actualizado correctamente.' : 'No se pudo actualizar el producto.'
+            ]);
+            break;
+
+        case 'DELETE':
+            if (empty($_GET['id'])) {
+                throw new Exception("Se requiere el ID del producto para eliminar.");
+            }
+
+            $result = eliminarProducto($_GET['id']);
+            echo json_encode([
+                'success' => (bool)$result,
+                'msg' => $result ? 'Producto eliminado correctamente.' : 'No se pudo eliminar el producto.'
+            ]);
+            break;
+
+        default:
+            http_response_code(405);
+            echo json_encode(['success' => false, 'msg' => 'Método no soportado.']);
+            break;
+    }
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode([
+        'success' => false,
+        'msg' => $e->getMessage()
+    ]);
 }

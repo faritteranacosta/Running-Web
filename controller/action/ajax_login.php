@@ -24,7 +24,10 @@ if ($usuario != null) {
         $ruta = "vendedor.php";
         $msg = "Puede iniciar sesión satisfactoriamente como administrador";
 
-    }else{
+    }else if($usuario->getRol() == "admin"){
+        $ruta = "panelAdministrador.php";
+        $msg = "Puede iniciar sesión satisfactoriamente como administrador";
+    }else if($usuario->getRol() == "corredor"){
         $ruta = "runner.php";
         $msg = "Puede iniciar sesión satisfactoriamente como corredor";
     }

@@ -139,22 +139,22 @@
             } else {
                 // Categorías por defecto
                 const categorias = [
-                    { id: 'general', nombre: 'General', precio: '500' },
-                    { id: 'estudiante', nombre: 'Estudiante', precio: '400' },
-                    { id: 'vip', nombre: 'VIP', precio: '800' }
+                    { id: '21k', nombre: '21k', precio: '150000' },
+                    { id: '10k', nombre: '10k', precio: '140000' },
+                    { id: '5k', nombre: '5k', precio: '130000' }
                 ];
                 
                 categorias.forEach(cat => {
                     const option = document.createElement('option');
                     option.value = cat.id;
-                    option.textContent = `${cat.nombre} - $${cat.precio} MXN`;
+                    option.textContent = `${cat.nombre} - $${cat.precio} COP`;
                     selectCategoria.appendChild(option);
                 });
             }
             
             // Tallas de playera
             selectTalla.innerHTML = '';
-            const tallas = ['Chica', 'Mediana', 'Grande', 'Extra Grande'];
+            const tallas = ['S', 'M', 'L', 'XL'];
             tallas.forEach(talla => {
                 const option = document.createElement('option');
                 option.value = talla.toLowerCase();
