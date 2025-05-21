@@ -11,10 +11,6 @@ if (!isset($_SESSION['ID_USUARIO'])) {
 require_once(__DIR__ . '/../mdb/mdbProducto.php');
 header('Content-Type: application/json');
 
-// Resto del código...
-require_once(__DIR__ . '/../mdb/mdbProducto.php');
-
-header('Content-Type: application/json');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -24,7 +20,7 @@ try {
         $vendedor_id = $_GET['vendedor_id'] ?? null;
         
         if ($vendedor_id) {
-            $productos = obtenerProductoPorVendedor($vendedor_id);
+            $productos = obtenerProductoPorVendedor(vendedor_id: $vendedor_id);
         } else {
             $productos = listarProductos();
         }
@@ -49,7 +45,6 @@ try {
         exit;
     }
 
-    // Para otros métodos (POST, PUT, DELETE) obtenemos los datos del body
     $data = json_decode(file_get_contents('php://input'), true);
     switch ($method) {
         case 'POST':

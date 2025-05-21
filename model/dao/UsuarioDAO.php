@@ -23,7 +23,7 @@ class UsuarioDAO {
     }
 
     public function agregarUsuario(Usuario $usuario) {
-        // Primero insertar el usuario
+        
         $sqlUsuario = "INSERT INTO usuario (rol, nombre, apellido, correo, contrasena, sexo, fecha_nacimiento, fecha_registro) VALUES (:rol, :nombre, :apellido, :correo, :contrasena, :sexo, :fecha_nacimiento, :fecha_registro)";
         $paramsUsuario = array(
             ':rol' => $usuario->getRol(),
