@@ -121,67 +121,67 @@ function cargarEventos() {
 
 
 // Cargar carreras programadas del usuario
-function cargarCarrerasProgramadas() {
-    fetch("../controller/action/ajax_participaciones.php", {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        credentials: "same-origin"
-    })
-    .then(async (response) => {
-        if (!response.ok) {
-            const error = await response.json().catch(() => null);
-            throw new Error(error?.error || `Error HTTP: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then((data) => {
-        const tbody = document.getElementById("races-table-body");
-        tbody.innerHTML = "";
-        if (!data.success || !Array.isArray(data.participaciones) || data.participaciones.length === 0) {
-            tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
-            return;
-        }
-        data.participaciones.forEach((carrera) => {
-            // Estado de la carrera según la fecha
-            const hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-            const fechaCarrera = new Date(carrera.fecha_evento);
-            fechaCarrera.setHours(0, 0, 0, 0);
-            let estado = "";
-            let claseEstado = "";
-            if (fechaCarrera > hoy) {
-                estado = "Próximo";
-                claseEstado = "status-proximo";
-            } else if (fechaCarrera.getTime() === hoy.getTime()) {
-                estado = "En curso";
-                claseEstado = "status-en-curso";
-            } else {
-                estado = "Finalizado";
-                claseEstado = "status-finalizado";
-            }
-            tbody.innerHTML += `
-                <tr>
-                    <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
-                    <td class='px-6 py-4 whitespace-nowrap'>
-                        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_evento}"'>Ver detalles</button>
-                    </td>
-                </tr>
-            `;
-        });
-    })
-    .catch((error) => {
-        const tbody = document.getElementById("races-table-body");
-        tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
-    });
-}
+// function cargarCarrerasProgramadas() {
+//     fetch("../controller/action/ajax_participaciones.php", {
+//         method: "GET",
+//         headers: { Accept: "application/json" },
+//         credentials: "same-origin"
+//     })
+//     .then(async (response) => {
+//         if (!response.ok) {
+//             const error = await response.json().catch(() => null);
+//             throw new Error(error?.error || `Error HTTP: ${response.status}`);
+//         }
+//         return response.json();
+//     })
+//     .then((data) => {
+//         const tbody = document.getElementById("races-table-body");
+//         tbody.innerHTML = "";
+//         if (!data.success || !Array.isArray(data.participaciones) || data.participaciones.length === 0) {
+//             tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
+//             return;
+//         }
+//         data.participaciones.forEach((carrera) => {
+//             // Estado de la carrera según la fecha
+//             const hoy = new Date();
+//             hoy.setHours(0, 0, 0, 0);
+//             const fechaCarrera = new Date(carrera.fecha_evento);
+//             fechaCarrera.setHours(0, 0, 0, 0);
+//             let estado = "";
+//             let claseEstado = "";
+//             if (fechaCarrera > hoy) {
+//                 estado = "Próximo";
+//                 claseEstado = "status-proximo";
+//             } else if (fechaCarrera.getTime() === hoy.getTime()) {
+//                 estado = "En curso";
+//                 claseEstado = "status-en-curso";
+//             } else {
+//                 estado = "Finalizado";
+//                 claseEstado = "status-finalizado";
+//             }
+//             tbody.innerHTML += `
+//                 <tr>
+//                     <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
+//                     <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
+//                     <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
+//                     <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
+//                     <td class='px-6 py-4 whitespace-nowrap'>
+//                         <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_evento}"'>Ver detalles</button>
+//                     </td>
+//                 </tr>
+//             `;
+//         });
+//     })
+//     .catch((error) => {
+//         const tbody = document.getElementById("races-table-body");
+//         tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
+//     });
+// }
 
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
     cargarEventos();
-    cargarCarrerasProgramadas();
+    //cargarCarrerasProgramadas();
 });
