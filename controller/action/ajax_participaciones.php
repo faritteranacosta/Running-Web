@@ -22,6 +22,7 @@ foreach ($participaciones as $participacion) {
         'fecha_evento' => $evento->getFechaEvento(),
         'hora_evento' => $evento->getHoraEvento(),
         'descripcion_evento' => $evento->getDescripcionEvento(),
+        'evento' => $evento->getIdEvento() // Siempre enviar 'evento' para compatibilidad
     ];
 }
 

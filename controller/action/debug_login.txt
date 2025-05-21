@@ -42,6 +42,62 @@ Usuario Object
 ID: 1
 Usuario Object
 (
+    [id_usuario:Usuario:private] => 1
+    [rol:Usuario:private] => corredor
+    [nombre:Usuario:private] => camilo
+    [apellido:Usuario:private] => perez
+    [correo:Usuario:private] => camilo@mail.com
+    [contrasena:Usuario:private] => hexagon
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 2025-05-19
+)
+
+ID: 1
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 1
+    [rol:Usuario:private] => corredor
+    [nombre:Usuario:private] => camilo
+    [apellido:Usuario:private] => perez
+    [correo:Usuario:private] => camilo@mail.com
+    [contrasena:Usuario:private] => hexagon
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 2025-05-19
+)
+
+ID: 1
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 1
+    [rol:Usuario:private] => corredor
+    [nombre:Usuario:private] => camilo
+    [apellido:Usuario:private] => perez
+    [correo:Usuario:private] => camilo@mail.com
+    [contrasena:Usuario:private] => hexagon
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 2025-05-19
+)
+
+ID: 1
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 1
+    [rol:Usuario:private] => corredor
+    [nombre:Usuario:private] => camilo
+    [apellido:Usuario:private] => perez
+    [correo:Usuario:private] => camilo@mail.com
+    [contrasena:Usuario:private] => hexagon
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 2025-05-19
+)
+
+ID: 1
+Usuario Object
+(
     [id_usuario:Usuario:private] => 18
     [rol:Usuario:private] => vendedor
     [nombre:Usuario:private] => camilo
