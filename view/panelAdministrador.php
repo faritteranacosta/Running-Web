@@ -159,7 +159,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
         <!-- Cerrar Sesión -->
         <div class="p-4 border-t">
-            <a href="logout.html" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
+            <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="nav-text ml-3">Cerrar Sesión</span>
             </a>
