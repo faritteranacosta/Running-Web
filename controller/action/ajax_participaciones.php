@@ -1,5 +1,4 @@
 <?php
-<?php
 // ajax_participaciones.php: Devuelve las carreras/eventos en los que el usuario autenticado está inscrito
 session_start();
 header('Content-Type: application/json');
@@ -17,19 +16,13 @@ $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
 $result = [];
 foreach ($participaciones as $participacion) {
     $evento = $participacion->getEvento();
-    // Intentar obtener el id_carrera desde el evento, si existe el método getIdCarrera
-    $id_carrera = null;
-    if (method_exists($evento, 'getIdCarrera')) {
-        $id_carrera = $evento->getIdCarrera();
-    }
     $result[] = [
-        'id_carrera' => $id_carrera,
         'id_evento' => $evento->getIdEvento(),
         'nombre_evento' => $evento->getNombreEvento(),
         'fecha_evento' => $evento->getFechaEvento(),
         'hora_evento' => $evento->getHoraEvento(),
         'descripcion_evento' => $evento->getDescripcionEvento(),
-        'evento' => $evento->getIdEvento()
+        'evento' => $evento->getIdEvento() // Siempre enviar 'evento' para compatibilidad
     ];
 }
 
