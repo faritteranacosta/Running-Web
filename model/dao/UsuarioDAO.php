@@ -17,7 +17,9 @@ class UsuarioDAO {
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
         if (count($result) > 0) {
             $row = $result[0];
-            return new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $usuario = new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $usuario->setIdUsuario($row['id_usuario']); // Asegura que el ID se asigne
+            return $usuario;
         }
         return null;
     }

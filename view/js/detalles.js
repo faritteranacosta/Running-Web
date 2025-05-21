@@ -1,4 +1,4 @@
-// Toggle Mobile Menu
+ // Toggle Mobile Menu
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
@@ -37,12 +37,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             const params = new URLSearchParams(window.location.search);
             const idCarrera = params.get('id');
-            let idEvento = params.get('evento');
-
-            // Si no hay idEvento en la URL, lo obtendremos después al cargar la carrera
+            const idEvento = params.get('evento');
+            
             if (idCarrera) {
                 cargarDetallesCarrera(idCarrera);
             } else {
+                // Manejar caso cuando no hay ID
                 document.getElementById('titulo').textContent = 'Carrera no encontrada';
             }
         });
@@ -51,6 +51,7 @@
             try {
                 const response = await fetch(`../controller/action/ajax_carreras.php?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`);
                 const carrera = await response.json();
+                
                 if (!carrera) {
                     throw new Error('No se encontró la carrera');
                 }
@@ -106,43 +107,11 @@
                     patrocinadoresContainer.innerHTML = '<p>No hay patrocinadores registrados</p>';
                 }
                 
-                // Guardar el id del evento globalmente para inscripción y para uso en la URL
-                window.idEvento = carrera.id_evento || carrera.evento || carrera.evento_id || (carrera.evento && carrera.evento.id) || null;
-
-                // Si el id_evento no estaba en la URL, lo agregamos ahora
-                if (window.idEvento) {
-                    const params = new URLSearchParams(window.location.search);
-                    params.set('id', idCarrera);
-                    params.set('evento', window.idEvento);
-                    const newUrl = `${window.location.pathname}?${params.toString()}`;
-                    window.history.replaceState({}, '', newUrl);
-                }
-
-                // Configurar botón de inscripción para usar SIEMPRE el idEvento correcto
+                // Configurar botón de inscripción
                 const btnInscribirse = document.getElementById('btn-inscribirse');
-                
-                // Validar si ya existe la participación antes de habilitar el botón
-                let yaInscrito = false;
-                try {
-                    const checkResponse = await fetch(`../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(window.idEvento)}`);
-                    const checkData = await checkResponse.json();
-                    yaInscrito = checkData && checkData.exists;
-                } catch (e) {
-                    yaInscrito = false; // Si hay error, permitir inscripción
-                }
-
-                if (yaInscrito) {
-                    btnInscribirse.disabled = true;
-                    btnInscribirse.textContent = 'Ya estás inscrito';
-                    btnInscribirse.className = 'w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
-                } else {
-                    btnInscribirse.disabled = false;
-                    btnInscribirse.textContent = 'Confirmar inscripción';
-                    btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
-                    btnInscribirse.addEventListener('click', function() {
-                        registrarParticipacion(window.idEvento);
-                    });
-                }
+                btnInscribirse.addEventListener('click', function() {
+                    registrarParticipacion(idEvento);
+                });
                 
                 // Cargar categorías y tallas (simulado)
                 cargarOpcionesInscripcion(carrera);
