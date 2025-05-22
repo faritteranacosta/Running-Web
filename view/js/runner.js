@@ -166,7 +166,7 @@ function cargarCarrerasProgramadas() {
                     <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
                     <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
                     <td class='px-6 py-4 whitespace-nowrap'>
-                        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_evento}"'>Ver detalles</button>
+                        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
                     </td>
                 </tr>
             `;

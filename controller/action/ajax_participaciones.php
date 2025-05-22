@@ -16,13 +16,14 @@ $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
 $result = [];
 foreach ($participaciones as $participacion) {
     $evento = $participacion->getEvento();
+    $id_carrera = property_exists($participacion, 'id_carrera') ? $participacion->id_carrera : null;
     $result[] = [
+        'id_carrera' => $id_carrera,
         'id_evento' => $evento->getIdEvento(),
         'nombre_evento' => $evento->getNombreEvento(),
         'fecha_evento' => $evento->getFechaEvento(),
         'hora_evento' => $evento->getHoraEvento(),
-        'descripcion_evento' => $evento->getDescripcionEvento(),
-        'evento' => $evento->getIdEvento() 
+        'descripcion_evento' => $evento->getDescripcionEvento()
     ];
 }
 
