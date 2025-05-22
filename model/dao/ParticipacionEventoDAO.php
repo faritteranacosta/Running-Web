@@ -17,28 +17,26 @@ class ParticipacionEventoDAO {
 }
 
     public function obtenerParticipacionesPorUsuario($id_usuario) {
-        $sql = "SELECT p.*, e.nombre_evento, e.fecha_evento, e.hora_evento, e.descripcion_evento
-                FROM participacion_evento p
-                JOIN evento e ON p.id_evento = e.id_evento
-                WHERE p.id_usuario = ?";
-        $params = array($id_usuario);
-        $result = $this->dataSource->executeQuery($sql, $params);
-        $participaciones = array();
-        foreach ($result as $row) {
-            $evento = new Evento();
-            $evento->setIdEvento($row['id_evento']);
-            $evento->setNombreEvento($row['nombre_evento']);
-            $evento->setFechaEvento($row['fecha_evento']);
-            $evento->setHoraEvento($row['hora_evento']);
-            $evento->setDescripcionEvento($row['descripcion_evento']);
-            $participacion = new ParticipacionEvento();
-            $participacion->setIdParticipacion($row['id_participacion']);
-            $participacion->setUsuario(new Usuario($id_usuario));
-            $participacion->setEvento($evento);
-            $participaciones[] = $participacion;
-        }
-        return $participaciones;
+    $sql = "SELECT e.id_evento, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.hora AS hora_evento, e.descripcion AS descripcion_evento
+            FROM participacion_evento p
+            JOIN evento e ON p.evento_id = e.id_evento
+            WHERE p.usuario_id = ?";
+    $params = array($id_usuario);
+    $result = $this->dataSource->ejecutarConsulta($sql, $params);
+    $participaciones = array();
+    foreach ($result as $row) {
+        $evento = new Evento();
+        $evento->setIdEvento($row['id_evento']);
+        $evento->setNombreEvento($row['nombre_evento']);
+        $evento->setFechaEvento($row['fecha_evento']);
+        $evento->setHoraEvento($row['hora_evento']);
+        $evento->setDescripcionEvento($row['descripcion_evento']);
+        // Solo usa el constructor de ParticipacionEvento
+        $participacion = new ParticipacionEvento(new Usuario($id_usuario), $evento);
+        $participaciones[] = $participacion;
     }
+    return $participaciones;
+}
 
     public function eliminarParticipacion($id_usuario, $id_evento) {
         $sql = "DELETE FROM participacion_evento WHERE usuario_id = ? AND evento_id = ?";
