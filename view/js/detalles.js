@@ -39,7 +39,7 @@
             const idCarrera = params.get('id');
             let idEvento = params.get('evento');
 
-            // Si no hay idEvento en la URL, lo obtendremos después al cargar la carrera
+
             if (idCarrera) {
                 cargarDetallesCarrera(idCarrera);
             } else {
@@ -106,10 +106,10 @@
                     patrocinadoresContainer.innerHTML = '<p>No hay patrocinadores registrados</p>';
                 }
 
-                // Guardar el id del evento globalmente para inscripción y para uso en la URL
+                // Guardar el id del evento en una variable global
                 window.idEvento = carrera.id_evento || carrera.evento || carrera.evento_id || (carrera.evento && carrera.evento.id) || null;
 
-                // Si el id_evento no estaba en la URL, lo agregamos ahora
+                
                 if (window.idEvento) {
                     const params = new URLSearchParams(window.location.search);
                     params.set('id', idCarrera);
@@ -118,10 +118,10 @@
                     window.history.replaceState({}, '', newUrl);
                 }
 
-                // Configurar botón de inscripción para usar SIEMPRE el idEvento correcto
+                
                 const btnInscribirse = document.getElementById('btn-inscribirse');
                 btnInscribirse.addEventListener('click', function() {
-                    // Usar window.idEvento, que siempre estará actualizado
+                
                     registrarParticipacion(window.idEvento);
                 });
                 
@@ -132,7 +132,7 @@
                     const checkData = await checkResponse.json();
                     yaInscrito = checkData && checkData.exists;
                 } catch (e) {
-                    yaInscrito = false; // Si hay error, permitir inscripción
+                    yaInscrito = false; 
                 }
 
                 if (yaInscrito) {
@@ -148,7 +148,7 @@
                     });
                 }
 
-                // Cargar categorías y tallas (simulado)
+                
                 cargarOpcionesInscripcion(carrera);
 
             } catch (error) {
@@ -232,8 +232,8 @@
                     throw new Error(data.message || 'Error al registrar participación');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert(error.message);
+                //console.error('Error:', error);
+                //alert(error.message);
                 btnInscribirse.disabled = false;
                 btnInscribirse.innerHTML = '<i class="fas fa-running mr-2"></i> Confirmar inscripción';
             }
