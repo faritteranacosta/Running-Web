@@ -177,18 +177,18 @@ function cargarCarrerasProgramadas() {
           estado = "Finalizado";
           claseEstado = "status-finalizado";
         }
-        tbody.innerHTML += `s
-                <tr>
-    <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
-    <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
-    <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
-    <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
-    <td class='px-6 py-4 whitespace-nowrap'>
-        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
-        <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${carrera.id_evento})'>Eliminar</button>
-    </td>
-</tr>
-            `;
+  tbody.innerHTML += `
+    <tr>
+      <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
+      <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
+      <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
+      <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
+      <td class='px-6 py-4 whitespace-nowrap'>
+          <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
+          <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${carrera.id_evento})'>Eliminar</button>
+      </td>
+    </tr>
+`;
       });
     })
     .catch((error) => {
