@@ -10,6 +10,9 @@ CREATE TABLE Usuario (
     fecha_registro DATE
 );
 
+ALTER TABLE usuario ADD COLUMN token_recuperacion VARCHAR(255);
+ALTER TABLE usuario ADD COLUMN token_expiracion DATETIME;
+
 CREATE TABLE Vendedor (
     id_vendedor INT PRIMARY KEY AUTO_INCREMENT,
     nombre_tienda VARCHAR(100) NOT NULL,

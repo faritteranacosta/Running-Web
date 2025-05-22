@@ -65,3 +65,24 @@ function eliminarUsuario($id_usuario) {
     return $usuarioDAO->eliminarUsuario($id_usuario);
 }
 
+function buscarUsuarioPorCorreo($correo) {
+    $usuarioDAO = new UsuarioDAO();
+    return $usuarioDAO->obtenerUsuarioPorCorreo($correo);
+}
+
+function guardarToken($correo, $token, $expira) {
+    $usuarioDAO = new UsuarioDAO();
+    return $usuarioDAO->guardarToken($correo, $token, $expira);
+}
+
+function verificarToken($token) {
+    $usuarioDAO = new UsuarioDAO();
+    return $usuarioDAO->buscarPorToken($token);
+}
+
+function actualizarContrasena($id, $nueva_contrasena) {
+    $usuarioDAO = new UsuarioDAO();
+    return $usuarioDAO->actualizarContrasena($id, $nueva_contrasena);
+}
+
+
