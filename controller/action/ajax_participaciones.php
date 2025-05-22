@@ -17,16 +17,16 @@ $result = [];
 foreach ($participaciones as $participacion) {
     $evento = $participacion->getEvento();
     $id_carrera = property_exists($participacion, 'id_carrera') ? $participacion->id_carrera : null;
+    $distancia = property_exists($participacion, 'distancia') ? $participacion->distancia : null;
     $result[] = [
-        'id_carrera' => $id_carrera,
         'id_evento' => $evento->getIdEvento(),
         'nombre_evento' => $evento->getNombreEvento(),
         'fecha_evento' => $evento->getFechaEvento(),
         'hora_evento' => $evento->getHoraEvento(),
-        'descripcion_evento' => $evento->getDescripcionEvento()
+        'descripcion_evento' => $evento->getDescripcionEvento(),
+        'id_carrera' => $id_carrera,
+        'distancia' => $distancia
     ];
 }
-
-
 
 echo json_encode(['success' => true, 'participaciones' => $result]);

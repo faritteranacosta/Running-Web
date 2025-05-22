@@ -16,8 +16,8 @@ class ParticipacionEventoDAO {
     return $this->dataSource->ejecutarActualizacion($sql, $params);
 }
 
-    public function obtenerParticipacionesPorUsuario($id_usuario) {/// se va a usar solo para las carreras
-    $sql = "SELECT c.id_carrera, e.id_evento, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.hora AS hora_evento, e.descripcion AS descripcion_evento
+    public function obtenerParticipacionesPorUsuario($id_usuario) { // se va a usar solo para las carreras
+    $sql = "SELECT c.id_carrera, c.distancia, e.id_evento, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.hora AS hora_evento, e.descripcion AS descripcion_evento
             FROM participacion_evento p
             JOIN evento e ON p.evento_id = e.id_evento
             JOIN carrera c ON c.id_evento = e.id_evento
@@ -33,12 +33,13 @@ class ParticipacionEventoDAO {
         $evento->setHoraEvento($row['hora_evento']);
         $evento->setDescripcionEvento($row['descripcion_evento']);
         
-    $participacion = new ParticipacionEvento(new Usuario($id_usuario), $evento);
+        $participacion = new ParticipacionEvento(new Usuario($id_usuario), $evento);
 
-    // Guarda el id_carrera en el objeto ParticipacionEvento para que esté disponible en el backend AJAX
-    $participacion->id_carrera = $row['id_carrera'];
+        // Guarda el id_carrera y la distancia en el objeto ParticipacionEvento para que estén disponibles en el backend AJAX
+        $participacion->id_carrera = $row['id_carrera'];
+        $participacion->distancia = $row['distancia'];
 
-    $participaciones[] = $participacion;
+        $participaciones[] = $participacion;
     }
     return $participaciones;
 }

@@ -120,22 +120,57 @@ function cargarEventos() {
 
 
 function eliminarParticipacion(idEvento) {
-    if (!confirm("¿Estás seguro de que deseas eliminar tu participación en este evento?")) return;
-    fetch("../controller/action/ajax_eliminar_participacion.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `id_evento=${encodeURIComponent(idEvento)}`
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            cargarCarrerasProgramadas();
-        } else {
-            alert("No se pudo eliminar la participación: " + (data.error || ""));
+    Swal.fire({
+        title: '¿Eliminar participación?',
+        text: '¿Estás seguro de que deseas eliminar tu participación en este evento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch("../controller/action/ajax_eliminar_participacion.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `id_evento=${encodeURIComponent(idEvento)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        text: 'Tu participación fue eliminada correctamente',
+                        confirmButtonColor: '#28a745',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            cargarCarrerasProgramadas(); // Recarga solo la tabla
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.error || 'No se pudo eliminar la participación',
+                        confirmButtonColor: '#dc3545'
+                    });
+                }
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor',
+                    confirmButtonColor: '#dc3545'
+                });
+            });
         }
-    })
-    .catch(() => alert("Error al eliminar la participación."));
+    });
 }
+
 
 
 // Cargar carreras programadas del usuario
@@ -181,7 +216,7 @@ function cargarCarrerasProgramadas() {
     <tr>
       <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
       <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
-      <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
+      <td class='px-6 py-4 whitespace-nowrap'>${carrera.distancia || '-'}</td>
       <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
       <td class='px-6 py-4 whitespace-nowrap'>
           <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
