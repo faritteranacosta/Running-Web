@@ -27,4 +27,6 @@ foreach ($participaciones as $participacion) {
     ];
 }
 
+
+
 echo json_encode(['success' => true, 'participaciones' => $result]);

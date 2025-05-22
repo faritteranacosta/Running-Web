@@ -1,6 +1,6 @@
-document.getElementById('toggle-sidebar').addEventListener('click', function() {
-    document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
-    document.querySelector('.main-content').classList.toggle('ml-20');
+document.getElementById('toggle-sidebar').addEventListener('click', function () {
+  document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
+  document.querySelector('.main-content').classList.toggle('ml-20');
 });
 
 function cargarEventos() {
@@ -26,7 +26,7 @@ function cargarEventos() {
     .then((eventos) => {
       const contenedor = document.getElementById("events-container");
       contenedor.innerHTML = "";
-      
+
       if (!eventos || !Array.isArray(eventos)) {
         contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos</p>";
         return;
@@ -102,7 +102,7 @@ function cargarEventos() {
         `;
 
         tarjeta.addEventListener("click", () => {
-            
+
         });
 
         contenedor.appendChild(tarjeta);
@@ -116,65 +116,84 @@ function cargarEventos() {
         confirmButtonText: "Entendido",
       });
     });
-}   
+}
 
+
+function eliminarParticipacion(idEvento) {
+    if (!confirm("¿Estás seguro de que deseas eliminar tu participación en este evento?")) return;
+    fetch("../controller/action/ajax_eliminar_participacion.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `id_evento=${encodeURIComponent(idEvento)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            cargarCarrerasProgramadas();
+        } else {
+            alert("No se pudo eliminar la participación: " + (data.error || ""));
+        }
+    })
+    .catch(() => alert("Error al eliminar la participación."));
+}
 
 
 // Cargar carreras programadas del usuario
 function cargarCarrerasProgramadas() {
-    fetch("../controller/action/ajax_participaciones.php", {
-        method: "GET",
-        headers: { Accept: "application/json" },
-        credentials: "same-origin"
-    })
+  fetch("../controller/action/ajax_participaciones.php", {//// 
+    method: "GET",
+    headers: { Accept: "application/json" },
+    credentials: "same-origin"
+  })
     .then(async (response) => {
-        if (!response.ok) {
-            const error = await response.json().catch(() => null);
-            throw new Error(error?.error || `Error HTTP: ${response.status}`);
-        }
-        return response.json();
+      if (!response.ok) {
+        const error = await response.json().catch(() => null);
+        throw new Error(error?.error || `Error HTTP: ${response.status}`);
+      }
+      return response.json();
     })
     .then((data) => {
-        const tbody = document.getElementById("races-table-body");
-        tbody.innerHTML = "";
-        if (!data.success || !Array.isArray(data.participaciones) || data.participaciones.length === 0) {
-            tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
-            return;
+      const tbody = document.getElementById("races-table-body");
+      tbody.innerHTML = "";
+      if (!data.success || !Array.isArray(data.participaciones) || data.participaciones.length === 0) {
+        tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
+        return;
+      }
+      data.participaciones.forEach((carrera) => {
+        // Estado de la carrera según la fecha
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
+        const fechaCarrera = new Date(carrera.fecha_evento);
+        fechaCarrera.setHours(0, 0, 0, 0);
+        let estado = "";
+        let claseEstado = "";
+        if (fechaCarrera > hoy) {
+          estado = "Próximo";
+          claseEstado = "status-proximo";
+        } else if (fechaCarrera.getTime() === hoy.getTime()) {
+          estado = "En curso";
+          claseEstado = "status-en-curso";
+        } else {
+          estado = "Finalizado";
+          claseEstado = "status-finalizado";
         }
-        data.participaciones.forEach((carrera) => {
-            // Estado de la carrera según la fecha
-            const hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-            const fechaCarrera = new Date(carrera.fecha_evento);
-            fechaCarrera.setHours(0, 0, 0, 0);
-            let estado = "";
-            let claseEstado = "";
-            if (fechaCarrera > hoy) {
-                estado = "Próximo";
-                claseEstado = "status-proximo";
-            } else if (fechaCarrera.getTime() === hoy.getTime()) {
-                estado = "En curso";
-                claseEstado = "status-en-curso";
-            } else {
-                estado = "Finalizado";
-                claseEstado = "status-finalizado";
-            }
-            tbody.innerHTML += `
+        tbody.innerHTML += `s
                 <tr>
-                    <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
-                    <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
-                    <td class='px-6 py-4 whitespace-nowrap'>
-                        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
-                    </td>
-                </tr>
+    <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
+    <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
+    <td class='px-6 py-4 whitespace-nowrap'>${carrera.descripcion_evento || '-'}</td>
+    <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
+    <td class='px-6 py-4 whitespace-nowrap'>
+        <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
+        <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${carrera.id_evento})'>Eliminar</button>
+    </td>
+</tr>
             `;
-        });
+      });
     })
     .catch((error) => {
-        const tbody = document.getElementById("races-table-body");
-        tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
+      const tbody = document.getElementById("races-table-body");
+      tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
     });
 }
 
@@ -182,6 +201,6 @@ function cargarCarrerasProgramadas() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    cargarEventos();
-    cargarCarrerasProgramadas();
+  cargarEventos();
+  cargarCarrerasProgramadas();
 });

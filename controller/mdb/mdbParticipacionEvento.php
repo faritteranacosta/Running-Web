@@ -16,7 +16,7 @@ function existeParticipacionMDB($id_usuario, $id_evento) {
     return $dao->existeParticipacion($id_usuario, $id_evento);
 }
 
-function eliminarParticipacionMDB($id_participacion) {
+function eliminarParticipacionMDB($id_usuario, $id_evento) {
     $dao = new ParticipacionEventoDAO();
-    return $dao->eliminarParticipacion($id_participacion);
+    return $dao->eliminarParticipacion($id_usuario, $id_evento);
 }
