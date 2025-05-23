@@ -7,7 +7,7 @@ class Ubicacion{
     private $direccion;
     private $descripcion;
     private $coordenadas;
-    private $ciudad;
+    private $ciudad; //instancia de Ciudad
 
     public function __construct($direccion = null, $descripcion = null, $coordenadas = null, Ciudad $ciudad = null) {
         $this->direccion = $direccion;
@@ -16,9 +16,6 @@ class Ubicacion{
         $this->ciudad = $ciudad;
     }
 
-    public function setIdUbicacion($id_ubicacion) {
-        $this->id_ubicacion = $id_ubicacion;
-    }
     public function getIdUbicacion() {
         return $this->id_ubicacion;
     }

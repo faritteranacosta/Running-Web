@@ -59,10 +59,9 @@ async function cargarDetallesCarrera(idCarrera) {
         document.getElementById('titulo').textContent = carrera.nombre || 'Carrera sin nombre';
         document.getElementById('descripcion-carrera').textContent = carrera.descripcion || 'No hay descripción disponible';
 
-        // Fecha y hora
+        // Fecha y estado
         const fechaFormateada = formatearFecha(carrera.fecha);
         document.getElementById('fecha-carrera').textContent = fechaFormateada;
-        document.getElementById('hora-carrera').textContent = carrera.hora || '--:--';
 
         const estado = determinarEstado(carrera.fecha);
         const estadoElement = document.getElementById('estado-carrera');
@@ -70,7 +69,7 @@ async function cargarDetallesCarrera(idCarrera) {
         estadoElement.className = `status ${estado.clase}`;
 
         // Ubicación
-        document.getElementById('ubicacion-carrera').textContent = (carrera.direccion ? carrera.direccion + ', ' : '') + (carrera.ciudad || 'Ubicación no disponible');
+        document.getElementById('ubicacion-carrera').textContent = carrera.ubicacion || 'Ubicación no disponible';
 
         // Imagen
         if (carrera.imagen) {

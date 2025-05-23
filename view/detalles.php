@@ -146,18 +146,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                             <h1 id="titulo" class="text-3xl font-bold text-gray-800">Cargando...</h1>
                             <span id="estado-carrera" class="status status-proximo">Próximo</span>
                         </div>
-                        <div class="flex items-center text-gray-500 mb-4 space-x-4">
-                            <div class="flex items-center space-x-2">
-                                <i class="fas fa-calendar-day"></i>
-                                <span id="fecha-carrera">Fecha no disponible</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <i class="fas fa-clock"></i>
-                                <span id="hora-carrera">Hora no disponible</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center text-gray-500 mb-4 space-x-2">
-                            <i class="fas fa-map-marker-alt"></i>
+                        <div class="flex items-center text-gray-500 mb-4">
+                            <i class="fas fa-calendar-day mr-2"></i>
+                            <span id="fecha-carrera" class="mr-4">Fecha no disponible</span>
+                            <i class="fas fa-map-marker-alt mr-2"></i>
                             <span id="ubicacion-carrera">Ubicación no disponible</span>
                         </div>
                         <p id="descripcion-carrera" class="text-gray-700 mb-6">

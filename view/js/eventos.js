@@ -84,13 +84,9 @@ function cargarEventos() {
                 <i class="fas fa-calendar-day mr-2"></i>
                 <span>${fechaFormateada}</span>
             </div>
-            <div class="flex items-center text-gray-500 mb-2">
-                <i class="fas fa-map-marker-alt mr-2"></i>
-                <span>${evento.direccion || "Dirección no especificada"}</span>
-            </div>
             <div class="flex items-center text-gray-500">
-                <i class="fas fa-city mr-2"></i>
-                <span>${evento.ciudad || "Ciudad no especificada"}</span>
+                <i class="fas fa-map-marker-alt mr-2"></i>
+                <span>${evento.ubicacion || "Ubicación no especificada"}</span>
             </div>
         </div>
     `;
