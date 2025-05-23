@@ -60,6 +60,14 @@ function obtenerCarreraPorIdMDB($idCarrera) {
     } elseif (is_array($ubicacion) && isset($ubicacion['descripcion'])) {
         $descripcion = $ubicacion['descripcion'];
     }
+    $direccion = null;
+    $ciudad = null;
+    if ($ubicacion && method_exists($ubicacion, 'getDireccion')) {
+        $direccion = $ubicacion->getDireccion();
+        if (method_exists($ubicacion, 'getCiudad') && $ubicacion->getCiudad()) {
+            $ciudad = $ubicacion->getCiudad()->getNombre();
+        }
+    }
     return [
         'id' => $carrera->getIdCarrera(),
         'evento' => $carrera->getEvento()->getIdEvento(),
@@ -69,7 +77,9 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         'hora' => $hora,
         'distancia' => $carrera->getDistancia(),
         'categoria' => $categoriaNombre,
-        'patrocinador' => $patrocinadorNombre
+        'patrocinador' => $patrocinadorNombre,
+        'direccion' => $direccion,
+        'ciudad' => $ciudad
     ];
 }
 

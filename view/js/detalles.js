@@ -69,7 +69,7 @@ async function cargarDetallesCarrera(idCarrera) {
         estadoElement.className = `status ${estado.clase}`;
 
         // Ubicación
-        document.getElementById('ubicacion-carrera').textContent = carrera.ubicacion || 'Ubicación no disponible';
+        document.getElementById('ubicacion-carrera').textContent = (carrera.direccion ? carrera.direccion + ', ' : '') + (carrera.ciudad || 'Ubicación no disponible');
 
         // Imagen
         if (carrera.imagen) {

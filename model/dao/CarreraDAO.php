@@ -22,52 +22,65 @@ class CarreraDAO {
     }
 
 public function obtenerCarreraPorId($id_carrera) {
-    $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
-                   e.descripcion AS evento_descripcion, p.nombre AS patrocinador_nombre, cat.nombre AS nombre_categoria,
-                   r.descripcion AS descripcion_ruta, r.url_mapa
-            FROM carrera c
-            LEFT JOIN evento e ON c.id_evento = e.id_evento
-            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador 
-            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
-            LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
-            WHERE c.id_carrera = ?";
-    $params = [$id_carrera];
-    $result = $this->dataSource->ejecutarConsulta($sql, $params);
-    if (count($result) > 0) {
-        $row = $result[0];
-        $evento = new Evento();
-        $evento->setIdEvento($row['id_evento']);
-        $evento->setNombreEvento($row['evento_nombre']);
-        $evento->setFechaEvento($row['evento_fecha']);
-        $evento->setDescripcionEvento($row['evento_descripcion']);
-        $evento->setHoraEvento($row['hora_evento']);
-        // Crear instancia de Patrocinador y asignar el nombre
-        $patrocinador = new Patrocinador();
-        $patrocinador->setNombre($row['patrocinador_nombre']);
-        $evento->setPatrocinador($patrocinador); // Asignar el patrocinador al evento
-        $tipoCarrera = new TipoCarrera();
-        $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
-        $categoria = new Categoria();
-        $categoria->setIdCategoria($row['id_categoria']);
-        $categoria->setNombre($row['nombre_categoria']);
-        $ruta = new Ruta();
-        $ruta->setIdRuta($row['id_ruta']);
-        $ruta->setDescripcionRuta($row['descripcion_ruta']);
-        $ruta->setUrlMapa($row['url_mapa']);
-        $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
-        if (method_exists($carrera, 'setIdCarrera')) {
-            $carrera->setIdCarrera($row['id_carrera']);
+        $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
+                       e.descripcion AS evento_descripcion, p.nombre AS patrocinador_nombre, cat.nombre AS nombre_categoria,
+                       r.descripcion AS descripcion_ruta, r.url_mapa,
+                       u.direccion, u.descripcion AS ubicacion_descripcion, u.coordenadas, u.id_ubicacion,
+                       ciu.nombre AS ciudad_nombre, ciu.id_ciudad
+                FROM carrera c
+                LEFT JOIN evento e ON c.id_evento = e.id_evento
+                LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador 
+                LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+                LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
+                LEFT JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
+                LEFT JOIN ciudad ciu ON u.id_ciudad = ciu.id_ciudad
+                WHERE c.id_carrera = ?";
+        $params = [$id_carrera];
+        $result = $this->dataSource->ejecutarConsulta($sql, $params);
+        if (count($result) > 0) {
+            $row = $result[0];
+            $ciudad = new Ciudad($row['ciudad_nombre']);
+            $ciudad->setIdCiudad($row['id_ciudad']);
+            $coordenadas = isset($row['coordenadas']) ? $row['coordenadas'] : null;
+            $ubicacion = new Ubicacion($row['direccion'], $row['ubicacion_descripcion'], $coordenadas, $ciudad);
+            if (isset($row['id_ubicacion'])) {
+                $ubicacion->setIdUbicacion($row['id_ubicacion']);
+            }
+            $evento = new Evento();
+            $evento->setIdEvento($row['id_evento']);
+            $evento->setNombreEvento($row['evento_nombre']);
+            $evento->setFechaEvento($row['evento_fecha']);
+            $evento->setDescripcionEvento($row['evento_descripcion']);
+            $evento->setHoraEvento($row['hora_evento']);
+            $evento->setUbicacion($ubicacion);
+            $patrocinador = new Patrocinador();
+            $patrocinador->setNombre($row['patrocinador_nombre']);
+            $evento->setPatrocinador($patrocinador);
+            $tipoCarrera = new TipoCarrera();
+            $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
+            $categoria = new Categoria();
+            $categoria->setIdCategoria($row['id_categoria']);
+            $categoria->setNombre($row['nombre_categoria']);
+            $ruta = new Ruta();
+            $ruta->setIdRuta($row['id_ruta']);
+            $ruta->setDescripcionRuta($row['descripcion_ruta']);
+            $ruta->setUrlMapa($row['url_mapa']);
+            $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
+            if (method_exists($carrera, 'setIdCarrera')) {
+                $carrera->setIdCarrera($row['id_carrera']);
+            }
+            return $carrera;
         }
-        return $carrera;
+        return null;
     }
-    return null;
-}
 
     public function listarCarreras() {
-        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria
+        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria, u.direccion, ciu.nombre AS ciudad_nombre
             FROM carrera c
             LEFT JOIN evento e ON c.id_evento = e.id_evento
-            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria";
+            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+            LEFT JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
+            LEFT JOIN ciudad ciu ON u.id_ciudad = ciu.id_ciudad";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $carreras = array();
         foreach ($result as $row) {
@@ -77,7 +90,9 @@ public function obtenerCarreraPorId($id_carrera) {
                 'descripcion' => $row['descripcion_evento'],
                 'fecha' => $row['fecha_evento'],
                 'distancia' => $row['distancia'],
-                'categoria' => $row['nombre_categoria']
+                'categoria' => $row['nombre_categoria'],
+                'direccion' => isset($row['direccion']) ? $row['direccion'] : null,
+                'ciudad' => isset($row['ciudad_nombre']) ? $row['ciudad_nombre'] : null
             );
         }
         return $carreras;
@@ -111,16 +126,6 @@ public function obtenerCarreraPorId($id_carrera) {
     }
     return null; // No es una carrera o no existe
 }
-
-
-    //agregar una participacion a un evento
-//     public function agregarParticipacion($id_usuario, $id_evento) {
-//     $sql = "INSERT INTO participacion_evento (usuario_id, evento_id) VALUES (?, ?)";
-//     $params = [$id_usuario, $id_evento];
-//     return $this->dataSource->ejecutarActualizacion($sql, $params);
-// }
-
-
 
 }
 ?>
