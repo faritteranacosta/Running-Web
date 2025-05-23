@@ -25,6 +25,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/administradorUsuarios.js"></script>
     <script src="js/administradorProductos.js"></script>
+    <script src="js/administradorCarreras.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         .sidebar {
@@ -127,7 +128,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('carreras')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('carreras', event)">
                         <i class="fas fa-running text-blue-500"></i>
                         <span class="nav-text ml-3">Carreras</span>
                     </a>
@@ -352,6 +353,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             <div id="usuarios" class="tab-content">
                 <div id="usuarios-table-container" class="flex justify-center mt-8"></div>
             </div>
+
+            <div id="carreras" class="tab-content">
+                <div id="carreras-table-container" class="flex justify-center mt-8"></div>
+            </div>
             
             <!-- ... otras pestañas ... -->
             
@@ -404,6 +409,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             }else if (tabId === 'productos') {
                 if (typeof mostrarProductos === 'function') {
                     mostrarProductos();
+                }
+            }else if (tabId === 'carreras') {
+                if (typeof mostrarCarreras === 'function') {
+                    mostrarCarreras();
                 }
             }
         }

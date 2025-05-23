@@ -77,7 +77,9 @@ function renderizarTablaUsuarios(usuarios, total) {
                 ${rows}
             </tbody>
         </table>
-        ${paginacion}
+        <div class="w-full mt-4">
+            ${paginacion}
+        </div>
     `;
 }
 
