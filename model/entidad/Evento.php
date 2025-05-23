@@ -90,5 +90,15 @@ class Evento {
         return $this->ubicacion;
     }
     
+    public function getidUbicacion() {
+        return $this->ubicacion->getIdUbicacion();
+    }
+    public function getidPatrocinador() {
+        if (is_object($this->patrocinador) && method_exists($this->patrocinador, 'getIdPatrocinador')) {
+            return $this->patrocinador->getIdPatrocinador();
+        }
+        // Si es un string o int, simplemente lo retorna
+        return $this->patrocinador;
+    }
 
-}   
+}
