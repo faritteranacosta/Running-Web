@@ -140,7 +140,6 @@ class UsuarioDAO {
         $usuarios = [];
         foreach ($result as $row) {
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -149,7 +148,7 @@ class UsuarioDAO {
                 $row['sexo'],
                 $row['fecha_nacimiento'],
                 $row['fecha_registro']
-            );
+            );        
             $usuario->setIdUsuario($row['id_usuario']);
             $usuarios[] = $usuario;
         }

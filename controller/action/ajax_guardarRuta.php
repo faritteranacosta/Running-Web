@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__.'/../dao/RutaDAO.php';
+require_once __DIR__.'/../mdb/mdbRuta.php';
 require_once __DIR__.'/../models/Ruta.php';
 
 $response = ['success' => false, 'message' => ''];
@@ -24,21 +24,20 @@ try {
     // Crear modelo
     $ruta = new Ruta();
     $ruta->setUsuarioId($input['usuario_id']);
-    $ruta->setNombre($input['nombre']);
-    $ruta->setPuntos($input['puntos']);
-    $ruta->setDistancia($distancia);
+    $ruta->setNombreRuta($input['nombre']);
+    $ruta->setPuntosRuta($input['puntos']);
+    $ruta->setDistanciaRuta($distancia);
     
-    // Guardar mediante DAO
-    $rutaDAO = new RutaDAO();
-    $rutaGuardada = $rutaDAO->guardar($ruta);
-    
+
+    $rutaGuardada = guardarRuta($ruta);
+       
     if($rutaGuardada) {
         $response['success'] = true;
         $response['message'] = 'Ruta guardada correctamente';
         $response['data'] = [
-            'id' => $rutaGuardada->getId(),
-            'nombre' => $rutaGuardada->getNombre(),
-            'distancia' => $rutaGuardada->getDistancia()
+            'id' => $rutaGuardada->getIdRuta(),
+            'nombre' => $rutaGuardada->getNombreRuta(),
+            'distancia' => $rutaGuardada->getDistanciaRuta()
         ];
     } else {
         throw new Exception('Error al guardar la ruta');

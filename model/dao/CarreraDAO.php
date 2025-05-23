@@ -24,43 +24,61 @@ class CarreraDAO {
 public function obtenerCarreraPorId($id_carrera) {
     $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
                    e.descripcion AS evento_descripcion, p.nombre AS patrocinador_nombre, cat.nombre AS nombre_categoria,
-                   r.descripcion AS descripcion_ruta, r.url_mapa
+                   r.id AS id_ruta, r.nombre AS nombre_ruta, r.puntos, r.distancia AS distancia_ruta,
+                   r.fecha_creacion AS fecha_creacion_ruta
             FROM carrera c
             LEFT JOIN evento e ON c.id_evento = e.id_evento
-            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocidador 
+            LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocinador 
             LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
-            LEFT JOIN ruta r ON c.id_ruta = r.id_ruta
+            LEFT JOIN rutas r ON c.id_ruta = r.id
             WHERE c.id_carrera = ?";
+    
     $params = [$id_carrera];
     $result = $this->dataSource->ejecutarConsulta($sql, $params);
+    
     if (count($result) > 0) {
         $row = $result[0];
+        
+        // Crear instancia de Evento
         $evento = new Evento();
         $evento->setIdEvento($row['id_evento']);
         $evento->setNombreEvento($row['evento_nombre']);
         $evento->setFechaEvento($row['evento_fecha']);
         $evento->setDescripcionEvento($row['evento_descripcion']);
         $evento->setHoraEvento($row['hora_evento']);
-        // Crear instancia de Patrocinador y asignar el nombre
+        
+        // Crear instancia de Patrocinador
         $patrocinador = new Patrocinador();
         $patrocinador->setNombre($row['patrocinador_nombre']);
-        $evento->setPatrocinador($patrocinador); // Asignar el patrocinador al evento
+        $evento->setPatrocinador($patrocinador);
+        
+        // Crear instancia de TipoCarrera
         $tipoCarrera = new TipoCarrera();
         $tipoCarrera->setIdTipoCarrera($row['tipo_carrera_id']);
+        
+        // Crear instancia de Categoria
         $categoria = new Categoria();
         $categoria->setIdCategoria($row['id_categoria']);
         $categoria->setNombre($row['nombre_categoria']);
+        
+        // Crear instancia de Ruta con la nueva estructura
         $ruta = new Ruta();
         $ruta->setIdRuta($row['id_ruta']);
-        $ruta->setNombreRuta($row['nombre']);
-        $ruta->setPuntos(json_decode($row['puntos'], true));
-        $ruta->setUrlMapa($row['url_mapa']);
+        $ruta->setNombreRuta($row['nombre_ruta']);
+        $ruta->setPuntosRuta(json_decode($row['puntos'], true)); // Decodificar el JSON
+        $ruta->setDistanciaRuta($row['distancia_ruta']);
+        $ruta->setFechaCreacionRuta($row['fecha_creacion_ruta']);
+        
+        // Crear instancia de Carrera
         $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
+        
         if (method_exists($carrera, 'setIdCarrera')) {
             $carrera->setIdCarrera($row['id_carrera']);
         }
+        
         return $carrera;
     }
+    
     return null;
 }
 

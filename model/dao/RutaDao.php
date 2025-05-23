@@ -15,15 +15,15 @@ class RutaDAO {
 
         $params = [
             ':usuario_id' => $ruta->getUsuarioId(),
-            ':nombre' => $ruta->getNombre(),
-            ':puntos' => json_encode($ruta->getPuntos()),
-            ':distancia' => $ruta->getDistancia()
+            ':nombre' => $ruta->getNombreRuta(),
+            ':puntos' => json_encode($ruta->getPuntosRuta()),
+            ':distancia' => $ruta->getDistanciaRuta()
         ];
 
         $result = $this->dataSource->ejecutarActualizacion($sql, $params);
         
         if($result > 0) {
-            $ruta->setId($this->dataSource->getLastInsertId());
+            $ruta->setIdRuta($this->dataSource->getLastInsertId());
             return $ruta;
         }
         

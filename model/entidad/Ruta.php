@@ -18,11 +18,11 @@ class Ruta {
     }
 
     // Getters y Setters
-    public function getId() {
+    public function getIdRuta() {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setIdRuta($id) {
         $this->id = $id;
     }
 
@@ -34,35 +34,35 @@ class Ruta {
         $this->usuarioId = $usuarioId;
     }
 
-    public function getNombre() {
+    public function getNombreRuta() {
         return $this->nombre;
     }
 
-    public function setNombre($nombre) {
+    public function setNombreRuta($nombre) {
         $this->nombre = $nombre;
     }
 
-    public function getPuntos() {
+    public function getPuntosRuta() {
         return $this->puntos;
     }
 
-    public function setPuntos($puntos) {
+    public function setPuntosRuta($puntos) {
         $this->puntos = $puntos;
     }
 
-    public function getDistancia() {
+    public function getDistanciaRuta() {
         return $this->distancia;
     }
 
-    public function setDistancia($distancia) {
+    public function setDistanciaRuta($distancia) {
         $this->distancia = $distancia;
     }
 
-    public function getFechaCreacion() {
+    public function getFechaCreacionRuta() {
         return $this->fechaCreacion;
     }
 
-    public function setFechaCreacion($fechaCreacion) {
+    public function setFechaCreacionRuta($fechaCreacion) {
         $this->fechaCreacion = $fechaCreacion;
     }
 }
