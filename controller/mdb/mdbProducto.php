@@ -23,6 +23,15 @@ function obtenerProductoPorVendedor($vendedor_id) {
     return $productoDAO->obtenerProductosPorVendedor($vendedor_id);
 }
 
+function obtenerProductosPaginados($offset, $porPagina) {
+    $productoDAO = new ProductoDAO();
+    return $productoDAO->obtenerProductosPaginados($offset, $porPagina);
+}
+function contarProductos() {
+    $productoDAO = new ProductoDAO();
+    return $productoDAO->contarProductos();
+}
+
 function updateProducto($id_producto, $nombre, $descripcion, $precio, $fecha_publicacion, $vendedor_id, $categoria = null, $stock = null, $imagenUrl = null) {
     $productoDAO = new ProductoDAO();
     $producto = new Producto($nombre, $descripcion, $precio, $fecha_publicacion
