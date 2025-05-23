@@ -20,7 +20,7 @@ function cargarEventos() {
       if (!contentType || !contentType.includes("application/json")) {
         throw new TypeError("La respuesta no es JSON válido");
       }
-
+    
       return response.json();
     })
     .then((eventos) => {
@@ -48,7 +48,7 @@ function cargarEventos() {
         contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos</p>";
         return;
       }
-
+      console.log(eventosProximos);
       // Ordenar eventos por fecha (más cercanos primero)
       eventosProximos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
