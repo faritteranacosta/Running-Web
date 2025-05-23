@@ -23,13 +23,13 @@ class VendedorDAO {
     }
 
     public function obtenerVendedorPorIdUsuario($id_usuario) {
-        $sql = "SELECT * FROM vendedor WHERE id_usuario = :id_usuario";
+        $sql = "SELECT * FROM vendedor WHERE usuario_id = :id_usuario";
         $params = array(':id_usuario' => $id_usuario);
         return $this->dataSource->ejecutarConsulta($sql, $params);
     }
 
     public function eliminarVendedorPorIdUsuario($id_usuario) {
-        $sql = "DELETE FROM vendedor WHERE id_usuario = :id_usuario";
+        $sql = "DELETE FROM vendedor WHERE usuario_id = :id_usuario";
         $params = array(':id_usuario' => $id_usuario);
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }

@@ -60,6 +60,11 @@ class CorredorDAO {
         );
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
+    public function eliminarCorredorPorIdUsuario($id_usuario) {
+        $sql = "DELETE FROM corredor WHERE usuario_id = :id_usuario";
+        $params = array(':id_usuario' => $id_usuario);
+        return $this->dataSource->ejecutarActualizacion($sql, $params);
+    }
 
     // Puedes añadir actualizar y eliminar si lo necesitas
 }

@@ -111,4 +111,36 @@ class ProductoDAO {
         }
         return $productos;
     }
+
+
+    public function obtenerProductosPaginados($offset, $porPagina) {
+        $offset = (int)$offset;
+        $porPagina = (int)$porPagina;
+        // Interpolamos los valores directamente, ya que son enteros y seguros
+        $sql = "SELECT * FROM producto LIMIT $offset, $porPagina";
+        $result = $this->dataSource->ejecutarConsulta($sql);
+        $productos = [];
+        foreach ($result as $row) {
+            $producto = new Producto(
+                $row['id_producto'],
+                $row['nombre'],
+                $row['descripcion'],
+                $row['precio'],
+                $row['categoria'],
+                $row['stock'],
+                $row['vendedor_id']
+            );
+            $producto->setIdProducto($row['id_producto']);
+            $productos[] = $producto;
+        }
+        return $productos;
+    }
+    public function contarProductos() {
+        $sql = "SELECT COUNT(*) as total FROM producto";
+        $result = $this->dataSource->ejecutarConsulta($sql);
+        if (count($result) > 0) {
+            return (int)$result[0]['total'];
+        }
+        return 0;
+    }
 }

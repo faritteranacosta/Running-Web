@@ -96,3 +96,45 @@ Usuario Object
 )
 
 ID: 1
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 72
+    [rol:Usuario:private] => admin
+    [nombre:Usuario:private] => Wilman
+    [apellido:Usuario:private] => Jimenez
+    [correo:Usuario:private] => wiljite@gmail.com
+    [contrasena:Usuario:private] => 1234
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 0000-00-00
+)
+
+ID: 72
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 72
+    [rol:Usuario:private] => admin
+    [nombre:Usuario:private] => Wilman
+    [apellido:Usuario:private] => Jimenez
+    [correo:Usuario:private] => wiljite@gmail.com
+    [contrasena:Usuario:private] => 1234
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 0000-00-00
+)
+
+ID: 72
+Usuario Object
+(
+    [id_usuario:Usuario:private] => 72
+    [rol:Usuario:private] => admin
+    [nombre:Usuario:private] => Wilman
+    [apellido:Usuario:private] => Jimenez
+    [correo:Usuario:private] => wiljite@gmail.com
+    [contrasena:Usuario:private] => 1234
+    [sexo:Usuario:private] => masculino
+    [fecha_nacimiento:Usuario:private] => 0000-00-00
+    [fecha_registro:Usuario:private] => 0000-00-00
+)
+
+ID: 72

@@ -23,6 +23,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     <link rel="shortcut icon" href="assets/img/icon.ico" type="image/x-icon">
     <title>Panel de Administración - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/administradorUsuarios.js"></script>
+    <script src="js/administradorProductos.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         .sidebar {
@@ -131,13 +133,13 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('usuarios')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('usuarios', event)">
                         <i class="fas fa-users text-blue-500"></i>
                         <span class="nav-text ml-3">Usuarios</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('productos')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('productos', event)">
                         <i class="fas fa-boxes text-blue-500"></i>
                         <span class="nav-text ml-3">Productos</span>
                     </a>
@@ -343,12 +345,12 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </div>
 
             <!-- Otras secciones (Carreras, Usuarios, etc.) -->
-            <div id="carreras" class="tab-content">
-                <!-- Contenido de gestión de carreras -->
+            <div id="productos" class="tab-content">
+                <div id="productos-table-container" class="flex justify-center mt-8"></div>
             </div>
             
             <div id="usuarios" class="tab-content">
-                <!-- Contenido de gestión de usuarios -->
+                <div id="usuarios-table-container" class="flex justify-center mt-8"></div>
             </div>
             
             <!-- ... otras pestañas ... -->
@@ -364,7 +366,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         });
 
         // Mostrar/ocultar pestañas
-        function showTab(tabId) {
+        function showTab(tabId, event) {
             // Ocultar todas las pestañas
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -389,7 +391,21 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             document.querySelectorAll('.nav-item a').forEach(item => {
                 item.classList.remove('active-nav');
             });
-            event.currentTarget.classList.add('active-nav');
+            // Solo si event existe (es decir, si viene de un click)
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active-nav');
+            }
+
+            // Llamar a mostrarUsuarios() si la pestaña es usuarios
+            if (tabId === 'usuarios') {
+                if (typeof mostrarUsuarios === 'function') {
+                    mostrarUsuarios();
+                }
+            }else if (tabId === 'productos') {
+                if (typeof mostrarProductos === 'function') {
+                    mostrarProductos();
+                }
+            }
         }
 
         // Mostrar/ocultar formulario de evento
@@ -405,6 +421,9 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         document.addEventListener('DOMContentLoaded', function() {
             showTab('eventos');
         });
+        
+       
+    
     </script>
 </body>
 </html>
