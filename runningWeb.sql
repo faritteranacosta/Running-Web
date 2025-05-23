@@ -28,6 +28,7 @@ CREATE TABLE Producto (
     vendedor_id INT NOT NULL,
     categoria VARCHAR(50) NOT NULL,
     stock INT NOT NULL,
+    imagenUrl varchar(100) NOT NULL,
     FOREIGN KEY (vendedor_id) REFERENCES Vendedor(usuario_id)
 );
 
