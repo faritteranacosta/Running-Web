@@ -53,17 +53,21 @@ function listarUsuarios() {
     return $usuarioDAO->listarUsuarios();
 }
 
-function actualizarUsuario($id_usuario, $rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro) {
+function obtenerUsuariosPaginados($offset, $porPagina) {
     $usuarioDAO = new UsuarioDAO();
-    $usuario = new Usuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro);
-    $usuario->setIdUsuario($id_usuario);
-    return $usuarioDAO->actualizarUsuario($usuario);
+    return $usuarioDAO->obtenerUsuariosPaginados($offset, $porPagina);
 }
 
 function eliminarUsuario($id_usuario) {
     $usuarioDAO = new UsuarioDAO();
     return $usuarioDAO->eliminarUsuario($id_usuario);
 }
+
+function contarUsuarios() {
+    $usuarioDAO = new UsuarioDAO();
+    return $usuarioDAO->contarUsuarios();
+}
+
 
 function buscarUsuarioPorCorreo($correo) {
     $usuarioDAO = new UsuarioDAO();

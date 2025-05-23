@@ -8,8 +8,6 @@ if (!isset($_SESSION['ID_USUARIO'])) {
     exit;
 }
 
-
-
 $id_usuario = $_SESSION['ID_USUARIO'];
 $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
 

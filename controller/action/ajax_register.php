@@ -40,10 +40,10 @@
 
     $user = agregarUsuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null, $nombre_tienda);
     if ($user != null) {
-        $ruta = "./iniciar_sesion.php";
+        $ruta = "./iniciar_sesion.html";
         $message = "User registered successfully";
     } else {
-        $ruta = "./registrarse.php";
+        $ruta = "registrarse.html";
     }
 
     $result = [

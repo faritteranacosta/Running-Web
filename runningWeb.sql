@@ -127,7 +127,7 @@ CREATE TABLE rutas (
     puntos TEXT NOT NULL, -- Almacenará los puntos como JSON
     distancia DECIMAL(10, 2),
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario)
 );
 
 CREATE TABLE Carrera (
