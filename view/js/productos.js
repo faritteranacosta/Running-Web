@@ -1,4 +1,3 @@
-// Variables globales
 let products = [];
 let currentPage = 1;
 const itemsPerPage = 5;
@@ -71,6 +70,7 @@ function saveProduct() {
     if (!validateProduct(productData)) return;
 
     const isEdit = productForm.dataset.editId;
+  
     const url = isEdit 
         ? `../controller/action/ajax_productos.php?id=${productForm.dataset.editId}`
         : '../controller/action/ajax_productos.php';
@@ -83,8 +83,7 @@ function saveProduct() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(productData)
     })
-    .then(handleResponse)
-    .then(data => {
+    .then(handleResponse).then(data => {
         showSuccess(isEdit ? 'Producto actualizado' : 'Producto creado');
         loadProducts();
         clearForm();
@@ -92,6 +91,7 @@ function saveProduct() {
     })
     .catch(handleError)
     .finally(() => showLoading(false, saveProductBtn));
+    
 }
 
 // Validar producto
@@ -247,16 +247,22 @@ function renderProducts() {
 }
 
 // Paginación
+// Paginación - Versión corregida
 function renderPagination() {
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const paginationControls = document.getElementById('pagination-controls');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
+    
+    // Limpiar todos los controles existentes
+    paginationControls.innerHTML = '';
 
-    // Limpiar controles existentes (excepto botones prev/next)
-    while (paginationControls.children.length > 2) {
-        paginationControls.removeChild(paginationControls.lastChild);
-    }
+    // Crear botón Anterior
+    const prevBtn = document.createElement('button');
+    prevBtn.id = 'prev-btn';
+    prevBtn.className = 'px-3 py-1 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100';
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevBtn.onclick = previousPage;
+    prevBtn.disabled = currentPage === 1;
+    paginationControls.appendChild(prevBtn);
 
     // Agregar números de página
     for (let i = 1; i <= totalPages; i++) {
@@ -266,12 +272,17 @@ function renderPagination() {
             : 'border border-gray-300 text-gray-600 hover:bg-gray-100'}`;
         pageBtn.textContent = i;
         pageBtn.onclick = () => goToPage(i);
-        paginationControls.insertBefore(pageBtn, nextBtn);
+        paginationControls.appendChild(pageBtn);
     }
 
-    // Actualizar estado de botones
-    prevBtn.disabled = currentPage === 1;
+    // Crear botón Siguiente
+    const nextBtn = document.createElement('button');
+    nextBtn.id = 'next-btn';
+    nextBtn.className = 'px-3 py-1 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100';
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextBtn.onclick = nextPage;
     nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+    paginationControls.appendChild(nextBtn);
 }
 
 function goToPage(page) {
@@ -322,15 +333,14 @@ function handleError(error) {
 }
 
 function showLoading(show, element = null) {
-    if (element) {
-        element.disabled = show;
-        if (show) {
-            const originalText = element.innerHTML;
-            element.dataset.originalText = originalText;
-            element.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
-        } else {
-            element.innerHTML = element.dataset.originalText;
-        }
+    if (!element) return;
+    element.disabled = show;
+    if (show) {
+        const originalText = element.innerHTML;
+        element.dataset.originalText = originalText;
+        element.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
+    } else {
+        element.innerHTML = element.dataset.originalText;
     }
 }
 

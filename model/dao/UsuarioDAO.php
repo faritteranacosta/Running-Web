@@ -17,7 +17,9 @@ class UsuarioDAO {
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
         if (count($result) > 0) {
             $row = $result[0];
-            return new Usuario($row['id_usuario'],$row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $user= new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $user->setIdUsuario($row['id_usuario']);
+            return $user;
         }
         return null;
     }
@@ -50,7 +52,6 @@ class UsuarioDAO {
         if (count($result) > 0) {
             $row = $result[0];
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -73,7 +74,6 @@ class UsuarioDAO {
         if (count($result) > 0) {
             $row = $result[0];
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -95,7 +95,6 @@ class UsuarioDAO {
         $usuarios = [];
         foreach ($result as $row) {
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -163,6 +162,25 @@ class UsuarioDAO {
             return (int)$result[0]['total'];
         }
         return 0;
+    }
+
+    public function guardarToken($email, $token, $expira) {
+        $dataSource = new DataSource();
+        $sql = "UPDATE usuario SET token_recuperacion = ?, token_expiracion = ? WHERE correo = ?";
+        return $dataSource->ejecutarActualizacion($sql, [$token, $expira, $email]);
+    }
+ 
+    public function buscarPorToken($token) {
+        $dataSource = new DataSource();
+        $sql = "SELECT * FROM usuario WHERE token_recuperacion = ? AND token_expiracion > NOW()";
+        $result = $dataSource->ejecutarConsulta($sql, [$token]);
+        return count($result) > 0 ? $result[0] : null;
+    }
+ 
+    public function actualizarContrasena($id_usuario, $nueva) {
+        $dataSource = new DataSource();
+        $sql = "UPDATE usuario SET contrasena = ?, token_recuperacion = NULL, token_expiracion = NULL WHERE id_usuario = ?";
+        return $dataSource->ejecutarActualizacion($sql, [$nueva, $id_usuario]);
     }
     
 }

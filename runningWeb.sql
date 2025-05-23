@@ -7,7 +7,9 @@ CREATE TABLE Usuario (
     contrasena VARCHAR(100) NOT NULL,
     sexo VARCHAR(10) NOT NULL,
     fecha_nacimiento DATE NOT NULL,
-    fecha_registro DATE
+    fecha_registro DATE,
+    token_recuperacion VARCHAR(255),
+    token_expiracion DATETIME
 );
 
 CREATE TABLE Vendedor (
@@ -24,6 +26,8 @@ CREATE TABLE Producto (
     precio DECIMAL(10,2) NOT NULL,
     fecha_publicacion DATE,
     vendedor_id INT NOT NULL,
+    categoria VARCHAR(50) NOT NULL,
+    stock INT NOT NULL,
     FOREIGN KEY (vendedor_id) REFERENCES Vendedor(usuario_id)
 );
 
@@ -116,10 +120,14 @@ CREATE TABLE Categoria (
     descripcion VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Ruta (
-    id_ruta INT PRIMARY KEY AUTO_INCREMENT,
-    descripcion TEXT,
-    url_mapa VARCHAR(255)
+CREATE TABLE rutas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    nombre VARCHAR(100) NOT NULL,
+    puntos TEXT NOT NULL, -- Almacenará los puntos como JSON
+    distancia DECIMAL(10, 2),
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 
 CREATE TABLE Carrera (
@@ -132,13 +140,13 @@ CREATE TABLE Carrera (
     FOREIGN KEY (id_evento) REFERENCES Evento(id_evento),
     FOREIGN KEY (tipo_carrera_id) REFERENCES Tipo_carrera(id_tipo_carrera),
     FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria),
-    FOREIGN KEY (id_ruta) REFERENCES Ruta(id_ruta)
+    FOREIGN KEY (id_ruta) REFERENCES Ruta(id)
 );
 
 CREATE TABLE Participacion_evento (
-    id_participacion INT PRIMARY KEY AUTO_INCREMENT,
-    corredor_id INT NOT NULL,
-    evento_id INT,
-    FOREIGN KEY (corredor_id) REFERENCES Corredor(id_corredor),
+    usuario_id INT NOT NULL,
+    evento_id INT NOT NULL,
+    PRIMARY KEY (usuario_id, evento_id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (evento_id) REFERENCES Evento(id_evento)
 );

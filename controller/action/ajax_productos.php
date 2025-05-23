@@ -1,12 +1,7 @@
 <?php
 session_start();
 
-// Verificar autenticación al inicio del script
-if (!isset($_SESSION['ID_USUARIO'])) {
-    http_response_code(401); // No autorizado
-    echo json_encode(['success' => false, 'msg' => 'Debe iniciar sesión para acceder a este recurso']);
-    exit;
-}
+
 
 require_once(__DIR__ . '/../mdb/mdbProducto.php');
 header('Content-Type: application/json');
@@ -20,7 +15,7 @@ try {
         $vendedor_id = $_GET['vendedor_id'] ?? null;
         
         if ($vendedor_id) {
-            $productos = obtenerProductoPorVendedor(vendedor_id: $vendedor_id);
+            $productos = obtenerProductoPorVendedor( $vendedor_id);
         } else {
             $productos = listarProductos();
         }
@@ -55,7 +50,6 @@ try {
                     throw new Exception("El campo $field es requerido.");
                 }
             }
-
             $result = agregarProducto(
                 $data['name'],
                 $data['description'],

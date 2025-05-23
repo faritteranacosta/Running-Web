@@ -11,7 +11,6 @@
     $ruta = "#";
     $message = "User no registered";
     $user = null;
-
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_SPECIAL_CHARS);
     $apellido = filter_input(INPUT_POST, 'apellido', FILTER_SANITIZE_SPECIAL_CHARS);
     $sexo = filter_input(INPUT_POST, 'sexo', FILTER_SANITIZE_SPECIAL_CHARS);
@@ -41,10 +40,10 @@
 
     $user = agregarUsuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null, $nombre_tienda);
     if ($user != null) {
-        $ruta = "./login.html";
+        $ruta = "./iniciar_sesion.php";
         $message = "User registered successfully";
     } else {
-        $ruta = "./register.html";
+        $ruta = "./registrarse.php";
     }
 
     $result = [
