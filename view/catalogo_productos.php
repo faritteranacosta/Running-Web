@@ -254,11 +254,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
 
             <!-- Paginación -->
-            <div class="mt-8 flex justify-center">
-                <nav class="flex items-center space-x-2">
-
-                </nav>
-            </div>
+             <div class="pagination-container flex justify-center items-center gap-2 mt-8"></div>
         </section>
     </main>
 

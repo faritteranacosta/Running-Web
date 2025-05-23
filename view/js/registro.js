@@ -38,7 +38,7 @@ $(document).ready(function () {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Campo requerido',
-                    text: 'Por favor, completa el campo de nombre de tienda.'
+                    text: 'Las contraseñas no coinciden'
                 });
                 return;
             }

@@ -143,11 +143,11 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <div class="space-y-4">
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Subtotal:</span>
-                                <span id="subtotal" class="font-medium">$0.00</span>
+                                <span id="subtotal" class="font-medium">$00.0</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Envío:</span>
-                                <span id="envio" class="font-medium">$0.00</span>
+                                <span id="envio" class="font-medium">$00.0</span>
                             </div>
                             <div class="border-t border-gray-200 pt-4 flex justify-between">
                                 <span class="text-lg font-semibold">Total:</span>

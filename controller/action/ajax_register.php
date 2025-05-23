@@ -37,8 +37,8 @@
 
    
     error_log("Datos recibidos: Name=$nombre, Surname=$apellido, Email=$correo, Password=$contrasena");
-
-    $user = agregarUsuario($rol, $nombre, $apellido, $correo, $contrasena, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null, $nombre_tienda);
+    $hashedPassword = password_hash($contrasena, PASSWORD_DEFAULT);
+    $user = agregarUsuario($rol, $nombre, $apellido, $correo, $hashedPassword, $sexo, $fecha_nacimiento, $fecha_registro, $ciudad = null, $equipo = null, $nombre_tienda);
     if ($user != null) {
         $ruta = "./iniciar_sesion.html";
         $message = "User registered successfully";

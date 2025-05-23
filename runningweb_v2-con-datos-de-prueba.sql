@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2025 a las 20:35:12
+-- Tiempo de generación: 23-05-2025 a las 21:00:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -134,7 +134,8 @@ CREATE TABLE `corredor` (
 --
 
 INSERT INTO `corredor` (`id_corredor`, `usuario_id`, `ciudad_id`, `equipo_id`) VALUES
-(1, 1, NULL, NULL);
+(1, 1, NULL, NULL),
+(2, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -270,7 +271,17 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id_producto`, `nombre`, `descripcion`, `precio`, `fecha_publicacion`, `vendedor_id`, `categoria`, `stock`, `imagenUrl`) VALUES
-(1, 'Zapatos Para correr a 100xh', 'Con estos zapatos puedes correr mucho', 300000.00, '2025-05-23', 4, 'zapatillas', 12, 'https://placehold.co/80x80?text=Barra+Energética');
+(1, 'Zapatos Para correr a 100xh', 'Con estos zapatos puedes correr mucho', 300000.00, '2025-05-23', 4, 'zapatillas', 12, 'https://placehold.co/80x80?text=Barra+Energética'),
+(2, 'Zapatillas Running', 'Zapatillas ligeras para correr largas distancias', 179.99, '2025-05-23', 4, 'Deporte', 10, 'https://example.com/img/zapatillas.jpg'),
+(3, 'Camiseta Dry-Fit', 'Camiseta deportiva transpirable', 39.99, '2025-05-23', 4, 'Ropa', 25, 'https://example.com/img/camiseta.jpg'),
+(4, 'Botella Térmica', 'Botella que mantiene temperatura hasta 12h', 24.50, '2025-05-23', 4, 'Accesorios', 50, 'https://example.com/img/botella.jpg'),
+(5, 'Bandas de Resistencia', 'Set de 5 bandas para ejercicios de fuerza', 18.00, '2025-05-23', 4, 'Fitness', 30, 'https://example.com/img/bandas.jpg'),
+(6, 'Gorra Deportiva', 'Gorra ajustable con protección UV', 15.00, '2025-05-23', 4, 'Accesorios', 20, 'https://example.com/img/gorra.jpg'),
+(8, 'Mancuernas Ajustables', 'Par de mancuernas con peso ajustable hasta 20kg', 120.00, '2025-05-23', 1, 'Fitness', 15, 'https://example.com/img/mancuernas.jpg'),
+(9, 'Cuerda de Saltar Pro', 'Cuerda de velocidad para entrenamiento cardiovascular', 25.00, '2025-05-23', 1, 'Accesorios', 40, 'https://example.com/img/cuerda.jpg'),
+(10, 'Esterilla de Yoga', 'Esterilla antideslizante de alta densidad', 35.00, '2025-05-23', 1, 'Fitness', 22, 'https://example.com/img/esterilla.jpg'),
+(11, 'Short Deportivo Hombre', 'Short ligero y transpirable para entrenamiento', 28.00, '2025-05-23', 1, 'Ropa', 30, 'https://example.com/img/short.jpg'),
+(12, 'Smartwatch Deportivo', 'Reloj con monitor de ritmo cardíaco y GPS', 150.00, '2025-05-23', 1, 'Tecnología', 10, 'https://example.com/img/smartwatch.jpg');
 
 -- --------------------------------------------------------
 
@@ -375,8 +386,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `rol`, `nombre`, `apellido`, `correo`, `contrasena`, `sexo`, `fecha_nacimiento`, `fecha_registro`, `token_recuperacion`, `token_expiracion`) VALUES
-(1, 'corredor', 'Farit', 'Teran', 'faritteranacosta@gmail.com', '12345', 'masculino', '2004-01-04', '2025-05-23', NULL, NULL),
-(4, 'vendedor', 'meyling', 'mon', 'meylingMon@gmail.com', '12345', 'femenino', '2007-05-15', '2025-05-23', NULL, NULL);
+(1, 'vendedor', 'Farit', 'Teran', 'faritteranacosta@gmail.com', '12345', 'masculino', '2004-01-04', '2025-05-23', NULL, NULL),
+(4, 'vendedor', 'meyling', 'mon', 'meylingMon@gmail.com', '12345', 'femenino', '2007-05-15', '2025-05-23', NULL, NULL),
+(5, 'corredor', 'camilo', 'perez', 'camilo@unimag.com', '12345', 'masculino', '2025-05-04', '2025-05-23', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -395,7 +407,8 @@ CREATE TABLE `vendedor` (
 --
 
 INSERT INTO `vendedor` (`id_vendedor`, `nombre_tienda`, `usuario_id`) VALUES
-(1, 'FRE', 4);
+(1, 'FRE', 4),
+(2, 'La quemona', 1);
 
 --
 -- Índices para tablas volcadas
@@ -556,7 +569,7 @@ ALTER TABLE `compra_usuario`
 -- AUTO_INCREMENT de la tabla `corredor`
 --
 ALTER TABLE `corredor`
-  MODIFY `id_corredor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_corredor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `equipo`
@@ -592,7 +605,7 @@ ALTER TABLE `patrocinador`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `rutas`
@@ -616,13 +629,13 @@ ALTER TABLE `ubicacion`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `vendedor`
 --
 ALTER TABLE `vendedor`
-  MODIFY `id_vendedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_vendedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
