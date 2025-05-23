@@ -84,12 +84,10 @@ class CarreraDAO {
     }
 
     public function listarCarreras() {
-        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria, u.direccion, ciu.nombre AS ciudad_nombre
+        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria, c.id_ruta
             FROM carrera c
             LEFT JOIN evento e ON c.id_evento = e.id_evento
-            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
-            LEFT JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
-            LEFT JOIN ciudad ciu ON u.id_ciudad = ciu.id_ciudad";
+            LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $carreras = array();
         foreach ($result as $row) {
@@ -100,8 +98,7 @@ class CarreraDAO {
                 'fecha' => $row['fecha_evento'],
                 'distancia' => $row['distancia'],
                 'categoria' => $row['nombre_categoria'],
-                'direccion' => isset($row['direccion']) ? $row['direccion'] : null,
-                'ciudad' => isset($row['ciudad_nombre']) ? $row['ciudad_nombre'] : null
+                'ruta' => $row['id_ruta']
             );
         }
         return $carreras;
@@ -135,6 +132,16 @@ class CarreraDAO {
         }
       return null; // No es una carrera o no existe
     }
+
+
+    //agregar una participacion a un evento
+//     public function agregarParticipacion($id_usuario, $id_evento) {
+//     $sql = "INSERT INTO participacion_evento (usuario_id, evento_id) VALUES (?, ?)";
+//     $params = [$id_usuario, $id_evento];
+//     return $this->dataSource->ejecutarActualizacion($sql, $params);
+// }
+
+
 
 }
 ?>

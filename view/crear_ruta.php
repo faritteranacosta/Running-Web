@@ -1,10 +1,26 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Rutas Personalizadas</title>
+    <link rel="icon" href="./assets/img/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -273,16 +289,14 @@
     <script src="https://unpkg.com/leaflet-gpx/gpx.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/togeojson@0.16.0/dist/togeojson.min.js"></script>
     <script>
-        // Inicializar el mapa
+        // Configuración inicial
         const map = L.map('map').setView([11.2408, -74.199], 13);
-
-        // Añadir capa de mapa base
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
         }).addTo(map);
 
-        // Variables para almacenar la ruta
+        // Variables de estado
         let puntosRuta = [];
         let markers = [];
         let polyline = L.polyline([], {
@@ -293,20 +307,24 @@
             lineJoin: 'round'
         }).addTo(map);
 
-        // Función para calcular distancia entre dos puntos en km
+        /*async function obtenerUsuarioId() {
+            console.log("Hola",<?php echo $id; ?>);
+            return <?php echo $id; ?>;
+        }*/
+
+        // Función para calcular distancia entre puntos
         function calcularDistancia(lat1, lon1, lat2, lon2) {
             const R = 6371; // Radio de la Tierra en km
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             return R * c;
         }
 
-        // Función para calcular la distancia total de la ruta
+        // Función para calcular distancia total
         function calcularDistanciaTotal() {
             let distancia = 0;
             for (let i = 1; i < puntosRuta.length; i++) {
@@ -318,7 +336,7 @@
             return distancia;
         }
 
-        // Función para actualizar las estadísticas
+        // Actualizar estadísticas
         function actualizarEstadisticas() {
             document.getElementById('point-count').textContent = puntosRuta.length;
 
@@ -326,13 +344,12 @@
                 const distancia = calcularDistanciaTotal();
                 document.getElementById('distance').textContent = distancia.toFixed(2) + ' km';
 
-                // Calcular área aproximada (simplificación)
                 if (puntosRuta.length > 2) {
                     let area = 0;
                     for (let i = 0; i < puntosRuta.length - 1; i++) {
                         area += (puntosRuta[i][1] * puntosRuta[i + 1][0] - puntosRuta[i + 1][1] * puntosRuta[i][0]);
                     }
-                    area = Math.abs(area / 2) * 111 * 111; // Conversión aproximada a km²
+                    area = Math.abs(area / 2) * 111 * 111;
                     document.getElementById('area').textContent = area.toFixed(2) + ' km²';
                 } else {
                     document.getElementById('area').textContent = '0 km²';
@@ -343,15 +360,13 @@
             }
         }
 
-        // Evento de clic en el mapa para agregar puntos
+        // Manejador de clics en el mapa
         map.on('click', (e) => {
             const { lat, lng } = e.latlng;
             puntosRuta.push([lat, lng]);
 
-            // Actualizar la polilínea
             polyline.setLatLngs(puntosRuta);
 
-            // Agregar marcador con popup
             const marker = L.marker([lat, lng], {
                 icon: L.divIcon({
                     className: 'custom-marker',
@@ -362,132 +377,118 @@
                 .openPopup();
 
             markers.push(marker);
-
-            // Actualizar estadísticas
             actualizarEstadisticas();
 
-            // Ajustar el mapa para incluir todos los puntos
             if (puntosRuta.length > 1) {
                 map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
             }
         });
 
-        // Función para guardar la ruta
-        function guardarRuta() {
-            // Inicializar SweetAlert si no está cargado
+        // Función principal para guardar ruta
+        async function guardarRuta() {
+            // Cargar SweetAlert2 si no está disponible
             if (typeof Swal === 'undefined') {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/sweetalert2@11';
-                document.head.appendChild(script);
+                await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
             }
 
-            async function guardarRuta() {
-                if (puntosRuta.length < 2) {
-                    await Swal.fire({
-                        title: 'Ruta incompleta',
-                        text: 'Necesitas al menos 2 puntos para guardar una ruta',
-                        icon: 'warning'
-                    });
-                    return;
-                }
-
-                const { value: nombreRuta } = await Swal.fire({
-                    title: 'Guardar ruta',
-                    input: 'text',
-                    inputLabel: 'Nombre de la ruta',
-                    inputPlaceholder: 'Ej: Ruta al trabajo',
-                    showCancelButton: true,
-                    inputValidator: (value) => {
-                        if (!value) return 'Debes ingresar un nombre';
-                        if (value.length < 3) return 'El nombre es muy corto';
-                    }
-                });
-
-                if (!nombreRuta) return;
-
-                try {
-                    const response = await fetch('ajax', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            usuario_id: obtenerUsuarioId(), // Función que obtiene el ID del usuario logueado
-                            nombre: nombreRuta,
-                            puntos: puntosRuta
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.message || 'Error en la respuesta del servidor');
-                    }
-
-                    if (data.success) {
-                        await Swal.fire({
-                            title: '¡Éxito!',
-                            text: data.message,
-                            icon: 'success'
-                        });
-
-                        // Opcional: Recargar rutas guardadas o limpiar el mapa
-                        if (data.data && data.data.id) {
-                            console.log('Ruta guardada con ID:', data.data.id);
-                        }
-                    } else {
-                        throw new Error(data.message);
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    await Swal.fire({
-                        title: 'Error',
-                        text: error.message || 'No se pudo guardar la ruta',
-                        icon: 'error'
-                    });
-                }
-            }
-
-        }
-
-        // Función para exportar la ruta como GPX
-        function exportarRuta() {
             if (puntosRuta.length < 2) {
-                alert('Necesitas al menos 2 puntos para exportar una ruta');
+                await Swal.fire({
+                    title: 'Ruta incompleta',
+                    text: 'Necesitas al menos 2 puntos para guardar una ruta',
+                    icon: 'warning'
+                });
                 return;
             }
 
-            let gpx = `<?xml version="1.0" encoding="UTF-8"?>
+            const { value: nombreRuta } = await Swal.fire({
+                title: 'Guardar ruta',
+                input: 'text',
+                inputLabel: 'Nombre de la ruta',
+                inputPlaceholder: 'Ej: Ruta al Siruma',
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) return 'Debes ingresar un nombre';
+                    if (value.length < 3) return 'El nombre es muy corto';
+                }
+            });
+
+            if (!nombreRuta) return;
+
+            try {
+                const response = await fetch('../controller/action/ajax_guardarRuta.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        usuario_id: <?php echo $id; ?>,
+                        nombre: nombreRuta,
+                        puntos: puntosRuta
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Error en la respuesta del servidor');
+                }
+
+                if (data.success) {
+                    await Swal.fire({
+                        title: '¡Éxito!',
+                        text: data.message,
+                        icon: 'success'
+                    });
+
+                    //limpiar la ruta si lo deseas
+                    limpiarRuta();
+
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await Swal.fire({
+                    title: 'Error',
+                    text: error.message || 'No se pudo guardar la ruta',
+                    icon: 'error'
+                });
+            }
+        }
+
+        // Función para exportar a GPX
+        function exportarRuta() {
+            if (puntosRuta.length < 2) {
+                Swal.fire({
+                    title: 'Ruta incompleta',
+                    text: 'Necesitas al menos 2 puntos para exportar una ruta',
+                    icon: 'warning'
+                });
+                return;
+            }
+
+            let gpx = `
             <gpx version="1.1" creator="Mapa de Rutas" xmlns="http://www.topografix.com/GPX/1/1">
                 <trk>
                     <name>Mi Ruta Personalizada</name>
                     <trkseg>`;
 
-            puntosRuta.forEach(point => {
-                gpx += `
+                        puntosRuta.forEach(point => {
+                            gpx += `
                         <trkpt lat="${point[0]}" lon="${point[1]}"></trkpt>`;
-            });
+                        });
 
-            gpx += `
+                        gpx += `
                     </trkseg>
                 </trk>
             </gpx>`;
 
-            // Crear enlace de descarga
-            const blob = new Blob([gpx], { type: 'application/gpx+xml' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'mi_ruta.gpx';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            downloadFile(gpx, 'mi_ruta.gpx', 'application/gpx+xml');
         }
 
         // Función para limpiar la ruta
-        function limpiarRuta() {
-            Swal.fire({
+        async function limpiarRuta() {
+            const result = await Swal.fire({
                 title: '¿Estás seguro?',
                 text: "Esta acción borrará todos los puntos de la ruta actual.",
                 icon: 'warning',
@@ -496,26 +497,51 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, limpiar',
                 cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    puntosRuta = [];
-                    polyline.setLatLngs([]);
-                    markers.forEach(marker => map.removeLayer(marker));
-                    markers = [];
-                    actualizarEstadisticas();
+            });
 
-                    Swal.fire(
-                        '¡Ruta limpiada!',
-                        'Puedes comenzar a dibujar una nueva ruta.',
-                        'success'
-                    );
-                }
+            if (result.isConfirmed) {
+                puntosRuta = [];
+                polyline.setLatLngs([]);
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                actualizarEstadisticas();
+
+                await Swal.fire(
+                    '¡Ruta limpiada!',
+                    'Puedes comenzar a dibujar una nueva ruta.',
+                    'success'
+                );
+            }
+        }
+
+        // Helper para cargar scripts dinámicamente
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
             });
         }
 
-        function obtenerUsuarioId() {
-            return window.ID_USUARIO;
+        // Helper para descargar archivos
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
+
+        // Asignar eventos a los botones
+        document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
+        document.querySelector('.btn-success').addEventListener('click', exportarRuta);
+        document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
 
     </script>
 </body>
