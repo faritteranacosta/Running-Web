@@ -338,21 +338,3 @@ h2,h1{
         grid-template-columns: 1fr;
     }
 }
-
-/* Espaciado personalizado para detalles de ubicación y hora en detalles.php */
-#ubicacion-carrera {
-    margin-left: 2px;
-    font-weight: 500;
-}
-#hora-carrera {
-    margin-left: 2px;
-    font-weight: 500;
-}
-#fecha-carrera {
-    margin-left: 2px;
-    font-weight: 500;
-}
-/* Mejora el espaciado entre bloques de info principal */
-.detalles-bloque {
-    margin-bottom: 0.75rem;
-}
