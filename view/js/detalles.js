@@ -59,9 +59,10 @@ async function cargarDetallesCarrera(idCarrera) {
         document.getElementById('titulo').textContent = carrera.nombre || 'Carrera sin nombre';
         document.getElementById('descripcion-carrera').textContent = carrera.descripcion || 'No hay descripción disponible';
 
-        // Fecha y estado
+        // Fecha y hora
         const fechaFormateada = formatearFecha(carrera.fecha);
         document.getElementById('fecha-carrera').textContent = fechaFormateada;
+        document.getElementById('hora-carrera').textContent = carrera.hora || '--:--';
 
         const estado = determinarEstado(carrera.fecha);
         const estadoElement = document.getElementById('estado-carrera');
