@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__.'/../config/DataSource.php';
-require_once __DIR__.'/../models/Ruta.php';
+require_once __DIR__ . '/DataSource.php';
+require_once __DIR__ . '/../entidad/Ruta.php';
 
-class RutaDAO {
+class RutaDao {
     private $dataSource;
 
     public function __construct() {
@@ -10,51 +10,53 @@ class RutaDAO {
     }
 
     public function guardar(Ruta $ruta) {
-        $sql = "INSERT INTO ruta (usuario_id, nombre, puntos, distancia) 
-                VALUES (:usuario_id, :nombre, :puntos, :distancia)";
+        $sql = "INSERT INTO rutas (usuario_id, nombre, puntos, distancia, fecha_creacion) 
+                VALUES (:usuario_id, :nombre, :puntos, :distancia, :fecha_creacion)";
 
         $params = [
             ':usuario_id' => $ruta->getUsuarioId(),
             ':nombre' => $ruta->getNombreRuta(),
             ':puntos' => json_encode($ruta->getPuntosRuta()),
-            ':distancia' => $ruta->getDistanciaRuta()
+            ':distancia' => $ruta->getDistanciaRuta(),
+            ':fecha_creacion' => $ruta->getFechaCreacionRuta()
         ];
 
         $result = $this->dataSource->ejecutarActualizacion($sql, $params);
-        
-        if($result > 0) {
+
+        if ($result > 0) {
             $ruta->setIdRuta($this->dataSource->getLastInsertId());
             return $ruta;
         }
-        
         return null;
     }
 
     public function eliminar($id) {
-        $sql = "DELETE FROM ruta WHERE id = :id";
+        $sql = "DELETE FROM rutas WHERE id = :id";
         $params = [':id' => $id];
         return $this->dataSource->ejecutarActualizacion($sql, $params) > 0;
     }
 
     public function obtenerRuta($id) {
-        $sql = "SELECT * FROM ruta WHERE id = :id";
+        $sql = "SELECT * FROM rutas WHERE id = :id";
         $params = [':id' => $id];
-        $row = $this->dataSource->ejecutarConsulta($sql, $params);
+        $rows = $this->dataSource->ejecutarConsulta($sql, $params);
 
-        if ($row) {
+        if ($rows && count($rows) > 0) {
+            $row = $rows[0];
             return new Ruta(
                 $row['id'],
                 $row['usuario_id'],
                 $row['nombre'],
                 json_decode($row['puntos'], true),
-                $row['distancia']
+                $row['distancia'],
+                $row['fecha_creacion']
             );
         }
         return null;
     }
 
     public function obtenerTodasLasRutas() {
-        $sql = "SELECT * FROM ruta";
+        $sql = "SELECT * FROM rutas";
         $rows = $this->dataSource->ejecutarConsulta($sql);
 
         $rutas = [];
@@ -64,7 +66,8 @@ class RutaDAO {
                 $row['usuario_id'],
                 $row['nombre'],
                 json_decode($row['puntos'], true),
-                $row['distancia']
+                $row['distancia'],
+                $row['fecha_creacion']
             );
         }
         return $rutas;

@@ -140,7 +140,7 @@ CREATE TABLE Carrera (
     FOREIGN KEY (id_evento) REFERENCES Evento(id_evento),
     FOREIGN KEY (tipo_carrera_id) REFERENCES Tipo_carrera(id_tipo_carrera),
     FOREIGN KEY (id_categoria) REFERENCES Categoria(id_categoria),
-    FOREIGN KEY (id_ruta) REFERENCES Ruta(id)
+    FOREIGN KEY (id_ruta) REFERENCES Rutas(id)
 );
 
 CREATE TABLE Participacion_evento (
