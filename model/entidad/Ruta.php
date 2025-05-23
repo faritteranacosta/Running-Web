@@ -1,32 +1,69 @@
 <?php
 
 class Ruta {
-    private $id_ruta;
-    private $descripcion_ruta;
-    private $url_mapa;
+    private $id;
+    private $usuarioId;
+    private $nombre;
+    private $puntos;
+    private $distancia;
+    private $fechaCreacion;
 
-    public function __construct($descripcion_ruta = null, $url_mapa = null) {
-        $this->descripcion_ruta = $descripcion_ruta;
-        $this->url_mapa = $url_mapa;
+    public function __construct($id = null, $usuarioId = null, $nombre = null, $puntos = null, $distancia = null, $fechaCreacion = null) {
+        $this->id = $id;
+        $this->usuarioId = $usuarioId;
+        $this->nombre = $nombre;
+        $this->puntos = $puntos;
+        $this->distancia = $distancia;
+        $this->fechaCreacion = $fechaCreacion;
     }
 
-    public function getIdRuta() {
-        return $this->id_ruta;
+    // Getters y Setters
+    public function getId() {
+        return $this->id;
     }
-    public function setIdRuta($id_ruta) {
-        $this->id_ruta = $id_ruta;
+
+    public function setId($id) {
+        $this->id = $id;
     }
-    public function setDescripcionRuta($descripcion_ruta) {
-        $this->descripcion_ruta = $descripcion_ruta;
+
+    public function getUsuarioId() {
+        return $this->usuarioId;
     }
-    public function getDescripcionRuta() {
-        return $this->descripcion_ruta;
+
+    public function setUsuarioId($usuarioId) {
+        $this->usuarioId = $usuarioId;
     }
-    public function setUrlMapa($url_mapa) {
-        $this->url_mapa = $url_mapa;
+
+    public function getNombre() {
+        return $this->nombre;
     }
-    public function getUrlMapa() {
-        return $this->url_mapa;
+
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function getPuntos() {
+        return $this->puntos;
+    }
+
+    public function setPuntos($puntos) {
+        $this->puntos = $puntos;
+    }
+
+    public function getDistancia() {
+        return $this->distancia;
+    }
+
+    public function setDistancia($distancia) {
+        $this->distancia = $distancia;
+    }
+
+    public function getFechaCreacion() {
+        return $this->fechaCreacion;
+    }
+
+    public function setFechaCreacion($fechaCreacion) {
+        $this->fechaCreacion = $fechaCreacion;
     }
 }
 ?>

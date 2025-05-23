@@ -52,7 +52,8 @@ public function obtenerCarreraPorId($id_carrera) {
         $categoria->setNombre($row['nombre_categoria']);
         $ruta = new Ruta();
         $ruta->setIdRuta($row['id_ruta']);
-        $ruta->setDescripcionRuta($row['descripcion_ruta']);
+        $ruta->setNombreRuta($row['nombre']);
+        $ruta->setPuntos(json_decode($row['puntos'], true));
         $ruta->setUrlMapa($row['url_mapa']);
         $carrera = new Carrera($row['distancia'], $evento, $tipoCarrera, $categoria, $ruta);
         if (method_exists($carrera, 'setIdCarrera')) {
