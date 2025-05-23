@@ -14,7 +14,6 @@ $usuario = autenticarUsuario($username, $password);
 if ($usuario != null) {
     $_SESSION['ID_USUARIO'] = $usuario->getIdUsuario();
     // Log temporal para depuración
-    
     $_SESSION['CORREO_USUARIO'] = $usuario->getCorreo();
     $_SESSION['NOMBRE_USUARIO'] = $usuario->getNombre();
     $_SESSION['APELLIDO_USUARIO'] = $usuario->getApellido();

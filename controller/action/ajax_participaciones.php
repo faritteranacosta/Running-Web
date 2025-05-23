@@ -1,5 +1,5 @@
 <?php
-// ajax_participaciones.php: Devuelve las carreras/eventos en los que el usuario autenticado está inscrito
+require_once __DIR__ . '/../mdb/mdbParticipacionEvento.php';
 session_start();
 header('Content-Type: application/json');
 
@@ -8,7 +8,7 @@ if (!isset($_SESSION['ID_USUARIO'])) {
     exit;
 }
 
-require_once __DIR__ . '/../mdb/mdbParticipacionEvento.php';
+
 
 $id_usuario = $_SESSION['ID_USUARIO'];
 $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
@@ -16,13 +16,16 @@ $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
 $result = [];
 foreach ($participaciones as $participacion) {
     $evento = $participacion->getEvento();
+    $id_carrera = property_exists($participacion, 'id_carrera') ? $participacion->id_carrera : null;
+    $distancia = property_exists($participacion, 'distancia') ? $participacion->distancia : null;
     $result[] = [
         'id_evento' => $evento->getIdEvento(),
         'nombre_evento' => $evento->getNombreEvento(),
         'fecha_evento' => $evento->getFechaEvento(),
         'hora_evento' => $evento->getHoraEvento(),
         'descripcion_evento' => $evento->getDescripcionEvento(),
-        'evento' => $evento->getIdEvento() // Siempre enviar 'evento' para compatibilidad
+        'id_carrera' => $id_carrera,
+        'distancia' => $distancia
     ];
 }
 

@@ -102,6 +102,15 @@ public function obtenerCarreraPorId($id_carrera) {
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
 
+        public function obtenerIdCarreraPorIdEvento($id_evento) {
+    $sql = "SELECT id_carrera FROM carrera WHERE id_evento = ?";
+    $params = [$id_evento];
+    $result = $this->dataSource->ejecutarConsulta($sql, $params);
+    if (count($result) > 0) {
+        return $result[0]['id_carrera'];
+    }
+    return null; // No es una carrera o no existe
+}
 
 
     //agregar una participacion a un evento

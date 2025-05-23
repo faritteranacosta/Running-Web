@@ -139,9 +139,9 @@ CREATE TABLE Carrera (
 );
 
 CREATE TABLE Participacion_evento (
-    id_participacion INT PRIMARY KEY AUTO_INCREMENT,
-    corredor_id INT NOT NULL,
-    evento_id INT,
-    FOREIGN KEY (corredor_id) REFERENCES Corredor(id_corredor),
+    usuario_id INT NOT NULL,
+    evento_id INT NOT NULL,
+    PRIMARY KEY (usuario_id, evento_id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (evento_id) REFERENCES Evento(id_evento)
 );

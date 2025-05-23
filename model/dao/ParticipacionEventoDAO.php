@@ -16,29 +16,33 @@ class ParticipacionEventoDAO {
     return $this->dataSource->ejecutarActualizacion($sql, $params);
 }
 
-    public function obtenerParticipacionesPorUsuario($id_usuario) {
-        $sql = "SELECT p.*, e.nombre_evento, e.fecha_evento, e.hora_evento, e.descripcion_evento
-                FROM participacion_evento p
-                JOIN evento e ON p.id_evento = e.id_evento
-                WHERE p.id_usuario = ?";
-        $params = array($id_usuario);
-        $result = $this->dataSource->executeQuery($sql, $params);
-        $participaciones = array();
-        foreach ($result as $row) {
-            $evento = new Evento();
-            $evento->setIdEvento($row['id_evento']);
-            $evento->setNombreEvento($row['nombre_evento']);
-            $evento->setFechaEvento($row['fecha_evento']);
-            $evento->setHoraEvento($row['hora_evento']);
-            $evento->setDescripcionEvento($row['descripcion_evento']);
-            $participacion = new ParticipacionEvento();
-            $participacion->setIdParticipacion($row['id_participacion']);
-            $participacion->setUsuario(new Usuario($id_usuario));
-            $participacion->setEvento($evento);
-            $participaciones[] = $participacion;
-        }
-        return $participaciones;
+    public function obtenerParticipacionesPorUsuario($id_usuario) { // se va a usar solo para las carreras
+    $sql = "SELECT c.id_carrera, c.distancia, e.id_evento, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.hora AS hora_evento, e.descripcion AS descripcion_evento
+            FROM participacion_evento p
+            JOIN evento e ON p.evento_id = e.id_evento
+            JOIN carrera c ON c.id_evento = e.id_evento
+            WHERE p.usuario_id = ?";
+    $params = array($id_usuario);
+    $result = $this->dataSource->ejecutarConsulta($sql, $params);
+    $participaciones = array();
+    foreach ($result as $row) {
+        $evento = new Evento();
+        $evento->setIdEvento($row['id_evento']);
+        $evento->setNombreEvento($row['nombre_evento']);
+        $evento->setFechaEvento($row['fecha_evento']);
+        $evento->setHoraEvento($row['hora_evento']);
+        $evento->setDescripcionEvento($row['descripcion_evento']);
+        
+        $participacion = new ParticipacionEvento(new Usuario($id_usuario), $evento);
+
+        // Guarda el id_carrera y la distancia en el objeto ParticipacionEvento para que estén disponibles en el backend AJAX
+        $participacion->id_carrera = $row['id_carrera'];
+        $participacion->distancia = $row['distancia'];
+
+        $participaciones[] = $participacion;
     }
+    return $participaciones;
+}
 
     public function eliminarParticipacion($id_usuario, $id_evento) {
         $sql = "DELETE FROM participacion_evento WHERE usuario_id = ? AND evento_id = ?";
