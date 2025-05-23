@@ -48,7 +48,7 @@ function agregarAlCarrito(producto) {
       id: producto.id,
       name: producto.name,
       price: producto.price,
-      imagenUrl: producto.imagenUrl,
+      imagenUrl: producto.image,
       categoria: producto.categoria,
       cantidad: 1,
     });
@@ -138,7 +138,7 @@ function renderProducts(products) {
       (producto) => `
         <div class="product-card bg-white rounded-xl shadow-md overflow-hidden">
             <div class="relative">
-                <img src="${producto.imagenUrl}" alt="${
+                <img src="${producto.image}" alt="${
         producto.name
       }" class="w-full h-48 object-cover">
                 ${

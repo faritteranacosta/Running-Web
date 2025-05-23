@@ -1,6 +1,5 @@
 // Obtener el carrito de localStorage
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-console.log(carrito);
 // Elementos del DOM
 const listaCarrito = document.getElementById('lista-carrito');
 const subtotalElement = document.getElementById('subtotal');
