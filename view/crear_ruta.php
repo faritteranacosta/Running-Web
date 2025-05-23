@@ -1,3 +1,19 @@
+<?php
+session_start();
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+    header("Location: acceso_denegado.html");
+    exit();
+}else{
+    $id = $_SESSION['ID_USUARIO'];
+    $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
+    $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
+    $correo = $_SESSION['CORREO_USUARIO'];
+    $sexo = $_SESSION['SEXO_USUARIO'];
+    $rol = ucfirst($_SESSION['ROL_USUARIO']);
+    $fecha_nacimiento = $_SESSION['FECHA_NACIMIENTO'];
+    $fecha_registro = $_SESSION['FECHA_REGISTRO'];
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -291,12 +307,10 @@
             lineJoin: 'round'
         }).addTo(map);
 
-        // Función para obtener el ID del usuario (debes implementar según tu sistema de autenticación)
-        async function obtenerUsuarioId() {
-            const res = await fetch('../controller/action/ajax_session.php');
-            const data = await res.json();
-            return data.id_usuario; 
-        }
+        /*async function obtenerUsuarioId() {
+            console.log("Hola",<?php echo $id; ?>);
+            return <?php echo $id; ?>;
+        }*/
 
         // Función para calcular distancia entre puntos
         function calcularDistancia(lat1, lon1, lat2, lon2) {
@@ -407,7 +421,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        usuario_id: obtenerUsuarioId(),
+                        usuario_id: <?php echo $id; ?>,
                         nombre: nombreRuta,
                         puntos: puntosRuta
                     })
@@ -453,7 +467,7 @@
                 return;
             }
 
-            let gpx = `<?xml version="1.0" encoding="UTF-8"?>
+            let gpx = `
             <gpx version="1.1" creator="Mapa de Rutas" xmlns="http://www.topografix.com/GPX/1/1">
                 <trk>
                     <name>Mi Ruta Personalizada</name>

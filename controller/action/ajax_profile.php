@@ -5,7 +5,7 @@
     
     $corredor = obtenerUsuarioPorId($_SESSION['ID_USUARIO']);
            
-    echo json_encode($_SESSION['ID_USUARIO']);  
+    echo json_encode(["id_usuario" => $_SESSION['ID_USUARIO']]);  
 
 
 
