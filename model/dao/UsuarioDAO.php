@@ -17,7 +17,9 @@ class UsuarioDAO {
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
         if (count($result) > 0) {
             $row = $result[0];
-            return new Usuario($row['id_usuario'],$row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $user= new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
+            $user->setIdUsuario($row['id_usuario']);
+            return $user;
         }
         return null;
     }
@@ -50,7 +52,6 @@ class UsuarioDAO {
         if (count($result) > 0) {
             $row = $result[0];
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -73,7 +74,6 @@ class UsuarioDAO {
         if (count($result) > 0) {
             $row = $result[0];
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],
@@ -95,7 +95,6 @@ class UsuarioDAO {
         $usuarios = [];
         foreach ($result as $row) {
             $usuario = new Usuario(
-                $row['id_usuario'],
                 $row['rol'],
                 $row['nombre'],
                 $row['apellido'],

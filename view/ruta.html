@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,41 +16,41 @@
             padding: 0;
             background-color: #f5f5f5;
         }
-        
+
         .map-header {
             background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
             color: white;
             padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .map-container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
-        
+
         #map {
             height: 600px;
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             z-index: 1;
         }
-        
+
         .map-controls {
             background: white;
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             align-items: center;
         }
-        
+
         .map-stats {
             display: flex;
             flex-wrap: wrap;
@@ -58,9 +59,9 @@
             background: white;
             padding: 1rem;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        
+
         .stat-card {
             flex: 1;
             min-width: 150px;
@@ -69,20 +70,20 @@
             border-radius: 6px;
             border-left: 4px solid #0ea5e9;
         }
-        
+
         .stat-card h3 {
             margin: 0;
             font-size: 0.9rem;
             color: #6c757d;
         }
-        
+
         .stat-card p {
             margin: 0.5rem 0 0;
             font-size: 1.2rem;
             font-weight: bold;
             color: #343a40;
         }
-        
+
         button {
             background-color: #0ea5e9;
             color: white;
@@ -93,18 +94,19 @@
             font-weight: 500;
             transition: background-color 0.2s;
         }
-        
+
         button:hover {
             background-color: #0284c7;
         }
-        
-        select, input {
+
+        select,
+        input {
             padding: 0.5rem;
             border: 1px solid #ced4da;
             border-radius: 4px;
             font-family: inherit;
         }
-        
+
         .elevation-chart {
             width: 100%;
             height: 200px;
@@ -112,14 +114,14 @@
             background: white;
             border-radius: 8px;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
-        
+
         @media (max-width: 768px) {
             #map {
                 height: 400px;
             }
-            
+
             .map-controls {
                 flex-direction: column;
                 align-items: stretch;
@@ -127,29 +129,31 @@
         }
     </style>
 </head>
+
 <body>
     <div class="map-header">
         <h1>Mapa de la Ruta</h1>
         <p>Visualiza el recorrido completo de la carrera</p>
     </div>
-    
+
     <div class="map-container">
         <div class="map-controls">
             <div>
                 <label for="route-select">Seleccionar ruta:</label>
                 <select id="route-select">
-                    <option value="maraton">Maratón CDMX</option>
-                    <option value="medio">Medio Maratón</option>
-                    <option value="10k">Carrera 10K</option>
+                    <option value="maratonSantaMarta">Maratón Santa Marta</option>
+                    <option value="medioSantaMarta">Medio Maratón</option>
+                    <option value="10kSantaMarta">Carrera 10K</option>
                 </select>
+
             </div>
             <button id="center-map">Centrar Mapa</button>
             <button id="toggle-markers">Mostrar/Ocultar Puntos</button>
             <button id="toggle-elevation">Mostrar Elevación</button>
         </div>
-        
+
         <div id="map"></div>
-        
+
         <div class="map-stats">
             <div class="stat-card">
                 <h3>Distancia Total</h3>
@@ -168,7 +172,7 @@
                 <p id="min-elevation">0 m</p>
             </div>
         </div>
-        
+
         <div class="elevation-chart" id="elevation-chart" style="display: none;">
             <h3>Perfil de Elevación</h3>
             <canvas id="elevation-canvas" width="100%" height="150"></canvas>
@@ -184,68 +188,72 @@
     <!-- Leaflet Elevation (opcional) -->
     <script src="https://unpkg.com/leaflet-elevation@0.0.4/dist/leaflet-elevation.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet-elevation@0.0.4/dist/leaflet-elevation.min.css" />
-    
+
     <script>
         // Inicializar el mapa
         const map = L.map('map').setView([19.4326, -99.1332], 13);
-        
+
         // Añadir capa base de OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
         }).addTo(map);
-        
+
         // Capas para los elementos del mapa
         const routeLayer = L.layerGroup().addTo(map);
         const markersLayer = L.layerGroup().addTo(map);
         let elevationChart = null;
-        
+
         // Datos de ejemplo para las rutas
         const routes = {
-            maraton: {
-                name: "Maratón CDMX",
+            maratonSantaMarta: {
+                name: "Maratón Santa Marta",
                 coordinates: [
-                    [19.4326, -99.1332], // Zócalo
-                    [19.4363, -99.1381], // Paseo de la Reforma
-                    [19.4395, -99.1407], // Auditorio Nacional
-                    [19.4421, -99.1465], // Fuente de Petróleos
-                    [19.4450, -99.1500], // Chapultepec
-                    [19.4470, -99.1550]  // Final
+                    [11.2408, -74.1990], // Parque de los Novios (inicio)
+                    [11.2445, -74.2101], // Marina Internacional
+                    [11.2405, -74.2152], // Playa Los Cocos
+                    [11.2154, -74.2317], // Rodadero
+                    [11.1911, -74.2434], // Playa Salguero
+                    [11.2154, -74.2317], // Rodadero (retorno)
+                    [11.2408, -74.1990]  // Parque de los Novios (final)
                 ],
-                distance: 42.195, // km
-                elevation: [2240, 2250, 2260, 2275, 2280, 2270] // metros sobre nivel del mar
+                distance: 42.195,
+                elevation: [6, 8, 10, 12, 15, 12, 6] // metros sobre el nivel del mar
             },
-            medio: {
-                name: "Medio Maratón",
+            medioSantaMarta: {
+                name: "Medio Maratón Santa Marta",
                 coordinates: [
-                    [19.4326, -99.1332],
-                    [19.4363, -99.1381],
-                    [19.4395, -99.1407],
-                    [19.4421, -99.1465]
+                    [11.2408, -74.1990], // Parque de los Novios
+                    [11.2445, -74.2101], // Marina Internacional
+                    [11.2405, -74.2152], // Playa Los Cocos
+                    [11.2280, -74.2200], // Playa Blanca
+                    [11.2408, -74.1990]  // Retorno
                 ],
                 distance: 21.0975,
-                elevation: [2240, 2250, 2260, 2275]
+                elevation: [6, 8, 10, 12, 6]
             },
-            "10k": {
-                name: "Carrera 10K",
+            "10kSantaMarta": {
+                name: "Carrera 10K Santa Marta",
                 coordinates: [
-                    [19.4326, -99.1332],
-                    [19.4340, -99.1350],
-                    [19.4355, -99.1370]
+                    [11.2408, -74.1990], // Parque de los Novios
+                    [11.2445, -74.2101], // Marina
+                    [11.2405, -74.2152], // Playa Los Cocos
+                    [11.2408, -74.1990]  // Retorno
                 ],
                 distance: 10,
-                elevation: [2240, 2245, 2250]
+                elevation: [6, 8, 10, 6]
             }
         };
-        
+
+
         // Función para dibujar una ruta
         function drawRoute(routeId) {
             const route = routes[routeId];
-            
+
             // Limpiar capas anteriores
             routeLayer.clearLayers();
             markersLayer.clearLayers();
-            
+
             // Dibujar la línea de la ruta
             const routeLine = L.polyline(route.coordinates, {
                 color: '#0ea5e9',
@@ -253,12 +261,12 @@
                 opacity: 0.8,
                 smoothFactor: 1
             }).addTo(routeLayer);
-            
+
             // Añadir marcadores
             route.coordinates.forEach((coord, index) => {
                 let icon;
                 let label;
-                
+
                 if (index === 0) {
                     icon = L.divIcon({
                         className: 'start-marker',
@@ -281,15 +289,15 @@
                     });
                     label = `Punto ${index}`;
                 }
-                
+
                 L.marker(coord, { icon, title: label })
                     .bindPopup(`<b>${label}</b><br>${coord[0].toFixed(4)}, ${coord[1].toFixed(4)}`)
                     .addTo(markersLayer);
             });
-            
+
             // Actualizar estadísticas
             document.getElementById('total-distance').textContent = `${route.distance} km`;
-            
+
             if (route.elevation) {
                 const maxElevation = Math.max(...route.elevation);
                 const minElevation = Math.min(...route.elevation);
@@ -299,76 +307,116 @@
                     }
                     return acc;
                 }, 0);
-                
+
                 document.getElementById('elevation-gain').textContent = `${elevationGain} m`;
                 document.getElementById('max-elevation').textContent = `${maxElevation} m`;
                 document.getElementById('min-elevation').textContent = `${minElevation} m`;
-                
+
                 // Crear gráfico de elevación si existe el canvas
                 if (document.getElementById('elevation-canvas')) {
                     updateElevationChart(route);
                 }
             }
-            
+
             // Ajustar el mapa para mostrar toda la ruta
             map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
         }
-        
+
         // Función para actualizar el gráfico de elevación
-        function updateElevationChart(route) {
+                function updateElevationChart(route) {
             const ctx = document.getElementById('elevation-canvas').getContext('2d');
-            
+            const labels = route.coordinates.map((_, i) => `Punto ${i + 1}`);
+
             if (elevationChart) {
                 elevationChart.destroy();
             }
-            
+
             elevationChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: route.coordinates.map((_, i) => `${(route.distance * i / (route.coordinates.length - 1)).toFixed(1)} km`),
+                    labels: labels,
                     datasets: [{
                         label: 'Elevación (m)',
                         data: route.elevation,
                         borderColor: '#0ea5e9',
-                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                        borderWidth: 2,
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
                         fill: true,
-                        tension: 0.4
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#0ea5e9'
                     }]
                 },
                 options: {
                     responsive: true,
                     scales: {
                         y: {
-                            beginAtZero: false,
+                            beginAtZero: true,
                             title: {
                                 display: true,
-                                text: 'Metros sobre nivel del mar'
+                                text: 'Elevación (m)'
                             }
                         },
                         x: {
                             title: {
                                 display: true,
-                                text: 'Distancia'
+                                text: 'Punto de la ruta'
                             }
                         }
                     }
                 }
             });
         }
-        
+
+                // Control de selección de rutas
+        document.getElementById('route-select').addEventListener('change', function () {
+            const selectedRoute = this.value;
+            if (selectedRoute === 'maraton') drawRoute('maratonSantaMarta');
+            else if (selectedRoute === 'medio') drawRoute('medioSantaMarta');
+            else if (selectedRoute === '10k') drawRoute('10kSantaMarta');
+        });
+
+        // Centrar mapa en la ruta actual
+        document.getElementById('center-map').addEventListener('click', () => {
+            map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
+        });
+
+        // Mostrar/Ocultar marcadores
+        let markersVisible = true;
+        document.getElementById('toggle-markers').addEventListener('click', () => {
+            if (markersVisible) {
+                map.removeLayer(markersLayer);
+                markersVisible = false;
+            } else {
+                map.addLayer(markersLayer);
+                markersVisible = true;
+            }
+        });
+
+        // Mostrar/Ocultar gráfico de elevación
+        let elevationVisible = false;
+        document.getElementById('toggle-elevation').addEventListener('click', () => {
+            const chartDiv = document.getElementById('elevation-chart');
+            elevationVisible = !elevationVisible;
+            chartDiv.style.display = elevationVisible ? 'block' : 'none';
+        });
+
+        // Cargar ruta por defecto
+        drawRoute('maratonSantaMarta');
+
+
+
         // Event listeners para los controles
         document.getElementById('route-select').addEventListener('change', (e) => {
             drawRoute(e.target.value);
         });
-        
+
         document.getElementById('center-map').addEventListener('click', () => {
             const currentRoute = document.getElementById('route-select').value;
             const route = routes[currentRoute];
             const routeLine = L.polyline(route.coordinates);
             map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
         });
-        
+
         document.getElementById('toggle-markers').addEventListener('click', () => {
             if (map.hasLayer(markersLayer)) {
                 map.removeLayer(markersLayer);
@@ -376,15 +424,15 @@
                 map.addLayer(markersLayer);
             }
         });
-        
+
         document.getElementById('toggle-elevation').addEventListener('click', () => {
             const chart = document.getElementById('elevation-chart');
             chart.style.display = chart.style.display === 'none' ? 'block' : 'none';
         });
-        
+
         // Dibujar la ruta inicial
         drawRoute('maraton');
-        
+
         // Opcional: Añadir control para cambiar el estilo del mapa
         const baseLayers = {
             "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -397,10 +445,11 @@
                 attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
             })
         };
-        
+
         // Añadir control de capas
         L.control.layers(baseLayers, null, { position: 'topright' }).addTo(map);
         baseLayers["OpenStreetMap"].addTo(map);
     </script>
 </body>
+
 </html>

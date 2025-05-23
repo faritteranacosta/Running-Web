@@ -57,7 +57,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <a href="carreras.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-running mr-2"></i> Carreras
                         </a>
-                        <a href="catalogo_productos.html"
+                        <a href="catalogo_productos.php"
                             class="px-4 py-2 rounded-lg nav-link smooth-transition bg-white bg-opacity-20">
                             <i class="fas fa-store mr-2"></i> Productos
                         </a>
@@ -109,7 +109,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 <i class="fas fa-shopping-cart text-blue-500 mr-2"></i>
                 Mi Carrito
             </h1>
-            <a href="catalogo_productos.html" class="text-blue-600 hover:text-blue-800">
+            <a href="catalogo_productos.php" class="text-blue-600 hover:text-blue-800">
                 <i class="fas fa-arrow-left mr-1"></i> Seguir comprando
             </a>
         </div>
