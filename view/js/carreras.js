@@ -74,22 +74,16 @@ function cargarCarreras() {
 
       const contenedor = document.querySelector(".contenedor");
       contenedor.innerHTML = "";
-
+    
       carreras.forEach((carrera) => {
-        let carreraId;
-
-        // Intenta encontrar el ID en varios nombres comunes
-        if (carrera.idCarrera) {
+      let carreraId;
+      let idRuta = carrera.ruta;
+        if (carrera.idCarrera ) {
           carreraId = carrera.idCarrera;
-        } else if (carrera.id) {
-          carreraId = carrera.id;
-        } else if (carrera.carrera_id) {
-          carreraId = carrera.carrera_id;
-        } else if (carrera.id_carrera) {
-          carreraId = carrera.id_carrera;
         } else {
-          carreraId = null; // Si no se encuentra ningún ID
+          carreraId = null; 
         }
+
 
         const fecha = carrera.fecha ? new Date(carrera.fecha) : null;
         const fechaFormateada = fecha
@@ -131,10 +125,10 @@ function cargarCarreras() {
 
         let botonParticipar = "";
         if (carreraId && (!fechaCarrera || fechaCarrera > hoy)) {
-          botonParticipar = `
-                <a href="detalles.php?id=${carreraId}" class="block mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg transition duration-300">
-                    <i class="fas fa-running mr-2"></i> Participar
-                </a>
+            botonParticipar = `
+              <a href="detalles.php?id=${carreraId}&idRuta=${idRuta}" class="block mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg transition duration-300">
+                <i class="fas fa-running mr-2"></i> Participar
+              </a>
             `;
         } else if (fechaCarrera && fechaCarrera <= hoy) {
           botonParticipar = `

@@ -7,6 +7,11 @@ function guardarRuta(Ruta $ruta) {
     return $dao->guardar($ruta);
 }
 
+function obtenerRuta($id) {
+    $dao = new RutaDao();
+    return $dao->obtenerRuta($id);
+}
+
 function eliminarRuta($id) {
     $dao = new RutaDao();
     return $dao->eliminar($id);

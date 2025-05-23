@@ -84,7 +84,7 @@ class CarreraDAO {
     }
 
     public function listarCarreras() {
-        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria
+        $sql = "SELECT c.id_carrera, e.nombre AS nombre_evento, e.fecha AS fecha_evento, e.descripcion AS descripcion_evento, c.distancia, cat.nombre AS nombre_categoria, c.id_ruta
             FROM carrera c
             LEFT JOIN evento e ON c.id_evento = e.id_evento
             LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria";
@@ -97,7 +97,8 @@ class CarreraDAO {
                 'descripcion' => $row['descripcion_evento'],
                 'fecha' => $row['fecha_evento'],
                 'distancia' => $row['distancia'],
-                'categoria' => $row['nombre_categoria']
+                'categoria' => $row['nombre_categoria'],
+                'ruta' => $row['id_ruta']
             );
         }
         return $carreras;
