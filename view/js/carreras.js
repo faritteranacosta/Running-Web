@@ -186,7 +186,11 @@ function cargarCarreras() {
                 
                 <div class="flex items-center text-gray-500 mb-2">
                     <i class="fas fa-map-marker-alt mr-2"></i>
-                    <span>${carrera.ubicacion || "Ubicación por definir"}</span>
+                    <span>${carrera.direccion || "Dirección por definir"}</span>
+                </div>
+                <div class="flex items-center text-gray-500 mb-2">
+                    <i class="fas fa-city mr-2"></i>
+                    <span>${carrera.ciudad || "Ciudad por definir"}</span>
                 </div>
                 
                 <div class="flex items-center text-gray-500 mb-4">

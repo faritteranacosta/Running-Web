@@ -1,5 +1,5 @@
 <?php
-require_once './DataSource.php';
+require_once __DIR__ . '/DataSource.php';
 require_once __DIR__ . '/../entidad/Evento.php';
 
 class EventoDAO {
@@ -45,11 +45,18 @@ class EventoDAO {
     }
 
     public function obtenerEventoPorId($id_evento) {
-        $sql = "SELECT * FROM evento WHERE id_evento = ?";
+        $sql = "SELECT e.*, u.direccion, u.descripcion AS ubicacion_descripcion, u.coordenadas, c.nombre AS ciudad_nombre, c.id_ciudad FROM evento e
+                JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
+                JOIN ciudad c ON u.id_ciudad = c.id_ciudad
+                WHERE e.id_evento = ?";
         $params = [$id_evento];
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
         if (count($result) > 0) {
             $row = $result[0];
+            $ciudad = new Ciudad($row['ciudad_nombre']);
+            $ciudad->setIdCiudad($row['id_ciudad']);
+            $ubicacion = new Ubicacion($row['direccion'], $row['ubicacion_descripcion'], $row['coordenadas'], $ciudad);
+            $ubicacion->setIdUbicacion($row['ubicacion_id']);
             $evento = new Evento(
                 $row['nombre'],
                 $row['tipo'],
@@ -57,7 +64,7 @@ class EventoDAO {
                 $row['hora'],
                 $row['descripcion'],
                 $row['id_patrocinador'],
-                $row['ubicacion_id']
+                $ubicacion
             );
             $evento->setIdEvento($row['id_evento']);
             return $evento;
@@ -66,10 +73,19 @@ class EventoDAO {
     }
 
     public function obtenerTodosLosEventos() {
-        $sql = "SELECT * FROM evento";
+        $sql = "SELECT e.*, u.direccion, u.descripcion AS ubicacion_descripcion, u.coordenadas, u.id_ubicacion, c.nombre AS ciudad_nombre, c.id_ciudad FROM evento e
+                JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
+                JOIN ciudad c ON u.id_ciudad = c.id_ciudad";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $eventos = [];
         foreach ($result as $row) {
+            $ciudad = new Ciudad($row['ciudad_nombre']);
+            $ciudad->setIdCiudad($row['id_ciudad']);
+            $coordenadas = isset($row['coordenadas']) ? $row['coordenadas'] : null;
+            $ubicacion = new Ubicacion($row['direccion'], $row['ubicacion_descripcion'], $coordenadas, $ciudad);
+            if (isset($row['id_ubicacion'])) {
+                $ubicacion->setIdUbicacion($row['id_ubicacion']);
+            }
             $evento = new Evento(
                 $row['nombre'],
                 $row['tipo'],
@@ -77,7 +93,7 @@ class EventoDAO {
                 $row['hora'],
                 $row['descripcion'],
                 $row['id_patrocinador'],
-                $row['ubicacion_id']
+                $ubicacion
             );
             $evento->setIdEvento($row['id_evento']);
             $eventos[] = $evento;
