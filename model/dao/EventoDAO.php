@@ -17,8 +17,8 @@ class EventoDAO {
             $evento->getFechaEvento(),
             $evento->getHoraEvento(),
             $evento->getDescripcionEvento(),
-            $evento->getPatrocinador(),
-            $evento->getUbicacion()
+            $evento->getidPatrocinador(),
+            $evento->getidUbicacion()
         ];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
@@ -31,8 +31,8 @@ class EventoDAO {
             $evento->getFechaEvento(),
             $evento->getHoraEvento(),
             $evento->getDescripcionEvento(),
-            $evento->getPatrocinador(),
-            $evento->getUbicacion(),
+            $evento->getidPatrocinador(), // Usar el ID del patrocinador
+            $evento->getidUbicacion(),     // Usar el ID de la ubicación
             $evento->getIdEvento()
         ];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
