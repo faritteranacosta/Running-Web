@@ -485,6 +485,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         document.addEventListener('DOMContentLoaded', function() {
             showTab('eventos');
         });
+    }
         
     </script>
 </body>
