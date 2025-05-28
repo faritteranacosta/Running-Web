@@ -1,9 +1,24 @@
 <?php
 require_once __DIR__ . '/../../model/dao/EventoDAO.php';
 
-function agregarEvento($nombre, $fecha, $ubicacion, $descripcion) {
+function agregarEvento($nombre, $tipo, $fecha, $hora, $descripcion, $id_patrocinador, $ubicacion_id) {
     $eventoDAO = new EventoDAO();
-    $evento = new Evento($nombre, $fecha, $ubicacion, $descripcion);
+    
+    // Crear una Ubicación básica con solo el ID (si no necesitas más datos)
+    $ubicacion = new Ubicacion(null, null, null, new Ciudad(null));
+    $ubicacion->setIdUbicacion($ubicacion_id);
+    
+    // Crear el Evento con los IDs recibidos
+    $evento = new Evento(
+        $nombre,
+        $tipo,
+        $fecha,
+        $hora,
+        $descripcion,
+        $id_patrocinador,  // Asegúrate de que la clase Evento use este ID directamente
+        $ubicacion         // Objeto Ubicacion con solo el ID establecido
+    );
+    
     return $eventoDAO->insertarEvento($evento);
 }
 
@@ -17,10 +32,8 @@ function listarEventos() {
     return $eventoDAO->obtenerTodosLosEventos();
 }
 
-function actualizarEvento($id_evento, $nombre, $fecha, $ubicacion, $descripcion) {
+function actualizarEvento($evento) {
     $eventoDAO = new EventoDAO();
-    $evento = new Evento($nombre, $fecha, $ubicacion, $descripcion);
-    $evento->setIdEvento($id_evento);
     return $eventoDAO->actualizarEvento($evento);
 }
 

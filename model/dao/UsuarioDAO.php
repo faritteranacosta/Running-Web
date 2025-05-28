@@ -9,17 +9,28 @@ class UsuarioDAO {
         $this->dataSource = new DataSource();
     }
     public function autenticarUsuario($correo, $contrasena) {
-        $sql = "SELECT * FROM usuario WHERE correo = :correo AND contrasena = :contrasena";
-        $params = array(
-            ':correo' => $correo,
-            ':contrasena' => $contrasena
-        );
+        // Buscar usuario solo por correo
+        $sql = "SELECT * FROM usuario WHERE correo = :correo";
+        $params = array(':correo' => $correo);
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
+
         if (count($result) > 0) {
             $row = $result[0];
-            $user= new Usuario($row['rol'], $row['nombre'], $row['apellido'], $row['correo'], $row['contrasena'], $row['sexo'], $row['fecha_nacimiento'], $row['fecha_registro']);
-            $user->setIdUsuario($row['id_usuario']);
-            return $user;
+            // Verificar el hash de la contraseña
+            if (password_verify($contrasena, $row['contrasena'])) {
+                $user = new Usuario(
+                    $row['rol'],
+                    $row['nombre'],
+                    $row['apellido'],
+                    $row['correo'],
+                    $row['contrasena'],
+                    $row['sexo'],
+                    $row['fecha_nacimiento'],
+                    $row['fecha_registro']
+                );
+                $user->setIdUsuario($row['id_usuario']);
+                return $user;
+            }
         }
         return null;
     }

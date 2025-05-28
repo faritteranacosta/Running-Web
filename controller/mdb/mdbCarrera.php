@@ -29,6 +29,11 @@ function obtenerTodasLasCarrerasMDB() {
     return $dao->listarCarreras();
 }
 
+function obtenerCarreraPorIdM($idCarrera) {
+    $dao = new CarreraDAO();
+    return $dao->obtenerCarreraPorId($idCarrera);
+}
+
 function obtenerCarreraPorIdMDB($idCarrera) {
     $dao = new CarreraDAO();
     $carrera = $dao->obtenerCarreraPorId($idCarrera);

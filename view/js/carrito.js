@@ -17,16 +17,16 @@ function renderizarCarrito() {
             <div class="p-8 text-center text-gray-500">
                 <i class="fas fa-shopping-cart text-4xl mb-4 text-gray-300"></i>
                 <p>Tu carrito está vacío</p>
-                <a href="catalogo_productos.html" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <a href="catalogo_productos.php" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                     Ir a productos
                 </a>
             </div>
         `;
         
         // Actualizar totales
-        subtotalElement.textContent = '$0.00';
-        envioElement.textContent = '$0.00';
-        totalElement.textContent = '$0.00';
+        subtotalElement.textContent = '$00.0';
+        envioElement.textContent = '$00.0';
+        totalElement.textContent = '$00.0';
         
         // Deshabilitar botón de pago
         btnPagar.disabled = true;
@@ -74,7 +74,7 @@ function renderizarCarrito() {
 // Función para calcular subtotal, envío y total
 function calcularTotales() {
     const subtotal = carrito.reduce((total, item) => total + (item.price * item.cantidad), 0);
-    const envio = subtotal > 70000 ? 0 : 14000; // Envío gratis para compras > $70000
+    const envio = subtotal > 70000 ? 0 : 14000; 
     const total = subtotal + envio;
     
     subtotalElement.textContent = `$${subtotal.toFixed(2)}`;

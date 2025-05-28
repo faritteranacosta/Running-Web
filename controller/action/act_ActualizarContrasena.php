@@ -10,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $token = $data['token'] ?? '';
         $nueva = $data['password'] ?? '';
         $nuevaConfirm = $data['confirm_password'] ?? '';
-
+        $nuevaHashed = password_hash($nueva, PASSWORD_DEFAULT);
+        
         if ($nueva !== $nuevaConfirm) {
             echo json_encode([
                 "success" => false,
@@ -22,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usuario = verificarToken($token);
 
         if ($usuario) {
-            actualizarContrasena($usuario['id_usuario'], $nueva);
+            actualizarContrasena($usuario['id_usuario'], $nuevaHashed);
             echo json_encode([
                 "success" => true,
                 "message" => "Contraseña actualizada con éxito."

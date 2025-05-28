@@ -25,6 +25,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/administradorUsuarios.js"></script>
     <script src="js/administradorProductos.js"></script>
+    <script src="js/administradorEventos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/administradorCarreras.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -83,10 +85,22 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
         }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="bg-gray-50 flex">
-    <!-- Sidebar -->
+    <!-- Sidebar (mantiene el código existente) -->
     <div class="sidebar bg-white shadow-lg">
         <!-- Logo y Toggle -->
         <div class="p-4 flex items-center justify-between border-b">
@@ -191,7 +205,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
         <!-- Contenido Dinámico -->
         <main class="p-6">
-            <!-- Dashboard -->
+            <!-- Dashboard (mantiene el código existente) -->
             <div id="dashboard" class="tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-md">
@@ -247,105 +261,82 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             <div id="eventos" class="tab-content active">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Eventos</h2>
-                    <button onclick="showEventForm()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+                    <button onclick="showEventForm()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
                         <i class="fas fa-plus mr-1"></i> Nuevo Evento
                     </button>
                 </div>
 
-                <!-- Formulario de Evento (oculto inicialmente) -->
+                <!-- Formulario de Evento (oculto inicialmente) --> 
                 <div id="event-form" class="bg-white rounded-xl shadow-md p-6 mb-8 form-card hidden">
                     <h3 class="text-xl font-semibold mb-4">Crear Nuevo Evento</h3>
-                    <form class="space-y-4">
+                    <form onsubmit="manejarFormularioEvento(event)" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Nombre del Evento *</label>
-                                <input type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej: Maratón Ciudad 2023" required>
+                                <input type="text" name="nombre" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ej: Maratón Ciudad 2023" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Tipo de Evento *</label>
-                                <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <select name="tipo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                     <option value="">Seleccionar tipo</option>
                                     <option value="carrera">Carrera</option>
                                     <option value="entrenamiento">Entrenamiento</option>
                                     <option value="charla">Charla/Taller</option>
+                                    <option value="competencia">Competencia</option>
                                 </select>
                             </div>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-gray-700 font-medium mb-2">Fecha de Inicio *</label>
-                                <input type="date" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Fecha de Fin</label>
-                                <input type="date" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <label class="block text-gray-700 font-medium mb-2">Fecha *</label>
+                                <input type="date" name="fecha" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Hora *</label>
-                                <input type="time" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                <input type="time" name="hora" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             </div>
                         </div>
                         
                         <div>
                             <label class="block text-gray-700 font-medium mb-2">Descripción *</label>
-                            <textarea class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4" placeholder="Descripción detallada del evento" required></textarea>
+                            <textarea name="descripcion" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical" rows="4" placeholder="Descripción detallada del evento, requisitos, premios, etc." required></textarea>
                         </div>
                         
                         <div>
-                            <label class="block text-gray-700 font-medium mb-2">Ubicación *</label>
-                            <input type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Dirección o lugar del evento" required>
-                        </div>
+        <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
+        <input type="number" name="ubicacion_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico de la ubicación" required>
+        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
+    </div>
+
+                        <div>
+        <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
+        <input type="number" name="id_patrocinador" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico del patrocinador" required>
+        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
+    </div>
                         
-                        <div class="flex justify-end space-x-4">
-                            <button type="button" onclick="hideEventForm()" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100">
+                        <div class="flex justify-end space-x-4 pt-4">
+                            <button type="button" onclick="hideEventForm()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
                                 Cancelar
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
-                                Guardar Evento
+                            <button type="submit" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                                <i class="fas fa-save mr-1"></i> Guardar Evento
                             </button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Lista de Eventos -->
-                <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ubicación</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="font-medium">Maratón Primavera 2023</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Carrera</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">15 Oct 2023</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">Parque Central</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Activo</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-blue-500 hover:text-blue-700 mr-2">Editar</button>
-                                        <button class="text-red-500 hover:text-red-700">Eliminar</button>
-                                    </td>
-                                </tr>
-                                <!-- Más eventos... -->
-                            </tbody>
-                        </table>
+                <div id="eventos-table-container">
+                    <!-- La tabla se cargará aquí dinámicamente -->
+                    <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                        <div class="loading mx-auto mb-4"></div>
+                        <p class="text-gray-500">Cargando eventos...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Otras secciones (Carreras, Usuarios, etc.) -->
+            <!-- Otras secciones (mantienen el código existente) -->
             <div id="productos" class="tab-content">
                 <div id="productos-table-container" class="flex justify-center mt-8"></div>
             </div>
@@ -382,7 +373,38 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </form>
             </div>
             
-            <!-- ... otras pestañas ... -->
+            <!-- Carreras -->
+            <div id="carreras" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Gestión de Carreras</h2>
+                    <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
+                        <i class="fas fa-plus mr-1"></i> Nueva Carrera
+                    </button>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
+                </div>
+            </div>
+
+            <!-- Reportes -->
+            <div id="reportes" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Reportes y Estadísticas</h2>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
+                </div>
+            </div>
+
+            <!-- Configuración -->
+            <div id="configuracion" class="tab-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Configuración del Sistema</h2>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
+                </div>
+            </div>
             
         </main>
     </div>
@@ -425,15 +447,20 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 event.currentTarget.classList.add('active-nav');
             }
 
-            // Llamar a mostrarUsuarios() si la pestaña es usuarios
+            // Llamar a las funciones específicas según la pestaña
             if (tabId === 'usuarios') {
                 if (typeof mostrarUsuarios === 'function') {
                     mostrarUsuarios();
                 }
-            }else if (tabId === 'productos') {
+            } else if (tabId === 'productos') {
                 if (typeof mostrarProductos === 'function') {
                     mostrarProductos();
                 }
+
+            } else if (tabId === 'eventos') {
+                if (typeof mostrarEventos === 'function') {
+                    mostrarEventos();
+                  
             }else if (tabId === 'carreras') {
                 if (typeof mostrarCarreras === 'function') {
                     mostrarCarreras();
@@ -443,11 +470,15 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
         // Mostrar/ocultar formulario de evento
         function showEventForm() {
-            document.getElementById('event-form').classList.remove('hidden');
+            const form = document.getElementById('event-form');
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
         function hideEventForm() {
             document.getElementById('event-form').classList.add('hidden');
+            // Limpiar el formulario
+            document.querySelector('#event-form form').reset();
         }
 
         // Inicializar con la pestaña de eventos visible
@@ -455,8 +486,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             showTab('eventos');
         });
         
-       
-    
     </script>
 </body>
 </html>

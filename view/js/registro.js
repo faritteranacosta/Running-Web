@@ -14,9 +14,12 @@ $(document).ready(function () {
         let nombre_tienda = $('#inputEmpresa').val().trim();
         if(rol === "vendedor"){
             nombre_tienda = $('#inputEmpresa').val().trim();
-            console.log("El usuario es vendedor mi amor");
             if (nombre_tienda === "") {
-                alert("Por favor, completa el campo de nombre de tienda.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campo requerido',
+                    text: 'Por favor, completa el campo de nombre de tienda.'
+                });
                 return;
             }
         }
@@ -32,14 +35,22 @@ $(document).ready(function () {
             rol !== ""
         ) {
             if (contrasena !== repetirContrasena) {
-                alert("Las contraseñas no coinciden.");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campo requerido',
+                    text: 'Las contraseñas no coinciden'
+                });
                 return;
             }
-            console.log(nombre, apellido, sexo, rol, correo, contrasena, nombre_tienda);
+            console.log(nombre, apellido, sexo, rol, correo, contrasena, nombre_tienda, fecha_nacimiento);
    
             ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, contrasena, nombre_tienda);
         } else {
-            alert("Por favor, completa todos los campos.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor, completa todos los campos requeridos.'
+            });
         }
     });
 });
@@ -61,12 +72,20 @@ function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, con
         dataType: 'json'
     }).done(function (response) {
         if (response.message) {
-            alert(response.message);
+            Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: response.message
+            });
             if (response.ruta) {
                 window.location.href = response.ruta;
             }
         } else {
-            alert("Respuesta inesperada del servidor.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Respuesta inesperada del servidor.'
+            });
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.error("Fallo en la solicitud AJAX:");

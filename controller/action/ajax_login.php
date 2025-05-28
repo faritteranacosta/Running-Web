@@ -38,7 +38,8 @@ if ($usuario != null) {
 $resultado = [
     "msg" => $msg,
     "type" => $usuario ? "success" : "error",
-    "ruta" => $ruta
+    "ruta" => $ruta,
+    "id_usuario" => $usuario ? $usuario->getIdUsuario() : null
 ];
 
 header('Content-Type: application/json; charset=utf-8');

@@ -38,10 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const params = new URLSearchParams(window.location.search);
     const idCarrera = params.get('id');
     let idEvento = params.get('evento');
+    let idRuta = params.get('idRuta');
 
 
     if (idCarrera) {
         cargarDetallesCarrera(idCarrera);
+        cargarRuta(idRuta);
     } else {
         document.getElementById('titulo').textContent = 'Carrera no encontrada';
     }
@@ -175,22 +177,22 @@ function cargarOpcionesInscripcion(carrera) {
     } else {
         // Categorías por defecto
         const categorias = [
-            { id: 'general', nombre: 'General', precio: '500' },
-            { id: 'estudiante', nombre: 'Estudiante', precio: '400' },
-            { id: 'vip', nombre: 'VIP', precio: '800' }
+            { id: '15k', nombre: '15k', precio: '150000' },
+            { id: '10k', nombre: '10k', precio: '140000' },
+            { id: '5k', nombre: '5k', precio: '130000' }
         ];
 
         categorias.forEach(cat => {
             const option = document.createElement('option');
             option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio} MXN`;
+            option.textContent = `${cat.nombre} - $${cat.precio} COP`;
             selectCategoria.appendChild(option);
         });
     }
 
     // Tallas de playera
     selectTalla.innerHTML = '';
-    const tallas = ['Chica', 'Mediana', 'Grande', 'Extra Grande'];
+    const tallas = ['S', 'M', 'L', 'XL'];
     tallas.forEach(talla => {
         const option = document.createElement('option');
         option.value = talla.toLowerCase();
@@ -250,4 +252,80 @@ async function registrarParticipacion(idEvento) {
         btnInscribirse.disabled = false;
         btnInscribirse.innerHTML = '<i class="fas fa-running mr-2"></i> Confirmar inscripción';
     }
+}
+// Función para cargar la ruta
+async function cargarRuta(ipRuta) {
+    try {
+        const response = await fetch(`../controller/action/ajax_rutas.php?id=${encodeURIComponent(ipRuta)}`);
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (!data.success || !data.data) {
+            throw new Error(data.message || 'No se encontraron datos de ruta');
+        }
+
+        const ruta = data.data;
+
+        // Actualiza la UI con los datos
+        document.getElementById('distancia-carrera').textContent = `${ruta.distancia.replace(/"/g, '')} km`;
+        document.getElementById('tipo-ruta').textContent = ruta.nombre;
+
+        // Verifica y muestra el mapa
+        if (ruta.puntos && ruta.puntos.length >= 2) {
+            mostrarMapa(ruta.puntos);
+        } else {
+            throw new Error('La ruta no tiene suficientes puntos para mostrar');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('mapa-ruta').innerHTML = `
+            <div class="p-4 bg-red-100 text-red-800 rounded">
+                <p class="font-bold">Error al cargar el mapa</p>
+                <p>${error.message}</p>
+            </div>`;
+    }
+}
+
+function mostrarMapa(puntos) {
+    // Limpia el contenedor y crea el div para el mapa
+    const mapaContainer = document.getElementById('mapa-ruta');
+    mapaContainer.innerHTML = '<div id="leaflet-map" style="height: 400px; width: 100%;"></div>';
+
+    // Crea el mapa centrado en la primera coordenada
+    const map = L.map('leaflet-map').setView(puntos[0], 15);
+
+    // Añade capa de tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Dibuja la ruta
+    const polyline = L.polyline(puntos, {
+        color: '#3498db',
+        weight: 6,
+        opacity: 0.8,
+        lineJoin: 'round'
+    }).addTo(map);
+
+    // Añade marcadores para inicio y fin
+    L.marker(puntos[0], {
+        icon: L.divIcon({
+            className: 'start-marker',
+            html: '<div class="bg-blue-600 text-white rounded-full p-2">INICIO</div>'
+        })
+    }).addTo(map);
+
+    L.marker(puntos[puntos.length - 1], {
+        icon: L.divIcon({
+            className: 'end-marker',
+            html: '<div class="bg-red-600 text-white rounded-full p-2">FIN</div>'
+        })
+    }).addTo(map);
+
+    // Ajusta el zoom para mostrar toda la ruta
+    map.fitBounds(polyline.getBounds());
 }

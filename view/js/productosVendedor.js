@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const userId = document.getElementById("userId").value; 
-    console.log(userId);
-    fetch(`../controller/action/ajax_productos.php?id_usuario=${userId}`, {
+    
+    fetch(`../controller/action/ajax_productos.php?vendedor_id=${userId}`, {
         method: "GET",
         headers: {
             Accept: "application/json",

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const tokenInput = document.getElementById("token");
 
   // Validación en tiempo real
-  passwordInput.addEventListener("input", validatePassword);
+ // passwordInput.addEventListener("input", validatePassword);
   confirmPasswordInput.addEventListener("input", validatePasswordMatch);
 
   form.addEventListener("submit", async function (e) {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Redirigir después de 3 segundos
       setTimeout(() => {
-        window.location.href = "login.php";
+        window.location.href = "iniciar_sesion.html";
       }, 3000);
     } catch (error) {
       console.error("Error:", error);
