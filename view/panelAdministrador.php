@@ -332,7 +332,31 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </div>
 
             <div id="carreras" class="tab-content">
-                <div id="carreras-table-container" class="flex justify-center mt-8"></div>
+                <h1>Gestión de Carreras</h1>
+                
+                <!-- Botón para mostrar el formulario -->
+                <button id="mostrarFormulario">Registrar Nueva Carrera</button>
+
+                <!-- Formulario (oculto inicialmente) -->
+                <form id="formCarrera" action="guardar_carrera.php" method="POST">
+                    <label for="categoria">Categoría:</label>
+                    <input type="text" id="categoria" name="categoria" required>
+
+                    <label for="tipo_carrera">Tipo de Carrera:</label>
+                    <input type="text" id="tipo_carrera" name="tipo_carrera" required>
+
+                    <label for="distancia">Distancia (km):</label>
+                    <input type="number" step="0.01" id="distancia" name="distancia" required>
+
+                    <label for="id_evento">ID Evento:</label>
+                    <input type="number" id="id_evento" name="id_evento" required>
+
+                    <label for="id_ruta">ID Ruta:</label>
+                    <a></a>
+                    <input type="number" id="id_ruta" name="id_ruta" required>
+
+                    <button type="submit">Guardar Carrera</button>
+                </form>
             </div>
             
             <div id="carreras" class="tab-content">
@@ -442,6 +466,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         document.addEventListener('DOMContentLoaded', function() {
             showTab('eventos');
         });
+    }
         
     </script>
 </body>
