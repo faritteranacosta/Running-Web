@@ -1,7 +1,7 @@
 let paginaActualEventos = 1;
 const eventosPorPagina = 20;
-let modoEdicionEvento = false; // Declárala aquí
-let idEventoAEditar = null;   // Declárala aquí
+let modoEdicionEvento = false;
+let idEventoAEditar = null;   
 
 // Función para obtener eventos con paginación
 async function obtenerEventos(pagina = 1, porPagina = 20) {
@@ -57,32 +57,41 @@ function renderizarTablaEventos(eventos, total) {
 
     const totalPaginas = Math.ceil(total / eventosPorPagina);
 
-    let paginacion = '';
-    if (totalPaginas > 1) {
-        paginacion = `
-            <nav class="flex justify-center mt-6" aria-label="Paginación">
-                <ul class="inline-flex -space-x-px text-sm">
-                    <li>
-                        <button ${paginaActualEventos === 1 ? 'disabled' : ''} onclick="cambiarPaginaEventos(${paginaActualEventos - 1})"
-                            class="px-3 py-1 rounded-l border border-gray-300 bg-white text-gray-500 hover:bg-blue-50 hover:text-blue-600 ${paginaActualEventos === 1 ? 'opacity-50 cursor-not-allowed' : ''}">
-                            Anterior
-                        </button>
-                    </li>
-                    <li>
-                        <span class="px-3 py-1 border-t border-b border-gray-300 bg-white text-gray-700">
-                            Página ${paginaActualEventos} de ${totalPaginas}
-                        </span>
-                    </li>
-                    <li>
-                        <button ${paginaActualEventos === totalPaginas ? 'disabled' : ''} onclick="cambiarPaginaEventos(${paginaActualEventos + 1})"
-                            class="px-3 py-1 rounded-r border border-gray-300 bg-white text-gray-500 hover:bg-blue-50 hover:text-blue-600 ${paginaActualEventos === totalPaginas ? 'opacity-50 cursor-not-allowed' : ''}">
-                            Siguiente
-                        </button>
-                    </li>
-                </ul>
-            </nav>
-        `;
-    }
+    let paginacion = `
+        <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-b-lg mt-4" aria-label="Pagination">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700">
+                    Mostrando <span class="font-medium">${(paginaActualEventos - 1) * eventosPorPagina + 1}</span> a 
+                    <span class="font-medium">${Math.min(paginaActualEventos * eventosPorPagina, total)}</span> de 
+                    <span class="font-medium">${total}</span> eventos
+                </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end">
+                <button ${paginaActualEventos === 1 ? 'disabled' : ''} onclick="cambiarPaginaEventos(${paginaActualEventos - 1})"
+                    class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold ${
+                        paginaActualEventos === 1 
+                        ? 'text-gray-300 cursor-not-allowed' 
+                        : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
+                    }">
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Anterior
+                </button>
+                <button ${paginaActualEventos === totalPaginas ? 'disabled' : ''} onclick="cambiarPaginaEventos(${paginaActualEventos + 1})"
+                    class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold ${
+                        paginaActualEventos === totalPaginas 
+                        ? 'text-gray-300 cursor-not-allowed' 
+                        : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
+                    }">
+                    Siguiente
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    `;
 
     container.innerHTML = `
         <div class="bg-white rounded-xl shadow-md overflow-hidden">

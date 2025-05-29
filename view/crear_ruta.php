@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
+if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     header("Location: acceso_denegado.html");
     exit();
 }else{

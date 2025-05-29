@@ -122,13 +122,14 @@ class ProductoDAO {
         $productos = [];
         foreach ($result as $row) {
             $producto = new Producto(
-                $row['id_producto'],
                 $row['nombre'],
                 $row['descripcion'],
                 $row['precio'],
+                $row['fecha_publicacion'],
+                $row['vendedor_id'],
                 $row['categoria'],
                 $row['stock'],
-                $row['vendedor_id']
+                $row['imagenUrl']
             );
             $producto->setIdProducto($row['id_producto']);
             $productos[] = $producto;

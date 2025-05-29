@@ -93,12 +93,13 @@ function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, con
         console.error("Error:", errorThrown);
         console.error("Respuesta del servidor:", jqXHR.responseText);
     });
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+    });
 }
 
 
-const menuBtn = document.getElementById("menu-btn");
-const mobileMenu = document.getElementById("mobile-menu");
 
-menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-});
