@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,18 +51,14 @@
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md">
-        <!-- Logo y Título -->
         <div class="text-center mb-8">
             <div class="flex justify-center mb-4">
                 <img src="assets/img/icon-black.jpg" alt="Logo RunningWeb" class="w-16 h-16 rounded-full">
             </div>
             <h1 class="text-3xl font-bold text-gray-800 mb-2">Running Web</h1>
-            <p class="text-gray-600">Recupera tu contraseña</p>
         </div>
 
-        <!-- Card del Formulario -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover smooth-transition">
-            <!-- Header de la Card -->
             <div class="gradient-bg text-white p-6">
                 <h2 class="text-xl font-bold flex items-center">
                     <i class="fas fa-key mr-3"></i>
@@ -71,7 +66,6 @@
                 </h2>
             </div>
 
-            <!-- Contenido del Formulario -->
             <div class="p-6">
                 <div id="forgot-password-form">
                     <form id="recuperar-form" class="space-y-5">
@@ -105,13 +99,12 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="mt-6 text-center text-sm text-gray-500">
+        
+        <footer class="mt-6 text-center text-sm text-gray-500">
             <p>© 2024 RunningWeb. Todos los derechos reservados.</p>
-        </div>
+        </footer>
     </div>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/recuperacion.js"></script>
 </body>

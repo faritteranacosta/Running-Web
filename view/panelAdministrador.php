@@ -100,9 +100,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     </style>
 </head>
 <body class="bg-gray-50 flex">
-    <!-- Sidebar (mantiene el código existente) -->
     <div class="sidebar bg-white shadow-lg">
-        <!-- Logo y Toggle -->
         <div class="p-4 flex items-center justify-between border-b">
             <div class="flex items-center">
                 <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
@@ -113,7 +111,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </button>
         </div>
 
-        <!-- Perfil del Administrador -->
         <div class="p-4 border-b flex items-center justify-center">
             <div class="relative">
                 <img src="assets/img/milei.png" alt="Perfil"
@@ -126,7 +123,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </div>
         </div>
 
-        <!-- Menú de Navegación -->
         <nav class="flex-1 overflow-y-auto">
             <ul class="p-2">
                 <li class="nav-item">
@@ -174,7 +170,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </ul>
         </nav>
 
-        <!-- Cerrar Sesión -->
         <div class="p-4 border-t">
             <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                 <i class="fas fa-sign-out-alt"></i>
@@ -183,9 +178,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         </div>
     </div>
 
-    <!-- Contenido Principal -->
     <div class="main-content">
-        <!-- Header -->
         <header class="bg-white shadow-sm p-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-gray-800" id="tab-title">Panel de Administración</h1>
             <div class="flex items-center space-x-4">
@@ -203,9 +196,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </div>
         </header>
 
-        <!-- Contenido Dinámico -->
         <main class="p-6">
-            <!-- Dashboard (mantiene el código existente) -->
             <div id="dashboard" class="tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-md">
@@ -257,7 +248,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
-            <!-- Gestión de Eventos -->
             <div id="eventos" class="tab-content active">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Eventos</h2>
@@ -266,7 +256,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </button>
                 </div>
 
-                <!-- Formulario de Evento (oculto inicialmente) --> 
                 <div id="event-form" class="bg-white rounded-xl shadow-md p-6 mb-8 form-card hidden">
                     <h3 class="text-xl font-semibold mb-4">Crear Nuevo Evento</h3>
                     <form onsubmit="manejarFormularioEvento(event)" class="space-y-4">
@@ -326,9 +315,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </form>
                 </div>
 
-                <!-- Lista de Eventos -->
                 <div id="eventos-table-container">
-                    <!-- La tabla se cargará aquí dinámicamente -->
                     <div class="bg-white rounded-xl shadow-md p-8 text-center">
                         <div class="loading mx-auto mb-4"></div>
                         <p class="text-gray-500">Cargando eventos...</p>
@@ -336,7 +323,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
-            <!-- Otras secciones (mantienen el código existente) -->
             <div id="productos" class="tab-content">
                 <div id="productos-table-container" class="flex justify-center mt-8"></div>
             </div>
@@ -349,7 +335,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 <div id="carreras-table-container" class="flex justify-center mt-8"></div>
             </div>
             
-            <!-- Carreras -->
             <div id="carreras" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Carreras</h2>
@@ -362,7 +347,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
-            <!-- Reportes -->
             <div id="reportes" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Reportes y Estadísticas</h2>
@@ -372,7 +356,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
-            <!-- Configuración -->
             <div id="configuracion" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Configuración del Sistema</h2>
@@ -384,9 +367,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             
         </main>
     </div>
-
     <script>
-        // Toggle Sidebar
+
         document.getElementById('toggle-sidebar').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
             document.querySelector('.main-content').classList.toggle('ml-20');
@@ -432,11 +414,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 if (typeof mostrarProductos === 'function') {
                     mostrarProductos();
                 }
-
             } else if (tabId === 'eventos') {
                 if (typeof mostrarEventos === 'function') {
                     mostrarEventos();
-                  
+                }  
             }else if (tabId === 'carreras') {
                 if (typeof mostrarCarreras === 'function') {
                     mostrarCarreras();

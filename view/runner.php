@@ -89,11 +89,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 </head>
 
 <body class="bg-gray-100">
-    <!-- Contenedor Principal -->
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="sidebar bg-white shadow-lg flex flex-col h-full">
-            <!-- Logo y Toggle -->
             <div class="p-4 flex items-center justify-between border-b">
                 <div class="flex items-center">
                     <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
@@ -104,7 +101,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </button>
             </div>
 
-            <!-- Perfil del Administrador -->
             <div class="p-4 border-b flex items-center justify-center">
                 <div class="relative">
                     <img src="assets/img/milei.png" alt="Perfil"
@@ -117,7 +113,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
 
-            <!-- Menú de Navegación -->
             <nav class="flex-1 overflow-y-auto">
                 <ul class="p-2">
                     <li class="nav-item">
@@ -166,7 +161,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </ul>
             </nav>
 
-            <!-- Cerrar Sesión -->
             <div class="p-4 border-t">
                 <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
@@ -175,9 +169,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
         </div>
 
-        <!-- Contenido Principal -->
         <div class="main-content flex-1 overflow-y-auto">
-            <!-- Header -->
             <header class="bg-white shadow-sm p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">Mi Perfil de Corredor</h1>
                 <div class="flex items-center space-x-4">
@@ -198,9 +190,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </header>
 
-            <!-- Contenido -->
             <main class="p-6">
-                <!-- Estadísticas Rápidas -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div class="stats-card bg-white p-6 rounded-lg shadow">
                         <div class="flex items-center">
@@ -248,9 +238,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </div>
                 </div>
 
-                <!-- Sección de Perfil -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    <!-- Información Personal -->
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-1">
                         <h2 class="text-xl font-bold mb-4 text-gray-800">Información Personal</h2>
                         <div class="flex flex-col items-center mb-4">
@@ -296,7 +284,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         </button>
                     </div>
 
-                    <!-- Carreras y Eventos -->
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold text-gray-800">Mis Carreras Programadas</h2>
@@ -339,11 +326,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </div>
                 </div>
 
-                <!-- Productos Recomendados -->
                 <div class="bg-white p-6 rounded-lg shadow mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Productos Recomendados</h2>
-                        <a href="#" class="text-blue-500 hover:text-blue-700 text-sm font-medium">
+                        <a href="catalogo_productos.php" class="text-blue-500 hover:text-blue-700 text-sm font-medium">
                             Ver todos <i class="fas fa-chevron-right ml-1"></i>
                         </a>
                     </div>

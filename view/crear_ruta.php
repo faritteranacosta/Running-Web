@@ -384,9 +384,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             }
         });
 
-        // Función principal para guardar ruta
         async function guardarRuta() {
-            // Cargar SweetAlert2 si no está disponible
             if (typeof Swal === 'undefined') {
                 await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
             }
@@ -440,7 +438,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         icon: 'success'
                     });
 
-                    //limpiar la ruta si lo deseas
                     limpiarRuta();
 
                 } else {
@@ -514,7 +511,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             }
         }
 
-        // Helper para cargar scripts dinámicamente
         function loadScript(src) {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
@@ -525,7 +521,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             });
         }
 
-        // Helper para descargar archivos
         function downloadFile(content, fileName, contentType) {
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
@@ -538,7 +533,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             URL.revokeObjectURL(url);
         }
 
-        // Asignar eventos a los botones
         document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
         document.querySelector('.btn-success').addEventListener('click', exportarRuta);
         document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
