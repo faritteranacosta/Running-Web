@@ -12,17 +12,17 @@ class Evento {
     private $hora_evento;
     private $descripcion_evento;
     private $patrocinador; //instancia de Patrocinador
-    private $ubicacion; //instancia de Ubicacion
+    private $direccion; //instancia de Ubicacion
 
 
-    public function __construct($nombre_evento = null, $tipo_evento = null, $fecha_evento = null, $hora_evento = null, $descripcion_evento = null, $patrocinador = null, $ubicacion = null) {
+    public function __construct($nombre_evento = null, $tipo_evento = null, $fecha_evento = null, $hora_evento = null, $descripcion_evento = null, $patrocinador = null, $direccion = null) {
         $this->nombre_evento = $nombre_evento;
         $this->tipo_evento = $tipo_evento;
         $this->fecha_evento = $fecha_evento;
         $this->hora_evento = $hora_evento;
         $this->descripcion_evento = $descripcion_evento;
         $this->patrocinador = $patrocinador;
-        $this->ubicacion = $ubicacion;
+        $this->direccion = $direccion;
     }
 
 
@@ -82,17 +82,14 @@ class Evento {
         return $this->patrocinador;
     }
     
-    public function setUbicacion(Ubicacion $ubicacion) {
-        $this->ubicacion = $ubicacion;
+    public function setDireccion($direccion) {
+        $this->direccion = $direccion;
     }
     
-    public function getUbicacion() {
-        return $this->ubicacion;
+    public function getDireccion() {
+        return $this->direccion;
     }
     
-    public function getidUbicacion() {
-        return $this->ubicacion->getIdUbicacion();
-    }
     public function getidPatrocinador() {
         if (is_object($this->patrocinador) && method_exists($this->patrocinador, 'getIdPatrocinador')) {
             return $this->patrocinador->getIdPatrocinador();

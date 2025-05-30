@@ -438,6 +438,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         icon: 'success'
                     });
 
+                    //limpiar la ruta si lo deseas
                     limpiarRuta();
 
                 } else {
@@ -452,6 +453,25 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 });
             }
         }
+
+        // Modificar los botones de control
+        document.addEventListener('DOMContentLoaded', function() {
+            const controls = document.querySelector('.controls');
+            
+            if (fromParent) {
+                // Añadir botón "Guardar y Volver" si viene del formulario padre
+                const returnButton = document.createElement('button');
+                returnButton.className = 'btn btn-return';
+                returnButton.innerHTML = '<i class="fas fa-arrow-left"></i> Guardar y Volver';
+                returnButton.onclick = guardarRuta;
+                controls.insertBefore(returnButton, controls.firstChild);
+            }
+
+            // Asignar eventos a los botones existentes
+            document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
+            document.querySelector('.btn-success').addEventListener('click', exportarRuta);
+            document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
+        });
 
         // Función para exportar a GPX
         function exportarRuta() {

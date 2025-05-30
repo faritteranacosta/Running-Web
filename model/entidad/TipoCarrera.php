@@ -7,6 +7,7 @@ class TipoCarrera {
 
 
     public function __construct($nombre = null, $descripcion = null) {
+        $this->id_tipo_carrera = null; // Inicializar id_tipo_carrera como null
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
     }

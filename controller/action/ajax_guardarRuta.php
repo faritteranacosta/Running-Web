@@ -66,10 +66,11 @@ try {
         'message' => 'Ruta guardada correctamente',
         'data' => [
             'id' => $rutaGuardada->getIdRuta(),
-            'nombre' => $rutaGuardada->getNombreRuta(),
+            'nombre' => htmlspecialchars(trim($input['nombre'])),
             'distancia' => $rutaGuardada->getDistanciaRuta(),
             'puntos_count' => count($rutaGuardada->getPuntosRuta())
-        ]
+        ],
+        
     ];
 
 } catch (Exception $e) {

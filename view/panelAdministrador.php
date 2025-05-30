@@ -24,12 +24,9 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     <link rel="shortcut icon" href="assets/img/icon.ico" type="image/x-icon">
     <title>Panel de Administración - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="js/administradorUsuarios.js"></script>
-    <script src="js/administradorProductos.js"></script>
-    <script src="js/administradorEventos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/administradorCarreras.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/crear_carrera.css">
     <style>
         .sidebar {
             transition: all 0.3s ease;
@@ -339,21 +336,17 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         </div>
 
                         <div>
-                            <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
-                            <input type="number" name="ubicacion_id"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Ingrese el ID numérico de la ubicación" required>
-                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
-                        </div>
+        <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
+        <input type="number" name="ubicacion_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico de la ubicación" required>
+        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
+    </div>
 
                         <div>
-                            <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
-                            <input type="number" name="id_patrocinador"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Ingrese el ID numérico del patrocinador" required>
-                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
-                        </div>
-
+        <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
+        <input type="number" name="id_patrocinador" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico del patrocinador" required>
+        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
+    </div>
+                        
                         <div class="flex justify-end space-x-4 pt-4">
                             <button type="button" onclick="hideEventForm()"
                                 class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
@@ -383,9 +376,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 <div id="usuarios-table-container" class="flex justify-center mt-8"></div>
             </div>
 
+
             <div id="carreras" class="tab-content">
                 <h1>Gestión de Carreras</h1>
-
+                
                 <!-- Botón para mostrar el formulario -->
                 <button id="mostrarFormulario">Registrar Nueva Carrera</button>
 
@@ -410,7 +404,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     <button type="submit">Guardar Carrera</button>
                 </form>
             </div>
-
+            
+            <!-- Carreras -->
             <div id="carreras" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Carreras</h2>
@@ -421,6 +416,29 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 <div class="bg-white rounded-xl shadow-md p-8 text-center">
                     <p class="text-gray-500">Funcionalidad en desarrollo</p>
                 </div>
+
+                <script>
+                    document.getElementById('btnCrearRuta').addEventListener('click', function(e) {
+                        e.preventDefault();
+
+                        const width = Math.min(window.screen.availWidth, 1200);
+                        const height = window.screen.availHeight;
+                        const left = (window.screen.width - width) / 2;
+
+                        const ventanaRuta = window.open(
+                            '../view/crear_ruta.php?from_form=1',
+                            'CrearRuta',
+                            `width=${width},height=${height},left=${left},top=0,scrollbars=yes,resizable=yes`
+                        );
+
+                        window.addEventListener('message', function(event) {
+                            if (event.data.type === 'rutaCreada') {
+                                document.getElementById('idRuta').value = event.data.id_ruta;
+                                ventanaRuta.close();
+                            }
+                        });
+                    });
+                </script>
             </div>
 
             <div id="reportes" class="tab-content">
@@ -492,8 +510,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             } else if (tabId === 'eventos') {
                 if (typeof mostrarEventos === 'function') {
                     mostrarEventos();
-                }
-            } else if (tabId === 'carreras') {
+                  
+            }else if (tabId === 'carreras') {
                 if (typeof mostrarCarreras === 'function') {
                     mostrarCarreras();
                 }
@@ -506,7 +524,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             form.classList.remove('hidden');
             form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-
+        
         function hideEventForm() {
             document.getElementById('event-form').classList.add('hidden');
             // Limpiar el formulario
@@ -514,13 +532,17 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         }
 
         // Inicializar con la pestaña de eventos visible
-        document.addEventListener('DOMContentLoaded', function () {
-            showTab('dashboard');
-            totalUsuarios();
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('eventos');
         });
-    
-
+    }
+        
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/administradorUsuarios.js"></script>
+    <script src="js/administradorProductos.js"></script>
+    <script src="js/administradorEventos.js"></script>
+    <script src="js/administradorCarreras.js"></script>
 </body>
 
 </html>

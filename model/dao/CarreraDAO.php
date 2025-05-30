@@ -14,9 +14,9 @@ class CarreraDAO {
         $params = [
             $carrera->getDistancia(),
             $carrera->getEvento()->getIdEvento(),
-            $carrera->getTipoCarrera(),
-            $carrera->getCategoria(),
-            $carrera->getRuta()
+            $carrera->getTipoCarrera()->getIdTipoCarrera(),
+            $carrera->getCategoria()->getIdCategoria(),
+            $carrera->getRuta()->getIdRuta()
         ];
         return $this->dataSource->ejecutarActualizacion($sql, $params);
     }
