@@ -123,54 +123,84 @@ async function cargarDetallesCarrera(idCarrera) {
 
 // Nueva función para validar inscripción
 async function validarInscripcion(idEvento) {
-    if (!idEvento) return;
+    if (!idEvento) {
+        console.error('Error: idEvento no está definido');
+        return;
+    }
     
+    console.log('Validando inscripción para evento:', idEvento);
     const btnInscribirse = document.getElementById('btn-inscribirse');
+    if (!btnInscribirse) {
+        console.error('Error: No se encontró el botón de inscripción');
+        return;
+    }
+    
+    // Eliminar eventos previos para evitar duplicados
+    const nuevoBoton = btnInscribirse.cloneNode(true);
+    btnInscribirse.parentNode.replaceChild(nuevoBoton, btnInscribirse);
     
     try {
-        const checkResponse = await fetch(`../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(idEvento)}`);
+        const checkUrl = `../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(idEvento)}`;
+        console.log('Consultando:', checkUrl);
+        
+        const checkResponse = await fetch(checkUrl);
         const checkData = await checkResponse.json();
+        console.log('Respuesta de verificación:', checkData);
+        
         const yaInscrito = checkData && checkData.exists;
         
         if (yaInscrito) {
-            btnInscribirse.disabled = true;
-            btnInscribirse.textContent = 'Ya estás inscrito';
-            btnInscribirse.className = 'w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
+            nuevoBoton.disabled = true;
+            nuevoBoton.textContent = 'Ya estás inscrito';
+            nuevoBoton.className = 'w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
         } else {
-            btnInscribirse.disabled = false;
-            btnInscribirse.textContent = 'Confirmar inscripción';
-            btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
-            btnInscribirse.addEventListener('click', function() {
+            nuevoBoton.disabled = false;
+            nuevoBoton.textContent = 'Confirmar inscripción';
+            nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+            nuevoBoton.addEventListener('click', function() {
+                console.log('Botón de inscripción clickeado para evento:', idEvento);
                 registrarParticipacion(idEvento);
             });
         }
     } catch (e) {
         console.error('Error al verificar inscripción:', e);
-        btnInscribirse.textContent = 'Confirmar inscripción';
-        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+        nuevoBoton.disabled = false;
+        nuevoBoton.textContent = 'Confirmar inscripción';
+        nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+        nuevoBoton.addEventListener('click', function() {
+            console.log('Botón de inscripción clickeado (después de error) para evento:', idEvento);
+            registrarParticipacion(idEvento);
+        });
     }
 }
 
 // Función para registrar participación adaptada a ajax_participar.php
 async function registrarParticipacion(idEvento) {
     const btnInscribirse = document.getElementById('btn-inscribirse');
+    if (!btnInscribirse) {
+        console.error('No se encontró el botón de inscripción');
+        return;
+    }
 
+    console.log('Iniciando registro de participación para evento:', idEvento);
     try {
         // Deshabilitar botón mientras se procesa
         btnInscribirse.disabled = true;
         btnInscribirse.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
 
-        // Simplificamos la solicitud para que coincida con lo que espera el backend
+        // Construir FormData para enviar al servidor
+        const formData = new FormData();
+        formData.append('id_evento', idEvento);
+        
+        console.log('Enviando solicitud a ajax_participar.php...');
         const response = await fetch('../controller/action/ajax_participar.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            // Solo enviamos id_evento como requiere ajax_participar.php
-            body: `id_evento=${encodeURIComponent(idEvento)}`
+            body: formData
         });
 
+        console.log('Respuesta recibida, status:', response.status);
         const data = await response.json();
+        console.log('Datos recibidos:', data);
 
         if (data.success) {
             // Verificar si SweetAlert está disponible
@@ -201,7 +231,7 @@ async function registrarParticipacion(idEvento) {
             throw new Error(data.message || 'Error al registrar participación');
         }
     } catch (error) {
-        console.error('Error al registrar:', error);
+        console.error('Error al registrar participación:', error);
         
         // Verificar si SweetAlert está disponible
         if (typeof Swal === 'undefined') {
@@ -234,60 +264,72 @@ function loadScript(src) {
 
 // Función mejorada para cargar opciones de inscripción
 function cargarOpcionesInscripcion(carrera) {
-    // Como el backend no requiere seleccionar categoría/talla actualmente,
-    // podemos ocultar o simplificar este formulario
-    const opcionesInscripcion = document.getElementById('opciones-inscripcion');
-    if (opcionesInscripcion) {
-        opcionesInscripcion.classList.add('hidden');
-    }
+    console.log('Configurando opciones de inscripción...');
     
-    // Actualizar botón de inscripción para que sea más directo
+    // Determinar qué formulario mostrar según lo que necesite el backend
+    const opcionesSimples = true; // Cambiar a false si necesitas el formulario completo
+    
+    const opcionesInscripcion = document.getElementById('opciones-inscripcion');
     const btnInscribirse = document.getElementById('btn-inscribirse');
-    if (btnInscribirse) {
-        btnInscribirse.textContent = 'Inscribirme ahora';
-        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
-    }
-}
-
-// Función para cargar opciones de inscripción (simulado)
-function cargarOpcionesInscripcion(carrera) {
-    const selectCategoria = document.getElementById('select-categoria');
-    const selectTalla = document.getElementById('select-talla');
-
-    // Simular carga de categorías
-    selectCategoria.innerHTML = '';
-    if (carrera.categorias && carrera.categorias.length > 0) {
-        carrera.categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio}`;
-            selectCategoria.appendChild(option);
-        });
+    
+    if (opcionesSimples) {
+        // Versión simplificada - solo botón directo
+        if (opcionesInscripcion) {
+            opcionesInscripcion.classList.add('hidden');
+        }
+        
+        if (btnInscribirse) {
+            btnInscribirse.textContent = 'Inscribirme ahora';
+            btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+        }
     } else {
-        // Categorías por defecto
-        const categorias = [
-            { id: '15k', nombre: '15k', precio: '150000' },
-            { id: '10k', nombre: '10k', precio: '140000' },
-            { id: '5k', nombre: '5k', precio: '130000' }
-        ];
+        // Versión completa con formulario de categorías/tallas
+        if (opcionesInscripcion) {
+            opcionesInscripcion.classList.remove('hidden');
+        }
+        
+        const selectCategoria = document.getElementById('select-categoria');
+        const selectTalla = document.getElementById('select-talla');
 
-        categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio} COP`;
-            selectCategoria.appendChild(option);
-        });
+        // Configurar categorías
+        if (selectCategoria) {
+            selectCategoria.innerHTML = '';
+            if (carrera.categorias && carrera.categorias.length > 0) {
+                carrera.categorias.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = `${cat.nombre} - $${cat.precio}`;
+                    selectCategoria.appendChild(option);
+                });
+            } else {
+                // Categorías por defecto
+                const categorias = [
+                    { id: '15k', nombre: '15k', precio: '150000' },
+                    { id: '10k', nombre: '10k', precio: '140000' },
+                    { id: '5k', nombre: '5k', precio: '130000' }
+                ];
+
+                categorias.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = `${cat.nombre} - $${cat.precio} COP`;
+                    selectCategoria.appendChild(option);
+                });
+            }
+        }
+
+        // Configurar tallas
+        if (selectTalla) {
+            selectTalla.innerHTML = '';
+            const tallas = ['S', 'M', 'L', 'XL'];
+            tallas.forEach(talla => {
+                const option = document.createElement('option');
+                option.value = talla.toLowerCase();
+                option.textContent = talla;
+                selectTalla.appendChild(option);
+            });
+        }
     }
-
-    // Tallas de playera
-    selectTalla.innerHTML = '';
-    const tallas = ['S', 'M', 'L', 'XL'];
-    tallas.forEach(talla => {
-        const option = document.createElement('option');
-        option.value = talla.toLowerCase();
-        option.textContent = talla;
-        selectTalla.appendChild(option);
-    });
 }
 
 // Función para cargar la ruta
