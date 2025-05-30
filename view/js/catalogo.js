@@ -138,7 +138,7 @@ function renderProducts(products) {
       (producto) => `
         <div class="product-card bg-white rounded-xl shadow-md overflow-hidden">
             <div class="relative">
-                <img src="${producto.image}" alt="${
+                <img src="${producto.image ? producto.image : 'assets/img/default_product.jpg'}" alt="${
         producto.name
       }" class="w-full h-48 object-cover">
                 ${
@@ -152,7 +152,7 @@ function renderProducts(products) {
             </div>
             <div class="p-4">
                 <h3 class="font-bold text-lg">${producto.name}</h3>
-                <p class="text-gray-500 text-sm capitalize">${producto.categoria.toLowerCase()}</p>
+                <p class="text-gray-500 text-sm capitalize">${producto.categoria ? producto.categoria.toLowerCase() : 'Sin categoría'}</p>
                 <p class="text-gray-600 mt-2 line-clamp-2">${
                   producto.description
                 }</p>
