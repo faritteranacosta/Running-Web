@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Contraseña - RunningWeb</title>
+    <title>Nueva Contraseña - Running Web</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="assets/img/icon.ico" type="image/x-icon">
@@ -47,20 +47,16 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 flex-col padding">
     <div class="w-full max-w-md">
-        <!-- Logo y Título -->
         <div class="text-center mb-8">
             <div class="flex justify-center mb-4">
                 <img src="assets/img/icon-black.jpg" alt="Logo RunningWeb" class="w-16 h-16 rounded-full">
             </div>
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">RunningWeb</h1>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Running Web</h1>
             <p class="text-gray-600">Establece tu nueva contraseña</p>
         </div>
-
-        <!-- Card del Formulario -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <!-- Header de la Card -->
             <div class="bg-primary-600 text-white p-6">
                 <h2 class="text-xl font-bold flex items-center">
                     <i class="fas fa-lock mr-3"></i>
@@ -68,7 +64,6 @@
                 </h2>
             </div>
 
-            <!-- Contenido del Formulario -->
             <div class="p-6">
                 <form id="nueva-password-form" class="space-y-5">
                     <input type="hidden" id="token" name="token" value="<?php echo htmlspecialchars($_GET['token'] ?? ''); ?>">
@@ -113,14 +108,11 @@
                 <div id="form-message" class="mt-4 text-sm text-center hidden"></div>
             </div>
         </div>
-
-        <!-- Footer -->
-        <div class="mt-6 text-center text-sm text-gray-500">
+        <footer class="mt-6 text-center text-sm text-gray-500">
             <p>© 2024 RunningWeb. Todos los derechos reservados.</p>
-        </div>
+        </footer>
     </div>
-
-    <!-- Scripts -->
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/restablecer.js"></script>
 </body>

@@ -16,7 +16,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,7 +81,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Header -->
     <header class="gradient-bg text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
@@ -117,8 +115,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
+
             <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
                 <a href="carreras.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
@@ -136,9 +133,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
-        <!-- Encabezado de la carrera -->
         <div class="flex flex-col md:flex-row gap-8 mb-12">
             <div class="md:w-2/3">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
@@ -200,9 +195,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
         </div>
         
-        <!-- Detalles de la carrera -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <!-- Mapa de la ruta -->
             <div class="md:col-span-2 bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="p-6 border-b border-gray-200">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
@@ -211,7 +204,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </h2>
                 </div>
                 <div class="map-container" id="mapa-ruta">
-                    <!-- Mapa se cargará aquí con JavaScript -->
                     <div class="h-full flex items-center justify-center bg-gray-100 text-gray-500">
                         <p>Cargando mapa de la ruta...</p>
                     </div>
@@ -233,8 +225,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </div>
                 </div>
             </div>
-            
-            <!-- Clima y detalles -->
+
             <div class="space-y-6">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden">
                     <div class="p-6">
@@ -273,10 +264,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
         </div>
-        
-        <!-- Información adicional -->
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <!-- Horarios -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden detail-card">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
@@ -291,7 +280,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
             
-            <!-- Patrocinadores -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden detail-card">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
@@ -307,7 +295,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
             
-            <!-- Requisitos -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden detail-card">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">
@@ -325,48 +312,53 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-8 mt-auto">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
+        <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between gap-8">
+                <div class="md:w-1/3">
                     <div class="flex items-center space-x-3">
-                        <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                        <h2 class="text-xl font-bold text-blue-600">RunningWeb</h2>
+                        <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
+                            src="assets/img/icon-black.jpg" />
+                        <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                     </div>
-                    <p class="mt-2 text-gray-600 max-w-md">
-                        La plataforma líder para runners. Conecta, entrena y supera tus límites.
+                    <p class="mt-2 text-gray-600">
+                        La plataforma líder para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-8 md:gap-16">
-                    <div>
+                <div class="grid md:grid-cols-2 gap-8 md:w-1/2">
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Enlaces</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="index.html" class="text-gray-600 hover:text-blue-600 block">Inicio</a>
-                            <a href="eventos.html" class="text-gray-600 hover:text-blue-600 block">Eventos</a>
-                            <a href="carreras.html" class="text-gray-600 hover:text-blue-600 block">Carreras</a>
-                            <a href="productos.html" class="text-gray-600 hover:text-blue-600 block">Productos</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Inicio</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Eventos</a>
+                            <a href="#"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Comunidad</a>
+                            <a href="#contacto"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Contacto</a>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contacto</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="mailto:info@runningweb.com" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-envelope mr-2"></i> info@runningweb.com
+                            <a href="webrunning008@gmail.com"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-envelope mr-2"></i> webrunning008@gmail.com
                             </a>
-                            <a href="tel:+1234567890" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-phone mr-2"></i> +123 456 7890
+                            <a href="tel:+1234567890"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-phone mr-2"></i> +1 234 567 890
                             </a>
-                            <div class="flex space-x-4 mt-3">
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+    
+                            <div class="flex justify-center md:justify-start space-x-4 mt-3">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             </div>
@@ -380,8 +372,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
+    
     <script src = "js/detalles.js"></script>
 </body>
 </html>

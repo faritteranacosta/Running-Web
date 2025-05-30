@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor') {
     header("Location: acceso_denegado.html");
     exit();
-}else{
+} else {
     $id = $_SESSION['ID_USUARIO'];
     $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
     $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
@@ -16,6 +16,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,9 +66,11 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
         .sidebar {
             transition: all 0.3s ease;
         }
+
         .sidebar-collapsed {
             width: 80px;
         }
+
         .sidebar-collapsed .nav-text,
         .sidebar-collapsed .user-name,
         .sidebar-collapsed .user-role,
@@ -84,19 +87,22 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 
         .dashboard-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
         .active-nav {
             background-color: #3b82f6;
             color: white;
         }
+
         .active-nav i {
             color: white;
         }
+
         .nav-item {
             position: relative;
         }
+
         .gradient-bg {
             background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
         }
@@ -118,11 +124,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 </head>
 
 <body class="bg-gray-100">
-    <!-- contnedor Principal -->
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="sidebar bg-white shadow-lg flex flex-col h-full">
-            <!-- Logo y Toggle -->
             <div class="p-4 flex items-center justify-between border-b">
                 <div class="flex items-center">
                     <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
@@ -133,22 +136,21 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </button>
             </div>
 
-            <!-- Perfil -->
             <div class="p-4 border-b flex items-center justify-center">
                 <div class="relative">
                     <img src="assets/img/milei.png" alt="Perfil"
                         class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
                 </div>
                 <div>
-                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id);?>" hidden>
+                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id); ?>" hidden>
                 </div>
                 <div class="ml-3">
-                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
-                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
+                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre); ?>
+                        <?php echo htmlspecialchars($apellido); ?></h3>
+                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol); ?></p>
                 </div>
             </div>
 
-            <!-- Menú de Navegación -->
             <nav class="flex-1 overflow-y-auto">
                 <ul class="p-2">
                     <li>
@@ -161,7 +163,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700">
                             <i class="fas fa-shopping-cart text-blue-500"></i>
                             <span class="nav-text ml-3">Ventas</span>
-                            <span class="ml-auto bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full">56</span>
+                            <span
+                                class="ml-auto bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full">56</span>
                         </a>
                     </li>
                     <li>
@@ -197,18 +200,16 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </ul>
             </nav>
 
-        <!-- Cerrar Sesión -->
             <div class="p-4 border-t">
-                <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
+                <a href="../controller/action/act_logout.php"
+                    class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="nav-text ml-3">Cerrar Sesión</span>
                 </a>
             </div>
         </div>
 
-        <!-- Contenido Principal -->
         <div class="main-content">
-            <!-- Header -->
             <header class="bg-white shadow-sm p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">
                     <i class="fas fa-boxes text-blue-500 mr-2"></i>
@@ -230,10 +231,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </div>
             </header>
 
-            <!-- Contenido -->
-            <!-- Main Content -->
             <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
-                <!-- Hero Section -->
                 <section class="gradient-bg text-white rounded-xl shadow-lg p-8 mb-10 relative overflow-hidden">
                     <div class="absolute inset-0 bg-black opacity-10"></div>
                     <div class="relative z-10">
@@ -242,13 +240,13 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                             Gestión de Productos Deportivos
                         </h2>
                         <p class="text-lg md:text-xl max-w-2xl">
-                            Administra fácilmente tu catálogo de productos para runners. Agrega, edita y organiza todo en un
+                            Administra fácilmente tu catálogo de productos para runners. Agrega, edita y organiza todo
+                            en un
                             solo lugar.
                         </p>
                     </div>
                 </section>
 
-                <!-- Add Product Form -->
                 <section class="bg-white rounded-xl shadow-md p-6 mb-12 card-hover">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-semibold text-gray-800">
@@ -262,15 +260,15 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 
                     <form class="space-y-6" id="product-form" novalidate="">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
+
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2" for="product-name">
                                     Nombre del producto <span class="text-primary-600">*</span>
                                 </label>
                                 <input
                                     class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition"
-                                    id="product-name" name="productName" placeholder="Ej: Zapatillas de running" required
-                                    type="text" />
+                                    id="product-name" name="productName" placeholder="Ej: Zapatillas de running"
+                                    required type="text" />
                             </div>
 
                             <div>
@@ -320,7 +318,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                                 </label>
                                 <input
                                     class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 smooth-transition"
-                                    id="product-stock" min="0" name="productStock" placeholder="0" required type="number" />
+                                    id="product-stock" min="0" name="productStock" placeholder="0" required
+                                    type="number" />
                             </div>
 
                             <div>
@@ -339,7 +338,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                                 class="px-6 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 smooth-transition">
                                 <i class="fas fa-times mr-2"></i> Cancelar
                             </button>
-                            <button type="submit " id = "save-product" 
+                            <button type="submit " id="save-product"
                                 class="px-6 py-3 rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-medium smooth-transition">
                                 <i class="fas fa-save mr-2"></i> Guardar Producto
                             </button>
@@ -347,7 +346,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     </form>
                 </section>
 
-                <!-- Products List -->
                 <section class="mb-16 fade-in">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-xl font-semibold text-gray-800">
@@ -399,7 +397,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                                         id="prev-btn">
                                         <i class="fas fa-chevron-left"></i>
                                     </button>
-                                    <!-- Los números de página se generarán dinámicamente aquí -->
                                     <button onclick="nextPage()"
                                         class="px-3 py-1 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 disabled:opacity-50"
                                         id="next-btn">
@@ -412,50 +409,56 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </section>
             </main>
 
-            <!-- Footer -->
             <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
-                <div class="container mx-auto px-4">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <div class="mb-6 md:mb-0">
+                <div class="container mx-auto px-4 max-w-6xl">
+                    <div class="flex flex-col md:flex-row justify-between gap-8">
+                        <div class="md:w-1/3">
                             <div class="flex items-center space-x-3">
                                 <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
                                     src="assets/img/icon-black.jpg" />
-                                <h2 class="text-xl font-bold text-blue-600">RunningWeb</h2>
+                                <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                             </div>
-                            <p class="mt-2 text-gray-600 max-w-md">
-                                La plataforma líder para la gestión de productos deportivos y comunidad de runners.
+                            <p class="mt-2 text-gray-600">
+                                La plataforma líder para la comunidad de runners. Conecta, entrena y mejora tu
+                                rendimiento.
                             </p>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-8 md:gap-16">
-                            <div>
+                        <div class="grid md:grid-cols-2 gap-8 md:w-1/2">
+                            <div class="text-center md:text-left">
                                 <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Enlaces</h3>
                                 <div class="mt-4 space-y-2">
-                                    <a href="#" class="text-gray-600 hover:text-blue-600 block">Inicio</a>
-                                    <a href="#" class="text-gray-600 hover:text-blue-600 block">Productos</a>
-                                    <a href="#" class="text-gray-600 hover:text-blue-600 block">Comunidad</a>
-                                    <a href="#contacto" class="text-gray-600 hover:text-blue-600 block">Contacto</a>
+                                    <a href="#"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">Inicio</a>
+                                    <a href="#"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">Eventos</a>
+                                    <a href="#"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">Comunidad</a>
+                                    <a href="#contacto"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">Contacto</a>
                                 </div>
                             </div>
 
-                            <div>
+                            <div class="text-center md:text-left">
                                 <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contacto</h3>
                                 <div class="mt-4 space-y-2">
-                                    <a href="mailto:contacto@runningweb.com"
-                                        class="text-gray-600 hover:text-blue-600 block">
-                                        <i class="fas fa-envelope mr-2"></i> contacto@runningweb.com
+                                    <a href="webrunning008@gmail.com"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                        <i class="fas fa-envelope mr-2"></i> webrunning008@gmail.com
                                     </a>
-                                    <a href="tel:+1234567890" class="text-gray-600 hover:text-blue-600 block">
+                                    <a href="tel:+1234567890"
+                                        class="text-gray-600 hover:text-primary-600 block smooth-transition">
                                         <i class="fas fa-phone mr-2"></i> +1 234 567 890
                                     </a>
-                                    <div class="flex space-x-4 mt-3">
-                                        <a href="#" class="text-gray-600 hover:text-blue-600">
+
+                                    <div class="flex justify-center md:justify-start space-x-4 mt-3">
+                                        <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                             <i class="fab fa-facebook-f"></i>
                                         </a>
-                                        <a href="#" class="text-gray-600 hover:text-blue-600">
+                                        <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                             <i class="fab fa-twitter"></i>
                                         </a>
-                                        <a href="#" class="text-gray-600 hover:text-blue-600">
+                                        <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                             <i class="fab fa-instagram"></i>
                                         </a>
                                     </div>

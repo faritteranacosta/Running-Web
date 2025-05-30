@@ -60,22 +60,23 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
     </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Contenedor Principal -->
     <div class="flex h-screen">
-        <!-- Sidebar -->
         <div class="sidebar bg-white shadow-lg flex flex-col h-full">
-            <!-- Logo y Toggle -->
             <div class="p-4 flex items-center justify-between border-b">
-                <div class="flex items-center">
-                    <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                    <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
-                </div>
+                <div class="flex items-center space-x-3">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img alt="Logo RunningWeb"
+                        class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md transform hover:scale-105 transition-transform duration-300"
+                        src="assets/img/icon-black.jpg" />
+                    <h1 class="text-2xl font-bold font-heading tracking-tight text-white drop-shadow-md">
+                        RunningWeb</h1>
+                </a>
+            </div>
                 <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
 
-            <!-- Perfil del Administrador -->
             <div class="p-4 border-b flex items-center justify-center">
                 <div class="relative">
                     <img src="assets/img/milei.png" alt="Perfil"
@@ -90,7 +91,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </div>
             </div>
             
-            <!-- Menú de Navegación -->
             <nav class="flex-1 overflow-y-auto">
                 <ul class="p-2">
                     <li>
@@ -139,7 +139,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </ul>
             </nav>
             
-            <!-- Cerrar Sesión -->
             <div class="p-4 border-t">
                 <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
@@ -148,9 +147,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             </div>
         </div>
         
-        <!-- Contenido Principal -->
         <div class="main-content flex-1 overflow-y-auto">
-            <!-- Header -->
             <header class="bg-white shadow-sm p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">Panel de Vendedor</h1>
                 <div class="flex items-center space-x-4">
@@ -168,9 +165,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </div>
             </header>
             
-            <!-- Contenido -->
             <main class="p-6">
-                <!-- Estadísticas Rápidas -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div class="dashboard-card bg-white p-6 rounded-lg shadow">
                         <div class="flex items-center">
@@ -230,9 +225,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     </div>
                 </div>
                 
-                <!-- Gráficos y Tablas -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    <!-- Gráfico de Ventas -->
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold text-gray-800">Ventas Mensuales</h2>
@@ -246,7 +239,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         </div>
                     </div>
                     
-                    <!-- Órdenes Recientes -->
                     <div class="bg-white p-6 rounded-lg shadow">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold text-gray-800">Órdenes Recientes</h2>
@@ -286,8 +278,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         </div>
                     </div>
                 </div>
-                
-                <!-- Productos -->
+
                 <div class="bg-white p-6 rounded-lg shadow mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Mis Productos</h2>
@@ -316,7 +307,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     </div>
                 </div>
                 
-                <!-- Reseñas Recientes -->
                 <div class="bg-white p-6 rounded-lg shadow">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Reseñas Recientes</h2>

@@ -81,7 +81,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Header -->
     <header class="gradient-bg text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
@@ -116,8 +115,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </button>
                 </div>
             </div>
-            
-            <!-- Mobile Menu -->
+
             <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
                 <a href="eventos.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
@@ -135,9 +133,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Título Principal -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">
                 <i class="fas fa-calendar-alt text-blue-500 mr-3"></i>
@@ -147,29 +143,26 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 Descubre eventos, charlas y actividades para mejorar tu rendimiento y conectar con otros runners
             </p>
         </div>
-        
-        <!-- Evento Destacado -->
+
         <section class="mb-16">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-star text-yellow-400 mr-2"></i>
                 Evento Destacado
             </h2>
             <div class="event-card bg-white rounded-xl shadow-lg overflow-hidden card-hover" id="evento-destacado">
-                <!-- Contenido dinámico desde eventos.js -->
+
                 <div class="flex items-center justify-center h-64 bg-gray-100">
                     <p class="text-gray-500">Cargando evento destacado...</p>
                 </div>
             </div>
         </section>
         
-        <!-- Más Eventos -->
         <section>
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-list-ul text-blue-500 mr-2"></i>
                 Más Eventos
             </h2>
             <div class="contenedor" id="lista-eventos">
-                <!-- Contenido dinámico desde eventos.js -->
                 <div class="bg-gray-100 rounded-lg h-48 flex items-center justify-center">
                     <p class="text-gray-500">Cargando eventos...</p>
                 </div>
@@ -177,48 +170,53 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-8 mt-auto">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
+    <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between gap-8">
+                <div class="md:w-1/3">
                     <div class="flex items-center space-x-3">
-                        <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                        <h2 class="text-xl font-bold text-blue-600">RunningWeb</h2>
+                        <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
+                            src="assets/img/icon-black.jpg" />
+                        <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                     </div>
-                    <p class="mt-2 text-gray-600 max-w-md">
-                        La plataforma líder para runners. Conecta, entrena y supera tus límites.
+                    <p class="mt-2 text-gray-600">
+                        La plataforma líder para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-8 md:gap-16">
-                    <div>
+                <div class="grid md:grid-cols-2 gap-8 md:w-1/2">
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Enlaces</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="index.html" class="text-gray-600 hover:text-blue-600 block">Inicio</a>
-                            <a href="eventos.html" class="text-gray-600 hover:text-blue-600 block">Eventos</a>
-                            <a href="carreras.html" class="text-gray-600 hover:text-blue-600 block">Carreras</a>
-                            <a href="catalogo_productos.html" class="text-gray-600 hover:text-blue-600 block">Productos</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Inicio</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Eventos</a>
+                            <a href="#"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Comunidad</a>
+                            <a href="#contacto"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Contacto</a>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contacto</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="mailto:info@runningweb.com" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-envelope mr-2"></i> info@runningweb.com
+                            <a href="webrunning008@gmail.com"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-envelope mr-2"></i> webrunning008@gmail.com
                             </a>
-                            <a href="tel:+1234567890" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-phone mr-2"></i> +123 456 7890
+                            <a href="tel:+1234567890"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-phone mr-2"></i> +1 234 567 890
                             </a>
-                            <div class="flex space-x-4 mt-3">
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+    
+                            <div class="flex justify-center md:justify-start space-x-4 mt-3">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             </div>
@@ -232,11 +230,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
         </div>
     </footer>
-
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/eventos.js"></script>
-    
     <script>
         // Toggle Mobile Menu
         document.getElementById('mobile-menu-button').addEventListener('click', function() {

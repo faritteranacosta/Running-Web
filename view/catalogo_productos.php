@@ -69,7 +69,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Header -->
     <header class="gradient-bg text-white shadow-lg">
         <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
@@ -115,7 +114,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
 
-            <!-- Mobile Menu -->
             <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
                 <a href="catalogo_productos.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
@@ -134,9 +132,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
-        <!-- Título y Filtros -->
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">
                 <i class="fas fa-store text-blue-500 mr-3"></i>
@@ -146,7 +142,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 Encuentra los mejores productos para runners y mejora tu rendimiento
             </p>
 
-            <!-- Filtros por Categoría -->
             <div class="flex flex-wrap justify-center gap-2 mb-6">
                 <button
                     class="category-filter px-4 py-2 rounded-full border border-gray-300 hover:bg-blue-500 hover:text-white smooth-transition active"
@@ -175,7 +170,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </button>
             </div>
 
-            <!-- Barra de Búsqueda -->
             <div class="max-w-md mx-auto relative">
                 <input type="text" placeholder="Buscar productos..."
                     class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -183,14 +177,13 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
         </div>
 
-        <!-- Productos Destacados -->
         <section class="mb-12">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-star text-yellow-400 mr-2"></i>
                 Productos Destacados
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="productos-destacados">
-                <!-- Producto Destacado 1 -->
+
                 <div class="product-card bg-white rounded-xl shadow-md overflow-hidden card-hover">
                     <div class="relative">
                         <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
@@ -222,11 +215,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                     </div>
                 </div>
 
-                <!-- Más productos destacados... -->
             </div>
         </section>
-
-        <!-- Todos los Productos -->
         <section>
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-semibold text-gray-800 flex items-center">
@@ -247,60 +237,63 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
 
             <div class="products-grid" id="todos-productos">
-                <!-- Los productos se cargarán aquí dinámicamente desde el backend -->
+              
                 <div class="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
                     <p class="text-gray-500">Cargando productos...</p>
                 </div>
             </div>
 
-            <!-- Paginación -->
              <div class="pagination-container flex justify-center items-center gap-2 mt-8"></div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 py-8 mt-auto">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
+        <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between gap-8">
+                <div class="md:w-1/3">
                     <div class="flex items-center space-x-3">
-                        <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                        <h2 class="text-xl font-bold text-blue-600">RunningWeb</h2>
+                        <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
+                            src="assets/img/icon-black.jpg" />
+                        <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                     </div>
-                    <p class="mt-2 text-gray-600 max-w-md">
-                        La plataforma líder para runners. Conecta, entrena y supera tus límites.
+                    <p class="mt-2 text-gray-600">
+                        La plataforma líder para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-8 md:gap-16">
-                    <div>
+                <div class="grid md:grid-cols-2 gap-8 md:w-1/2">
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Enlaces</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="index.html" class="text-gray-600 hover:text-blue-600 block">Inicio</a>
-                            <a href="eventos.html" class="text-gray-600 hover:text-blue-600 block">Eventos</a>
-                            <a href="carreras.html" class="text-gray-600 hover:text-blue-600 block">Carreras</a>
-                            <a href="catalogo_productos.html"
-                                class="text-gray-600 hover:text-blue-600 block">Productos</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Inicio</a>
+                            <a href="#" class="text-gray-600 hover:text-primary-600 block smooth-transition">Eventos</a>
+                            <a href="#"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Comunidad</a>
+                            <a href="#contacto"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">Contacto</a>
                         </div>
                     </div>
 
-                    <div>
+                    <div class="text-center md:text-left">
                         <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Contacto</h3>
                         <div class="mt-4 space-y-2">
-                            <a href="mailto:info@runningweb.com" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-envelope mr-2"></i> info@runningweb.com
+                            <a href="webrunning008@gmail.com"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-envelope mr-2"></i> webrunning008@gmail.com
                             </a>
-                            <a href="tel:+1234567890" class="text-gray-600 hover:text-blue-600 block">
-                                <i class="fas fa-phone mr-2"></i> +123 456 7890
+                            <a href="tel:+1234567890"
+                                class="text-gray-600 hover:text-primary-600 block smooth-transition">
+                                <i class="fas fa-phone mr-2"></i> +1 234 567 890
                             </a>
-                            <div class="flex space-x-4 mt-3">
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+    
+                            <div class="flex justify-center md:justify-start space-x-4 mt-3">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             </div>
@@ -315,7 +308,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/catalogo.js"></script>
 </body>

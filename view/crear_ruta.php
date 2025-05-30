@@ -384,9 +384,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             }
         });
 
-        // Función principal para guardar ruta
         async function guardarRuta() {
-            // Cargar SweetAlert2 si no está disponible
             if (typeof Swal === 'undefined') {
                 await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
             }
@@ -434,26 +432,15 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 }
 
                 if (data.success) {
-                    
-                    if (window.opener) {
-                        window.opener.postMessage({
-                            type: 'rutaCreada',
-                            id_ruta: data.data.id,
-                        }, '*');
-                        alert("El ID es: " + data.data.id); // Ahora debería funcionar bien
+                    await Swal.fire({
+                        title: '¡Éxito!',
+                        text: data.message,
+                        icon: 'success'
+                    });
 
+                    //limpiar la ruta si lo deseas
+                    limpiarRuta();
 
-                        // Opcional: cerrar la ventana después de enviar el mensaje
-                        window.close();
-                    } else {
-                        // Comportamiento normal para uso independiente
-                        await Swal.fire({
-                            title: '¡Éxito!',
-                            text: data.message,
-                            icon: 'success'
-                        });
-                        limpiarRuta();
-                    }
                 } else {
                     throw new Error(data.message);
                 }
@@ -544,7 +531,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             }
         }
 
-        // Helper para cargar scripts dinámicamente
         function loadScript(src) {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
@@ -555,7 +541,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             });
         }
 
-        // Helper para descargar archivos
         function downloadFile(content, fileName, contentType) {
             const blob = new Blob([content], { type: contentType });
             const url = URL.createObjectURL(blob);
@@ -568,7 +553,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             URL.revokeObjectURL(url);
         }
 
-        // Asignar eventos a los botones
         document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
         document.querySelector('.btn-success').addEventListener('click', exportarRuta);
         document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
