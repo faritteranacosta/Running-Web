@@ -154,7 +154,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 <li class="nav-item">
                     <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('dashboard')">
                         <i class="fas fa-tachometer-alt text-blue-500"></i>
-                        <span id="nUsuarios" class="nav-text ml-3">Dashboard</span>
+                        <span class="nav-text ml-3">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -235,7 +235,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         <div class="space-y-4">
                             <div class="flex justify-between items-center">
                                 <span>Usuarios registrados</span>
-                                <span class="font-bold">1,245</span>
+                                <span id="nUsuarios" class="font-bold">0</span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span>Eventos activos</span>
@@ -444,10 +444,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         const height = window.screen.availHeight;
                         const left = (window.screen.width - width) / 2;
 
-                        ventanaRuta = window.open(
+                        const ventanaRuta = window.open(
                             '../view/crear_ruta.php?from_form=1',
                             'CrearRuta',
-                            `width=${width},height=${height},left=${left},top=0,scrollbars=yes,resizable=yes`
+                            `width=${screen.width},height=${screen.height},left=0,top=0,scrollbars=yes`
                         );
                     });
 
@@ -543,6 +543,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         mostrarCarreras();
                     }
                 }
+            }else if(tabId === 'dashboard') {
+                totalUsuarios();
             }
 
             // Mostrar/ocultar formulario de evento
@@ -562,7 +564,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             }
 
             document.addEventListener('DOMContentLoaded', function() {
-                showTab('dashboard'); 
+                showTab('dashboard');
             });
         }
     </script>
