@@ -264,72 +264,45 @@ function loadScript(src) {
 
 // Función mejorada para cargar opciones de inscripción
 function cargarOpcionesInscripcion(carrera) {
-    console.log('Configurando opciones de inscripción...');
-    
-    const opcionesSimples = false; 
-    
-    const opcionesInscripcion = document.getElementById('opciones-inscripcion');
-    const btnInscribirse = document.getElementById('btn-inscribirse');
-    
-    if (opcionesSimples) {
-        // Versión simplificada - solo botón directo
-        if (opcionesInscripcion) {
-            opcionesInscripcion.classList.add('hidden');
-        }
-        
-        if (btnInscribirse) {
-            btnInscribirse.textContent = 'Inscribirme ahora';
-            btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
-        }
+    const selectCategoria = document.getElementById('select-categoria');
+    const selectTalla = document.getElementById('select-talla');
+
+    // Simular carga de categorías
+    selectCategoria.innerHTML = '';
+    if (carrera.categorias && carrera.categorias.length > 0) {
+        carrera.categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = `${cat.nombre} - $${cat.precio}`;
+            selectCategoria.appendChild(option);
+        });
     } else {
-        // Versión completa con formulario de categorías/tallas
-        if (opcionesInscripcion) {
-            opcionesInscripcion.classList.remove('hidden');
-        }
-        
-        const selectCategoria = document.getElementById('select-categoria');
-        const selectTalla = document.getElementById('select-talla');
+        // Categorías por defecto
+        const categorias = [
+            { id: '15k', nombre: '15k', precio: '150000' },
+            { id: '10k', nombre: '10k', precio: '140000' },
+            { id: '5k', nombre: '5k', precio: '130000' }
+        ];
 
-        // Configurar categorías
-        if (selectCategoria) {
-            selectCategoria.innerHTML = '';
-            if (carrera.categorias && carrera.categorias.length > 0) {
-                carrera.categorias.forEach(cat => {
-                    const option = document.createElement('option');
-                    option.value = cat.id;
-                    option.textContent = `${cat.nombre} - $${cat.precio}`;
-                    selectCategoria.appendChild(option);
-                });
-            } else {
-                // Categorías por defecto
-                const categorias = [
-                    { id: '15k', nombre: '15k', precio: '150000' },
-                    { id: '10k', nombre: '10k', precio: '140000' },
-                    { id: '5k', nombre: '5k', precio: '130000' }
-                ];
-
-                categorias.forEach(cat => {
-                    const option = document.createElement('option');
-                    option.value = cat.id;
-                    option.textContent = `${cat.nombre} - $${cat.precio} COP`;
-                    selectCategoria.appendChild(option);
-                });
-            }
-        }
-
-        // Configurar tallas
-        if (selectTalla) {
-            selectTalla.innerHTML = '';
-            const tallas = ['S', 'M', 'L', 'XL'];
-            tallas.forEach(talla => {
-                const option = document.createElement('option');
-                option.value = talla.toLowerCase();
-                option.textContent = talla;
-                selectTalla.appendChild(option);
-            });
-        }
+        categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = `${cat.nombre} - $${cat.precio} COP`;
+            selectCategoria.appendChild(option);
+        });
     }
+
+    // Tallas de playera
+    selectTalla.innerHTML = '';
+    const tallas = ['S', 'M', 'L', 'XL'];
+    tallas.forEach(talla => {
+        const option = document.createElement('option');
+        option.value = talla.toLowerCase();
+        option.textContent = talla;
+        selectTalla.appendChild(option);
+    });
 }
+
 
 // Función para cargar la ruta
 async function cargarRuta(ipRuta) {
