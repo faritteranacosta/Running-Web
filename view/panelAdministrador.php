@@ -132,7 +132,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         </div>
 
         <div class="p-4 border-b flex items-center justify-center">
-            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+            <div
+                class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
                 <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
                     <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
                 </span>
@@ -155,8 +156,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg active-nav" 
-                    onclick="showTab('eventos')">
+                    <a href="#" class="flex items-center p-3 rounded-lg active-nav" onclick="showTab('eventos')">
                         <i class="fas fa-calendar-alt text-blue-500"></i>
                         <span class="nav-text ml-3">Eventos</span>
                     </a>
@@ -336,17 +336,21 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         </div>
 
                         <div>
-        <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
-        <input type="number" name="ubicacion_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico de la ubicación" required>
-        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
-    </div>
+                            <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
+                            <input type="number" name="ubicacion_id"
+                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Ingrese el ID numérico de la ubicación" required>
+                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
+                        </div>
 
                         <div>
-        <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
-        <input type="number" name="id_patrocinador" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico del patrocinador" required>
-        <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
-    </div>
-                        
+                            <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
+                            <input type="number" name="id_patrocinador"
+                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Ingrese el ID numérico del patrocinador" required>
+                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
+                        </div>
+
                         <div class="flex justify-end space-x-4 pt-4">
                             <button type="button" onclick="hideEventForm()"
                                 class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
@@ -379,7 +383,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
             <div id="carreras" class="tab-content">
                 <h1>Gestión de Carreras</h1>
-                
+
                 <!-- Botón para mostrar el formulario -->
                 <button id="mostrarFormulario">Registrar Nueva Carrera</button>
 
@@ -404,7 +408,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     <button type="submit">Guardar Carrera</button>
                 </form>
             </div>
-            
+
             <!-- Carreras -->
             <div id="carreras" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
@@ -418,7 +422,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
 
                 <script>
-                    document.getElementById('btnCrearRuta').addEventListener('click', function(e) {
+                    document.getElementById('btnCrearRuta').addEventListener('click', function (e) {
                         e.preventDefault();
 
                         const width = Math.min(window.screen.availWidth, 1200);
@@ -431,7 +435,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                             `width=${width},height=${height},left=${left},top=0,scrollbars=yes,resizable=yes`
                         );
 
-                        window.addEventListener('message', function(event) {
+                        window.addEventListener('message', function (event) {
                             if (event.data.type === 'rutaCreada') {
                                 document.getElementById('idRuta').value = event.data.id_ruta;
                                 ventanaRuta.close();
@@ -510,33 +514,33 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             } else if (tabId === 'eventos') {
                 if (typeof mostrarEventos === 'function') {
                     mostrarEventos();
-                  
-            }else if (tabId === 'carreras') {
-                if (typeof mostrarCarreras === 'function') {
-                    mostrarCarreras();
+
+                } else if (tabId === 'carreras') {
+                    if (typeof mostrarCarreras === 'function') {
+                        mostrarCarreras();
+                    }
                 }
             }
+
+            // Mostrar/ocultar formulario de evento
+            function showEventForm() {
+                const form = document.getElementById('event-form');
+                form.classList.remove('hidden');
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function hideEventForm() {
+                document.getElementById('event-form').classList.add('hidden');
+                // Limpiar el formulario
+                document.querySelector('#event-form form').reset();
+            }
+
+            // Inicializar con la pestaña de eventos visible
+            document.addEventListener('DOMContentLoaded', function () {
+                showTab('eventos');
+            });
         }
 
-        // Mostrar/ocultar formulario de evento
-        function showEventForm() {
-            const form = document.getElementById('event-form');
-            form.classList.remove('hidden');
-            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-        
-        function hideEventForm() {
-            document.getElementById('event-form').classList.add('hidden');
-            // Limpiar el formulario
-            document.querySelector('#event-form form').reset();
-        }
-
-        // Inicializar con la pestaña de eventos visible
-        document.addEventListener('DOMContentLoaded', function() {
-            showTab('eventos');
-        });
-    }
-        
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/administradorUsuarios.js"></script>
