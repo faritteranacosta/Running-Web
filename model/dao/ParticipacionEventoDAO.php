@@ -21,7 +21,7 @@ class ParticipacionEventoDAO {
             FROM participacion_evento p
             JOIN evento e ON p.evento_id = e.id_evento
             JOIN carrera c ON c.id_evento = e.id_evento
-            WHERE p.usuario_id = ?";
+            WHERE p.corredor_id = ?";
     $params = array($id_usuario);
     $result = $this->dataSource->ejecutarConsulta($sql, $params);
     $participaciones = array();

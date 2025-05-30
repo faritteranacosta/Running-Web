@@ -211,99 +211,104 @@ async function validarInscripcion(idEvento) {
     }
 }
 
-// Función para cargar opciones de inscripción (simulado)
-function cargarOpcionesInscripcion(carrera) {
-    const selectCategoria = document.getElementById('select-categoria');
-    const selectTalla = document.getElementById('select-talla');
-
-    // Simular carga de categorías
-    selectCategoria.innerHTML = '';
-    if (carrera.categorias && carrera.categorias.length > 0) {
-        carrera.categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio}`;
-            selectCategoria.appendChild(option);
-        });
-    } else {
-        // Categorías por defecto
-        const categorias = [
-            { id: '15k', nombre: '15k', precio: '150000' },
-            { id: '10k', nombre: '10k', precio: '140000' },
-            { id: '5k', nombre: '5k', precio: '130000' }
-        ];
-
-        categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio} COP`;
-            selectCategoria.appendChild(option);
-        });
-    }
-
-    // Tallas de playera
-    selectTalla.innerHTML = '';
-    const tallas = ['S', 'M', 'L', 'XL'];
-    tallas.forEach(talla => {
-        const option = document.createElement('option');
-        option.value = talla.toLowerCase();
-        option.textContent = talla;
-        selectTalla.appendChild(option);
-    });
-}
-
-// Función para registrar participación
+// Función para registrar participación adaptada a ajax_participar.php
 async function registrarParticipacion(idEvento) {
-    const selectCategoria = document.getElementById('select-categoria');
-    const selectTalla = document.getElementById('select-talla');
     const btnInscribirse = document.getElementById('btn-inscribirse');
 
-    if (!selectCategoria.value || !selectTalla.value) {
-        alert('Por favor selecciona una categoría y talla');
-        return;
-    }
-
     try {
+        // Deshabilitar botón mientras se procesa
         btnInscribirse.disabled = true;
         btnInscribirse.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
 
+        // Simplificamos la solicitud para que coincida con lo que espera el backend
         const response = await fetch('../controller/action/ajax_participar.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `id_evento=${encodeURIComponent(idEvento)}&categoria=${encodeURIComponent(selectCategoria.value)}&talla=${encodeURIComponent(selectTalla.value)}`
+            // Solo enviamos id_evento como requiere ajax_participar.php
+            body: `id_evento=${encodeURIComponent(idEvento)}`
         });
 
         const data = await response.json();
 
         if (data.success) {
+            // Verificar si SweetAlert está disponible
+            if (typeof Swal === 'undefined') {
+                await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
+            }
+            
             Swal.fire({
                 icon: 'success',
                 title: '¡Inscripción confirmada!',
-                text: data.message,
+                text: data.message || '¡Te has inscrito correctamente a este evento!',
                 confirmButtonColor: '#28a745',
                 showConfirmButton: false,
                 timer: 2000,
                 willClose: () => {
-        const params = new URLSearchParams(window.location.search);
-        const idCarrera = params.get('id');
-        if (idCarrera) {
-            cargarDetallesCarrera(idCarrera); // Recargar solo la parte de los detalles
-        }
-    }
+                    const params = new URLSearchParams(window.location.search);
+                    const idCarrera = params.get('id');
+                    if (idCarrera) {
+                        cargarDetallesCarrera(idCarrera); // Recargar detalles para actualizar estado
+                    }
+                }
             });
-            btnInscribirse.textContent = 'Inscripción confirmada';
-            btnInscribirse.className = 'w-full bg-green-500 text-white py-3 rounded-lg font-semibold';
+            
+            btnInscribirse.textContent = 'Ya estás inscrito';
+            btnInscribirse.className = 'w-full bg-green-500 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
+            btnInscribirse.disabled = true;
         } else {
             throw new Error(data.message || 'Error al registrar participación');
         }
     } catch (error) {
-
+        console.error('Error al registrar:', error);
+        
+        // Verificar si SweetAlert está disponible
+        if (typeof Swal === 'undefined') {
+            await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
+        }
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'Ocurrió un error al procesar tu inscripción',
+            confirmButtonColor: '#d33'
+        });
+        
         btnInscribirse.disabled = false;
-        btnInscribirse.innerHTML = '<i class="fas fa-running mr-2"></i> Confirmar inscripción';
+        btnInscribirse.innerHTML = 'Confirmar inscripción';
+        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
     }
 }
+
+// Función auxiliar para cargar scripts dinámicamente
+function loadScript(src) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+// Función mejorada para cargar opciones de inscripción
+function cargarOpcionesInscripcion(carrera) {
+    // Como el backend no requiere seleccionar categoría/talla actualmente,
+    // podemos ocultar o simplificar este formulario
+    const opcionesInscripcion = document.getElementById('opciones-inscripcion');
+    if (opcionesInscripcion) {
+        opcionesInscripcion.classList.add('hidden');
+    }
+    
+    // Actualizar botón de inscripción para que sea más directo
+    const btnInscribirse = document.getElementById('btn-inscribirse');
+    if (btnInscribirse) {
+        btnInscribirse.textContent = 'Inscribirme ahora';
+        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+    }
+}
+
 // Función para cargar la ruta
 async function cargarRuta(ipRuta) {
     try {

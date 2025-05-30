@@ -15,7 +15,7 @@ class ParticipacionEvento {
     public function getUsuario() {
         return $this->usuario;
     }
-
+    
     public function getEvento() {
         return $this->evento;
     }
