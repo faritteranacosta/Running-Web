@@ -13,15 +13,15 @@ try {
     }
  
     $respuesta = [];
-    foreach ($eventos as $evento) {
-        $ubicacion = $evento->getUbicacion();
-        $ciudad = $ubicacion ? $ubicacion->getCiudad() : null;
+    foreach ($eventos as $evento) {;
         $respuesta[] = [
             "id" => $evento->getIdEvento(),
             "nombre" => $evento->getNombreEvento(),
             "fecha" => $evento->getFechaEvento(),
-            "direccion" => $ubicacion ? $ubicacion->getDireccion() : null,
-            "ciudad" => $ciudad ? $ciudad->getNombre() : null,
+            "direccion" => $evento->getDireccion(),
+            "hora" => $evento->getHoraEvento(),
+            "tipo" => $evento->getTipoEvento(),
+            "id_patrocinador" => $evento->getIdPatrocinador(),
             "descripcion" => $evento->getDescripcionEvento()
         ];
     }

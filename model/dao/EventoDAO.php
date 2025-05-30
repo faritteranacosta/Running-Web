@@ -71,7 +71,7 @@ class EventoDAO {
     }
  
     public function obtenerTodosLosEventos() {
-        $sql = "SELECT * FROM evento e";
+        $sql = "SELECT * FROM evento";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $eventos = [];
         foreach ($result as $row) {

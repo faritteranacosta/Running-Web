@@ -61,39 +61,46 @@ function cargarEventos() {
         }
 
         const tarjeta = document.createElement("div");
-        tarjeta.className =
-          "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
+        tarjeta.className = "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
         tarjeta.innerHTML = `
-        <div class="h-48 overflow-hidden">
-            <img src="${evento.imagen || "assets/img/runner9.png"}" alt="${
-          evento.nombre || "Evento"
-        }" 
-                 class="w-full h-full object-cover hover:scale-105 transition duration-300">
+    <div class="h-48 overflow-hidden">
+        <img src="${"assets/img/runner9.png"}" alt="${evento.nombre || "Evento"}" 
+             class="w-full h-full object-cover hover:scale-105 transition duration-300">
+    </div>
+    <div class="p-6">
+        <div class="flex justify-between items-start mb-2">
+            <h3 class="text-xl font-bold text-gray-800">${evento.nombre || "Nombre no disponible"}</h3>
+            <span class="status ${claseEstado}">${estado}</span>
         </div>
-        <div class="p-6">
-            <div class="flex justify-between items-start mb-2">
-                <h3 class="text-xl font-bold text-gray-800">${
-                  evento.nombre || "Nombre no disponible"
-                }</h3>
-                <span class="status ${claseEstado}">${estado}</span>
-            </div>
-            <p class="text-gray-600 mb-4 line-clamp-2">${
-              evento.descripcion || "Descripción no disponible"
-            }</p>
-            <div class="flex items-center text-gray-500 mb-3">
-                <i class="fas fa-calendar-day mr-2"></i>
-                <span>${fechaFormateada}</span>
-            </div>
-            <div class="flex items-center text-gray-500 mb-2">
-                <i class="fas fa-map-marker-alt mr-2"></i>
-                <span>${evento.direccion || "Dirección no especificada"}</span>
-            </div>
-            <div class="flex items-center text-gray-500">
-                <i class="fas fa-city mr-2"></i>
-                <span>${evento.ciudad || "Ciudad no especificada"}</span>
-            </div>
+        <p class="text-gray-600 mb-4 line-clamp-2">${evento.descripcion || "Descripción no disponible"}</p>
+        
+        <div class="flex items-center text-gray-500 mb-3">
+            <i class="fas fa-calendar-day mr-2"></i>
+            <span>${fechaFormateada}</span>
         </div>
-    `;
+        
+        <div class="flex items-center text-gray-500 mb-3">
+            <i class="far fa-clock mr-2"></i>
+            <span>${evento.hora || "Hora no especificada"}</span>
+        </div>
+        
+        <div class="flex items-center text-gray-500 mb-3">
+            <i class="fas fa-running mr-2"></i>
+            <span>${evento.tipo || "Tipo no especificado"}</span>
+        </div>
+        
+        <div class="flex items-center text-gray-500 mb-3">
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>${evento.direccion || "Dirección no especificada"}</span>
+        </div>
+    </div>
+    <div class="p-4 bg-gray-50 border-t border-gray-200">
+        <button class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 flex items-center justify-center">
+            <i class="fas fa-info-circle mr-2"></i>
+            Ver detalles
+        </button>
+    </div>
+`;
 
         // Añadir evento de clic si es necesario
         tarjeta.addEventListener("click", () => {
