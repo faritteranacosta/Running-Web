@@ -438,7 +438,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         icon: 'success'
                     });
 
-                    limpiarRuta();
+                    if (window.opener) {
+                        window.opener.postMessage({ type: 'rutaCreada', id_ruta: data.data.id }, '*');
+                        window.close();
+                    }
 
                 } else {
                     throw new Error(data.message);

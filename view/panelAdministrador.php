@@ -156,7 +156,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         <i class="fas fa-tachometer-alt text-blue-500"></i>
                         <span class="nav-text ml-3">Dashboard</span>
                     </a>
-                </li>w
+                </li>
                 <li class="nav-item">
                     <a href="#" class="flex items-center p-3 rounded-lg active-nav" onclick="showTab('eventos')">
                         <i class="fas fa-calendar-alt text-blue-500"></i>
