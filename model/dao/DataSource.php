@@ -45,7 +45,7 @@ class DataSource {
             $consulta=$this->conexion->prepare($sql);
             $consulta->execute($values);
             $tabla_datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
-            $this->conexion=null;
+            
             return $tabla_datos;
         }else{
             return $tabla_datos = array();

@@ -266,8 +266,7 @@ function loadScript(src) {
 function cargarOpcionesInscripcion(carrera) {
     console.log('Configurando opciones de inscripción...');
     
-    // Determinar qué formulario mostrar según lo que necesite el backend
-    const opcionesSimples = true; // Cambiar a false si necesitas el formulario completo
+    const opcionesSimples = false; 
     
     const opcionesInscripcion = document.getElementById('opciones-inscripcion');
     const btnInscribirse = document.getElementById('btn-inscribirse');
