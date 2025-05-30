@@ -120,7 +120,9 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 </head>
 
 <body class="bg-gray-50 flex">
+    <!-- Sidebar (mantiene el código existente) -->
     <div class="sidebar bg-white shadow-lg">
+        <!-- Logo y Toggle -->
         <div class="p-4 flex items-center justify-between border-b">
             <div class="flex items-center">
                 <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
@@ -131,26 +133,26 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </button>
         </div>
 
+        <!-- Perfil del Administrador -->
         <div class="p-4 border-b flex items-center justify-center">
-            <div
-                class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
-                <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
-                    <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
-                </span>
-                <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
-                <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
-            </div>
+            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+                    <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
+                        <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
+                    </span>
+                    <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
+                    <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
+                </div>
             <div class="ml-3">
                 <h3 class="font-semibold user-name">Admin RunningPro</h3>
                 <p class="text-sm text-gray-500 user-role">Administrador</p>
             </div>
         </div>
 
+        <!-- Menú de Navegación -->
         <nav class="flex-1 overflow-y-auto">
             <ul class="p-2">
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('dashboard')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('dashboard')">
                         <i class="fas fa-tachometer-alt text-blue-500"></i>
                         <span class="nav-text ml-3">Dashboard</span>
                     </a>
@@ -162,36 +164,31 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('carreras', event)">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('carreras', event)">
                         <i class="fas fa-running text-blue-500"></i>
                         <span class="nav-text ml-3">Carreras</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('usuarios', event)">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('usuarios', event)">
                         <i class="fas fa-users text-blue-500"></i>
                         <span class="nav-text ml-3">Usuarios</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('productos', event)">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('productos', event)">
                         <i class="fas fa-boxes text-blue-500"></i>
                         <span class="nav-text ml-3">Productos</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('reportes')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('reportes')">
                         <i class="fas fa-chart-line text-blue-500"></i>
                         <span class="nav-text ml-3">Reportes</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700"
-                        onclick="showTab('configuracion')">
+                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('configuracion')">
                         <i class="fas fa-cog text-blue-500"></i>
                         <span class="nav-text ml-3">Configuración</span>
                     </a>
@@ -199,24 +196,25 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </ul>
         </nav>
 
+        <!-- Cerrar Sesión -->
         <div class="p-4 border-t">
-            <a href="../controller/action/act_logout.php"
-                class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
+            <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                 <i class="fas fa-sign-out-alt"></i>
                 <span class="nav-text ml-3">Cerrar Sesión</span>
             </a>
         </div>
     </div>
 
+    <!-- Contenido Principal -->
     <div class="main-content">
+        <!-- Header -->
         <header class="bg-white shadow-sm p-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-gray-800" id="tab-title">Panel de Administración</h1>
             <div class="flex items-center space-x-4">
                 <div class="relative">
                     <button class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-bell text-xl"></i>
-                        <span
-                            class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                     </button>
                 </div>
                 <div class="relative">
@@ -227,7 +225,9 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
             </div>
         </header>
 
+        <!-- Contenido Dinámico -->
         <main class="p-6">
+            <!-- Dashboard (mantiene el código existente) -->
             <div id="dashboard" class="tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-md">
@@ -279,30 +279,27 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
+            <!-- Gestión de Eventos -->
             <div id="eventos" class="tab-content active">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Gestión de Eventos</h2>
-                    <button onclick="showEventForm()"
-                        class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                    <button onclick="showEventForm()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
                         <i class="fas fa-plus mr-1"></i> Nuevo Evento
                     </button>
                 </div>
 
+                <!-- Formulario de Evento (oculto inicialmente) -->
                 <div id="event-form" class="bg-white rounded-xl shadow-md p-6 mb-8 form-card hidden">
                     <h3 class="text-xl font-semibold mb-4">Crear Nuevo Evento</h3>
                     <form onsubmit="manejarFormularioEvento(event)" class="space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Nombre del Evento *</label>
-                                <input type="text" name="nombre"
-                                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Ej: Maratón Ciudad 2023" required>
+                                <input type="text" name="nombre" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ej: Maratón Ciudad 2023" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Tipo de Evento *</label>
-                                <select name="tipo"
-                                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    required>
+                                <select name="tipo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                     <option value="">Seleccionar tipo</option>
                                     <option value="carrera">Carrera</option>
                                     <option value="entrenamiento">Entrenamiento</option>
@@ -315,56 +312,45 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Fecha *</label>
-                                <input type="date" name="fecha"
-                                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    required>
+                                <input type="date" name="fecha" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             </div>
                             <div>
                                 <label class="block text-gray-700 font-medium mb-2">Hora *</label>
-                                <input type="time" name="hora"
-                                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    required>
+                                <input type="time" name="hora" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-gray-700 font-medium mb-2">Descripción *</label>
-                            <textarea name="descripcion"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
-                                rows="4" placeholder="Descripción detallada del evento, requisitos, premios, etc."
-                                required></textarea>
+                            <textarea name="descripcion" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical" rows="4" placeholder="Descripción detallada del evento, requisitos, premios, etc." required></textarea>
                         </div>
 
                         <div>
                             <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
-                            <input type="number" name="ubicacion_id"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Ingrese el ID numérico de la ubicación" required>
+                            <input type="number" name="ubicacion_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico de la ubicación" required>
                             <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
                         </div>
 
                         <div>
                             <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
-                            <input type="number" name="id_patrocinador"
-                                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Ingrese el ID numérico del patrocinador" required>
+                            <input type="number" name="id_patrocinador" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico del patrocinador" required>
                             <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
                         </div>
 
                         <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" onclick="hideEventForm()"
-                                class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+                            <button type="button" onclick="hideEventForm()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
                                 Cancelar
                             </button>
-                            <button type="submit"
-                                class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                            <button type="submit" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
                                 <i class="fas fa-save mr-1"></i> Guardar Evento
                             </button>
                         </div>
                     </form>
                 </div>
 
+                <!-- Lista de Eventos -->
                 <div id="eventos-table-container">
+                    <!-- La tabla se cargará aquí dinámicamente -->
                     <div class="bg-white rounded-xl shadow-md p-8 text-center">
                         <div class="loading mx-auto mb-4"></div>
                         <p class="text-gray-500">Cargando eventos...</p>
@@ -372,6 +358,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
+            <!-- Otras secciones (mantienen el código existente) -->
             <div id="productos" class="tab-content">
                 <div id="productos-table-container" class="flex justify-center mt-8"></div>
             </div>
@@ -382,47 +369,75 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
 
             <div id="carreras" class="tab-content">
-                <h1>Gestión de Carreras</h1>
+                <div class="form-container">
+                    <h2 class="form-title">GESTIÓN DE CARRERAS</h2>
 
-                <!-- Botón para mostrar el formulario -->
-                <button id="mostrarFormulario">Registrar Nueva Carrera</button>
+                    <form id="formCarrera" method="POST" class="form-carrera">
+                        <div class="form-section">
+                            <h3 class="section-title">DATOS DEL EVENTO</h3>
 
-                <!-- Formulario (oculto inicialmente) -->
-                <form id="formCarrera" action="guardar_carrera.php" method="POST">
-                    <label for="categoria">Categoría:</label>
-                    <input type="text" id="categoria" name="categoria" required>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Evento" required>
+                                </div>
 
-                    <label for="tipo_carrera">Tipo de Carrera:</label>
-                    <input type="text" id="tipo_carrera" name="tipo_carrera" required>
+                                <div class="form-group">
+                                    <input type="date" id="fecha" name="fecha" required>
+                                </div>
 
-                    <label for="distancia">Distancia (km):</label>
-                    <input type="number" step="0.01" id="distancia" name="distancia" required>
+                                <div class="form-group">
+                                    <input type="time" id="hora" name="hora" required>
+                                </div>
 
-                    <label for="id_evento">ID Evento:</label>
-                    <input type="number" id="id_evento" name="id_evento" required>
+                                <div class="form-group full-width">
+                                    <textarea id="descripcion" name="descripcion" rows="3" placeholder="Descripción" required></textarea>
+                                </div>
 
-                    <label for="id_ruta">ID Ruta:</label>
-                    <a></a>
-                    <input type="number" id="id_ruta" name="id_ruta" required>
+                                <div class="form-group full-width">
+                                    <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
+                                </div>
+                            </div>
+                        </div>
 
-                    <button type="submit">Guardar Carrera</button>
-                </form>
-            </div>
+                        <div class="form-section">
+                            <h3 class="section-title">DATOS DE LA CARRERA</h3>
 
-            <!-- Carreras -->
-            <div id="carreras" class="tab-content">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">Gestión de Carreras</h2>
-                    <button class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg">
-                        <i class="fas fa-plus mr-1"></i> Nueva Carrera
-                    </button>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-8 text-center">
-                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <select id="categoriaSelect" name="idCategoria" required>
+                                        <option value="">Categoría</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <select id="tipoCarreraSelect" name="idTipoCarrera" required>
+                                        <option value="">Tipo de Carrera</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="number" step="0.01" id="distancia" name="distancia" placeholder="Distancia (km)" required>
+                                </div>
+
+                                <div class="form-group ruta-field">
+                                    <div class="input-group">
+                                        <input type="number" id="idRuta" name="idRuta" placeholder="ID Ruta" required readonly>
+                                        <button type="button" id="btnCrearRuta" class="btn-ruta">CREAR RUTA</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">GUARDAR CARRERA</button>
+                        </div>
+                    </form>
                 </div>
 
                 <script>
-                    document.getElementById('btnCrearRuta').addEventListener('click', function (e) {
+                    let ventanaRuta = null;
+
+                    document.getElementById('btnCrearRuta').addEventListener('click', function(e) {
                         e.preventDefault();
 
                         const width = Math.min(window.screen.availWidth, 1200);
@@ -432,19 +447,23 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         const ventanaRuta = window.open(
                             '../view/crear_ruta.php?from_form=1',
                             'CrearRuta',
-                            `width=${width},height=${height},left=${left},top=0,scrollbars=yes,resizable=yes`
+                            `width=${screen.width},height=${screen.height},left=0,top=0,scrollbars=yes`
                         );
+                    });
 
-                        window.addEventListener('message', function (event) {
-                            if (event.data.type === 'rutaCreada') {
-                                document.getElementById('idRuta').value = event.data.id_ruta;
+                    // Agrega el listener solo una vez
+                    window.addEventListener('message', function(event) {
+                        if (event.data && event.data.type === 'rutaCreada') {
+                            document.getElementById('idRuta').value = event.data.id_ruta;
+                            if (ventanaRuta && !ventanaRuta.closed) {
                                 ventanaRuta.close();
                             }
-                        });
+                        }
                     });
                 </script>
             </div>
 
+            <!-- Reportes -->
             <div id="reportes" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Reportes y Estadísticas</h2>
@@ -454,6 +473,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 </div>
             </div>
 
+            <!-- Configuración -->
             <div id="configuracion" class="tab-content">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-bold">Configuración del Sistema</h2>
@@ -465,8 +485,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 
         </main>
     </div>
+
     <script>
-        document.getElementById('toggle-sidebar').addEventListener('click', function () {
+        // Toggle Sidebar
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
             document.querySelector('.main-content').classList.toggle('ml-20');
         });
@@ -511,6 +533,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 if (typeof mostrarProductos === 'function') {
                     mostrarProductos();
                 }
+
             } else if (tabId === 'eventos') {
                 if (typeof mostrarEventos === 'function') {
                     mostrarEventos();
@@ -520,13 +543,18 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         mostrarCarreras();
                     }
                 }
+            }else if(tabId === 'dashboard') {
+                totalUsuarios();
             }
 
             // Mostrar/ocultar formulario de evento
             function showEventForm() {
                 const form = document.getElementById('event-form');
                 form.classList.remove('hidden');
-                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                form.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
 
             function hideEventForm() {
@@ -535,12 +563,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                 document.querySelector('#event-form form').reset();
             }
 
-            // Inicializar con la pestaña de eventos visible
-            document.addEventListener('DOMContentLoaded', function () {
-                showTab('eventos');
+            document.addEventListener('DOMContentLoaded', function() {
+                showTab('dashboard');
             });
         }
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/administradorUsuarios.js"></script>

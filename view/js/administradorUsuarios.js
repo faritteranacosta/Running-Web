@@ -187,7 +187,6 @@ window.eliminarUsuario = async function (idUsuario) {
 
 async function totalUsuarios() {
     const data = await obtenerUsuarios(1, 1);
-    console.log("Total de usuarios:", data);
     document.getElementById("nUsuarios").innerText = data.total;
 }
 

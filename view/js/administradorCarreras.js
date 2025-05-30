@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cargar categorías y tipos de carrera
   function cargarDatos() {
-    console.log('📤 Cargando categorías y tipos de carrera...');
     fetch(urlDatos)
       .then(response => {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -36,14 +35,16 @@ document.addEventListener('DOMContentLoaded', () => {
             tipoCarreraSelect.appendChild(option);
           });
           
-          console.log('✅ Datos cargados correctamente');
         } else {
           throw new Error(data.error || 'No se pudieron cargar los datos');
         }
       })
       .catch(err => {
-        console.error('❌ Error al cargar datos:', err);
-        alert('Error al cargar datos: ' + err.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar datos',
+          text: err.message
+        });
       });
   }
 
@@ -69,16 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData(form);
       formData.set('action', 'crear');
       
-      // Verificar datos del formulario
-      console.log('📝 Datos a enviar:');
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-      
       // Validar antes de enviar
       validarFormulario(formData);
-      
-      console.log('🟢 Enviando datos al servidor...');
       
       const response = await fetch(urlGuardar, {
         method: 'POST',
@@ -94,20 +87,27 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       const data = await response.json();
-      console.log('🔵 Respuesta del servidor:', data);
       
       if (!data.success) {
         throw new Error(data.error || 'Error desconocido del servidor');
       }
       
       // Éxito
-      alert('✅ Carrera creada exitosamente con ID: ' + data.id);
+      Swal.fire({
+        icon: 'success',
+        title: 'Carrera creada exitosamente',
+        text: 'ID de la carrera: ' + data.id,
+        confirmButtonText: 'Aceptar'
+      });
       form.reset();
       document.getElementById('idRuta').value = '';
       
     } catch (err) {
-      console.error('❌ Error en el envío:', err);
-      alert('Error: ' + err.message);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message
+      });
       
       // Mostrar error detallado en la interfaz
       const errorContainer = document.getElementById('error-message') || 
