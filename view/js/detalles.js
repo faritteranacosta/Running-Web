@@ -269,14 +269,7 @@ function cargarOpcionesInscripcion(carrera) {
 
     // Simular carga de categorías
     selectCategoria.innerHTML = '';
-    if (carrera.categorias && carrera.categorias.length > 0) {
-        carrera.categorias.forEach(cat => {
-            const option = document.createElement('option');
-            option.value = cat.id;
-            option.textContent = `${cat.nombre} - $${cat.precio}`;
-            selectCategoria.appendChild(option);
-        });
-    } else {
+ 
         // Categorías por defecto
         const categorias = [
             { id: '15k', nombre: '15k', precio: '150000' },
@@ -290,7 +283,6 @@ function cargarOpcionesInscripcion(carrera) {
             option.textContent = `${cat.nombre} - $${cat.precio} COP`;
             selectCategoria.appendChild(option);
         });
-    }
 
     // Tallas de playera
     selectTalla.innerHTML = '';

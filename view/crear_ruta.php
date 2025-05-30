@@ -438,14 +438,15 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         icon: 'success'
                     });
 
-                    //limpiar la ruta si lo deseas
-                    limpiarRuta();
-
+                    // Notificar al padre y cerrar la ventana
+                    if (window.opener) {
+                        window.opener.postMessage({ type: 'rutaCreada', id_ruta: data.data.id }, '*');
+                        window.close();
+                    }
                 } else {
                     throw new Error(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
                 await Swal.fire({
                     title: 'Error',
                     text: error.message || 'No se pudo guardar la ruta',
@@ -558,7 +559,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
         document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </body>
 
 </html>
