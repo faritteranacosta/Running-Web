@@ -137,9 +137,12 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
             </div>
 
             <div class="p-4 border-b flex items-center justify-center">
-                <div class="relative">
-                    <img src="assets/img/milei.png" alt="Perfil"
-                        class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+                    <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
+                        <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
+                    </span>
+                    <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
+                    <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
                 </div>
                 <div>
                     <input type="text" id="userId" value="<?php echo htmlspecialchars($id); ?>" hidden>

@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor') {
     header("Location: acceso_denegado.html");
     exit();
-}else{
+} else {
     $id = $_SESSION['ID_USUARIO'];
     $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
     $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
@@ -16,6 +16,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,70 +28,80 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
         .sidebar {
             transition: all 0.3s;
         }
+
         .sidebar-collapsed {
             width: 80px;
         }
+
         .sidebar-collapsed .nav-text,
         .sidebar-collapsed .user-name,
         .sidebar-collapsed .user-role,
         .sidebar-collapsed .logo-text {
             display: none;
         }
+
         .dashboard-card {
             transition: transform 0.3s, box-shadow 0.3s;
         }
+
         .dashboard-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
+
         .active-nav {
             background-color: #3b82f6;
             color: white;
         }
+
         .active-nav i {
             color: white;
         }
+
         .product-table th {
             position: sticky;
             top: 0;
             background-color: #f8fafc;
             z-index: 10;
         }
-
     </style>
 </head>
+
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <div class="sidebar bg-white shadow-lg flex flex-col h-full">
             <div class="p-4 flex items-center justify-between border-b">
                 <div class="flex items-center space-x-3">
-                <a href="index.html" class="flex items-center space-x-3">
-                    <img alt="Logo RunningWeb"
-                        class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md transform hover:scale-105 transition-transform duration-300"
-                        src="assets/img/icon-black.jpg" />
-                    <h1 class="text-2xl font-bold font-heading tracking-tight text-white drop-shadow-md">
-                        RunningWeb</h1>
-                </a>
-            </div>
+                    <a href="index.html" class="flex items-center space-x-3">
+                        <img alt="Logo RunningWeb"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md transform hover:scale-105 transition-transform duration-300"
+                            src="assets/img/icon-black.jpg" />
+                        <h1 class="text-2xl font-bold font-heading tracking-tight text-white drop-shadow-md">
+                            RunningWeb</h1>
+                    </a>
+                </div>
                 <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
 
             <div class="p-4 border-b flex items-center justify-center">
-                <div class="relative">
-                    <img src="assets/img/milei.png" alt="Perfil"
-                        class="w-12 h-12 rounded-full object-cover border-2 border-blue-500">
+                <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+                    <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
+                        <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
+                    </span>
+                    <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
+                    <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
                 </div>
                 <div>
-                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id);?>" hidden>
+                    <input type="text" id="userId" value="<?php echo htmlspecialchars($id); ?>" hidden>
                 </div>
                 <div class="ml-3">
-                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre);?> <?php echo htmlspecialchars($apellido);?></h3>
-                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol);?></p>
+                    <h3 class="font-semibold user-name"><?php echo htmlspecialchars($nombre); ?> <?php echo htmlspecialchars($apellido); ?></h3>
+                    <p class="text-sm text-gray-500 user-role"><?php echo htmlspecialchars($rol); ?></p>
                 </div>
             </div>
-            
+
             <nav class="flex-1 overflow-y-auto">
                 <ul class="p-2">
                     <li>
@@ -138,7 +149,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     </li>
                 </ul>
             </nav>
-            
+
             <div class="p-4 border-t">
                 <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
                     <i class="fas fa-sign-out-alt"></i>
@@ -146,7 +157,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 </a>
             </div>
         </div>
-        
+
         <div class="main-content flex-1 overflow-y-auto">
             <header class="bg-white shadow-sm p-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold text-gray-800">Panel de Vendedor</h1>
@@ -164,7 +175,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                     </div>
                 </div>
             </header>
-            
+
             <main class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                     <div class="dashboard-card bg-white p-6 rounded-lg shadow">
@@ -224,7 +235,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white p-6 rounded-lg shadow lg:col-span-2">
                         <div class="flex justify-between items-center mb-4">
@@ -238,7 +249,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                             <p class="text-gray-400">Gráfico de ventas interactivo aparecerá aquí</p>
                         </div>
                     </div>
-                    
+
                     <div class="bg-white p-6 rounded-lg shadow">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold text-gray-800">Órdenes Recientes</h2>
@@ -282,7 +293,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                 <div class="bg-white p-6 rounded-lg shadow mb-8">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Mis Productos</h2>
-                        <a href= "productos.php" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium">
+                        <a href="productos.php" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm font-medium">
                             <i class="fas fa-plus mr-1"></i> Nuevo Producto
                         </a>
                     </div>
@@ -303,10 +314,10 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                         </tbody>
                     </table>
                     <div class="overflow-x-auto">
-                        
+
                     </div>
                 </div>
-                
+
                 <div class="bg-white p-6 rounded-lg shadow">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Reseñas Recientes</h2>
@@ -314,7 +325,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
                             Ver todas
                         </a>
                     </div>
-                    
+
                     <div class="space-y-4">
                         <div class="p-4 border rounded-lg">
                             <div class="flex items-center mb-2">
@@ -369,7 +380,8 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
         document.getElementById('toggle-sidebar').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
             document.querySelector('.main-content').classList.toggle('ml-20');
-        });        
+        });
     </script>
 </body>
+
 </html>
