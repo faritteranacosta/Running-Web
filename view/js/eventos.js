@@ -61,18 +61,25 @@ function cargarEventos() {
         }
 
         const tarjeta = document.createElement("div");
-        tarjeta.className = "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
+        tarjeta.className =
+          "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
         tarjeta.innerHTML = `
     <div class="h-48 overflow-hidden">
-        <img src="${"assets/img/runner9.png"}" alt="${evento.nombre || "Evento"}" 
+        <img src="${"assets/img/runner9.png"}" alt="${
+          evento.nombre || "Evento"
+        }" 
              class="w-full h-full object-cover hover:scale-105 transition duration-300">
     </div>
     <div class="p-6">
         <div class="flex justify-between items-start mb-2">
-            <h3 class="text-xl font-bold text-gray-800">${evento.nombre || "Nombre no disponible"}</h3>
+            <h3 class="text-xl font-bold text-gray-800">${
+              evento.nombre || "Nombre no disponible"
+            }</h3>
             <span class="status ${claseEstado}">${estado}</span>
         </div>
-        <p class="text-gray-600 mb-4 line-clamp-2">${evento.descripcion || "Descripción no disponible"}</p>
+        <p class="text-gray-600 mb-4 line-clamp-2">${
+          evento.descripcion || "Descripción no disponible"
+        }</p>
         
         <div class="flex items-center text-gray-500 mb-3">
             <i class="fas fa-calendar-day mr-2"></i>
@@ -121,5 +128,4 @@ function cargarEventos() {
         confirmButtonText: "Entendido",
       });
     });
-
 }
