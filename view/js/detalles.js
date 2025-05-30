@@ -52,7 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
 async function cargarDetallesCarrera(idCarrera) {
     try {
         const response = await fetch(`../controller/action/ajax_carreras.php?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
         const carrera = await response.json();
+        console.log('Datos recibidos de la carrera:', carrera);
+        
         if (!carrera) {
             throw new Error('No se encontró la carrera');
         }
@@ -70,47 +76,80 @@ async function cargarDetallesCarrera(idCarrera) {
         estadoElement.textContent = estado.texto;
         estadoElement.className = `status ${estado.clase}`;
 
-        // Ubicación
-        document.getElementById('ubicacion-carrera').textContent = carrera.ubicacion || 'Ubicación no disponible';
+        // Ubicación - Usar dirección si ubicación no está disponible
+        document.getElementById('ubicacion-carrera').textContent = carrera.ubicacion || carrera.direccion || 'Ubicación no disponible';
 
-        // Imagen
-        if (carrera.imagen) {
-            document.getElementById('carrera-imagen').src = carrera.imagen;
+        // Imagen - Verificar si el campo existe
+        const imagenCarrera = document.getElementById('carrera-imagen');
+        if (carrera.imagen && carrera.imagen !== 'null' && carrera.imagen !== '') {
+            imagenCarrera.src = carrera.imagen;
+        } else {
+            // Imagen por defecto
+            imagenCarrera.src = '../assets/img/default_race.jpg';
         }
 
         // Tags
         const tagsContainer = document.getElementById('tags-carrera');
         tagsContainer.innerHTML = '';
 
+        // Distancia puede estar como string o como número
         if (carrera.distancia) {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${carrera.distancia} km</span>`;
+            const distanciaValor = typeof carrera.distancia === 'string' 
+                ? carrera.distancia.replace(/"/g, '') 
+                : carrera.distancia;
+            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${distanciaValor} km</span>`;
         }
-        if (carrera.categoria) {
+        
+        // Verificar si hay información de categoría
+        if (carrera.categoria && carrera.categoria.nombre) {
+            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${carrera.categoria.nombre}</span>`;
+        } else if (carrera.categoria && typeof carrera.categoria === 'string') {
             tagsContainer.innerHTML += `<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${carrera.categoria}</span>`;
         }
-        if (carrera.tipo) {
+        
+        // Verificar si hay información de tipo
+        if (carrera.tipo_carrera && carrera.tipo_carrera.nombre) {
+            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">${carrera.tipo_carrera.nombre}</span>`;
+        } else if (carrera.tipo && typeof carrera.tipo === 'string') {
             tagsContainer.innerHTML += `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">${carrera.tipo}</span>`;
         }
 
         // Detalles técnicos
         document.getElementById('distancia-carrera').textContent = carrera.distancia ? `${carrera.distancia} km` : '-- km';
-        document.getElementById('tipo-ruta').textContent = carrera.tipo_ruta || '--';
+        
+        // Tipo de ruta - puede venir en diferentes formatos
+        const tipoRuta = 
+            (carrera.ruta && carrera.ruta.nombre) || 
+            (carrera.tipo_ruta) || 
+            (carrera.tipo_carrera && carrera.tipo_carrera.nombre) || 
+            '--';
+        document.getElementById('tipo-ruta').textContent = tipoRuta;
+        
+        // Elevación
         document.getElementById('elevacion-carrera').textContent = carrera.elevacion ? `${carrera.elevacion} m` : '-- m';
 
         // Patrocinador
         const patrocinadoresContainer = document.getElementById('patrocinadores');
         if (carrera.patrocinador) {
             patrocinadoresContainer.innerHTML = `
-                        <img src="${carrera.logo_patrocinador || 'https://via.placeholder.com/100x50?text=Patrocinador'}" 
-                             alt="${carrera.patrocinador}" class="h-10 object-contain">
-                    `;
+                <img src="${carrera.logo_patrocinador || 'https://via.placeholder.com/100x50?text=Patrocinador'}" 
+                     alt="${carrera.patrocinador}" class="h-10 object-contain">
+            `;
         } else {
             patrocinadoresContainer.innerHTML = '<p>No hay patrocinadores registrados</p>';
         }
 
-        // Guardar el id del evento en una variable global
-        window.idEvento = carrera.id_evento || carrera.evento || carrera.evento_id || (carrera.evento && carrera.evento.id) || null;
-
+        // Guardar el ID del evento - Manejar diferentes estructuras posibles
+        window.idEvento = null;
+        if (carrera.evento && carrera.evento.id) {
+            window.idEvento = carrera.evento.id;
+        } else if (carrera.id_evento) {
+            window.idEvento = carrera.id_evento;
+        } else if (carrera.evento && typeof carrera.evento === 'number') {
+            window.idEvento = carrera.evento;
+        } else if (carrera.evento_id) {
+            window.idEvento = carrera.evento_id;
+        }
 
         if (window.idEvento) {
             const params = new URLSearchParams(window.location.search);
@@ -120,23 +159,39 @@ async function cargarDetallesCarrera(idCarrera) {
             window.history.replaceState({}, '', newUrl);
         }
 
-
-        const btnInscribirse = document.getElementById('btn-inscribirse');
-        btnInscribirse.addEventListener('click', function () {
-
-            registrarParticipacion(window.idEvento);
-        });
-
-        // Validar si ya existe la participación antes de habilitar el botón
-        let yaInscrito = false;
-        try {
-            const checkResponse = await fetch(`../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(window.idEvento)}`);
-            const checkData = await checkResponse.json();
-            yaInscrito = checkData && checkData.exists;
-        } catch (e) {
-            yaInscrito = false;
+        // Verificar si el ID de ruta está presente
+        if (carrera.ruta && carrera.ruta.id) {
+            const params = new URLSearchParams(window.location.search);
+            params.set('idRuta', carrera.ruta.id);
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.replaceState({}, '', newUrl);
+            
+            // Cargar los datos de la ruta
+            cargarRuta(carrera.ruta.id);
         }
 
+        // Resto del código para gestionar inscripciones...
+        validarInscripcion(window.idEvento);
+        cargarOpcionesInscripcion(carrera);
+
+    } catch (error) {
+        console.error('Error al cargar detalles:', error);
+        document.getElementById('titulo').textContent = 'Error al cargar la carrera';
+        document.getElementById('descripcion-carrera').textContent = error.message;
+    }
+}
+
+// Nueva función para validar inscripción
+async function validarInscripcion(idEvento) {
+    if (!idEvento) return;
+    
+    const btnInscribirse = document.getElementById('btn-inscribirse');
+    
+    try {
+        const checkResponse = await fetch(`../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(idEvento)}`);
+        const checkData = await checkResponse.json();
+        const yaInscrito = checkData && checkData.exists;
+        
         if (yaInscrito) {
             btnInscribirse.disabled = true;
             btnInscribirse.textContent = 'Ya estás inscrito';
@@ -145,18 +200,14 @@ async function cargarDetallesCarrera(idCarrera) {
             btnInscribirse.disabled = false;
             btnInscribirse.textContent = 'Confirmar inscripción';
             btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
-            btnInscribirse.addEventListener('click', function () {
-                registrarParticipacion(window.idEvento);
+            btnInscribirse.addEventListener('click', function() {
+                registrarParticipacion(idEvento);
             });
         }
-
-
-        cargarOpcionesInscripcion(carrera);
-
-    } catch (error) {
-        console.error('Error al cargar detalles:', error);
-        document.getElementById('titulo').textContent = 'Error al cargar la carrera';
-        document.getElementById('descripcion-carrera').textContent = error.message;
+    } catch (e) {
+        console.error('Error al verificar inscripción:', e);
+        btnInscribirse.textContent = 'Confirmar inscripción';
+        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
     }
 }
 

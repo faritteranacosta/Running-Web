@@ -41,19 +41,19 @@ function cargarEventos() {
         if (!evento.fecha) return false;
         const fechaEvento = new Date(evento.fecha);
         fechaEvento.setHours(0, 0, 0, 0);
-        return fechaEvento > hoy;
+        return fechaEvento >= hoy;
       });
 
       if (eventosProximos.length === 0) {
         contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos</p>";
         return;
       }
-      console.log(eventosProximos);
+
       // Ordenar eventos por fecha (más cercanos primero)
       eventosProximos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-      // Mostrar solo eventos próximos
-      eventosProximos.forEach((evento) => {
+      // Mostrar solo eventos próximos (máximo 5)
+      eventosProximos.slice(0, 5).forEach((evento) => {
         const fecha = new Date(evento.fecha);
         const fechaFormateada = fecha.toLocaleDateString("es-ES", {
           day: "2-digit",
@@ -61,9 +61,6 @@ function cargarEventos() {
           year: "numeric",
         });
 
-
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
         const fechaEvento = new Date(evento.fecha);
         fechaEvento.setHours(0, 0, 0, 0);
 
@@ -85,7 +82,7 @@ function cargarEventos() {
         tarjeta.className =
           "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover p-4 flex items-center gap-4";
         tarjeta.innerHTML = `
-            <img src="${evento.imagen || "assets/img/runner9.png"}" alt="${evento.nombre || "Evento"}"
+            <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}"
              class="w-16 h-16 object-cover rounded-lg flex-shrink-0">
             <div class="flex-1">
             <div class="flex justify-between items-center mb-1">
@@ -96,25 +93,22 @@ function cargarEventos() {
                 <i class="fas fa-calendar-day"></i>
                 <span>${fechaFormateada}</span>
                 <i class="fas fa-map-marker-alt ml-3"></i>
-                <span>${evento.ubicacion || "Sin ubicación"}</span>
+                <span>${evento.direccion || "Sin ubicación"}</span>
             </div>
             </div>
         `;
 
         tarjeta.addEventListener("click", () => {
-
+          window.location.href = `detalles.php?id=${evento.id}`;
         });
 
         contenedor.appendChild(tarjeta);
       });
     })
     .catch((error) => {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        html: `No se pudieron cargar los eventos.<br><small>${error.message}</small>`,
-        confirmButtonText: "Entendido",
-      });
+      console.error("Error:", error);
+      const contenedor = document.getElementById("events-container");
+      contenedor.innerHTML = "<p class='text-red-500'>Error al cargar eventos.</p>";
     });
 }
 
@@ -171,11 +165,9 @@ function eliminarParticipacion(idEvento) {
     });
 }
 
-
-
 // Cargar carreras programadas del usuario
 function cargarCarrerasProgramadas() {
-  fetch("../controller/action/ajax_participaciones.php", {//// 
+  fetch("../controller/action/ajax_participaciones.php", {
     method: "GET",
     headers: { Accept: "application/json" },
     credentials: "same-origin"
@@ -194,12 +186,14 @@ function cargarCarrerasProgramadas() {
         tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
         return;
       }
-      data.participaciones.forEach((carrera) => {
+      
+      data.participaciones.forEach((participacion) => {
         // Estado de la carrera según la fecha
         const hoy = new Date();
         hoy.setHours(0, 0, 0, 0);
-        const fechaCarrera = new Date(carrera.fecha_evento);
+        const fechaCarrera = new Date(participacion.fecha_evento);
         fechaCarrera.setHours(0, 0, 0, 0);
+        
         let estado = "";
         let claseEstado = "";
         if (fechaCarrera > hoy) {
@@ -212,18 +206,19 @@ function cargarCarrerasProgramadas() {
           estado = "Finalizado";
           claseEstado = "status-finalizado";
         }
-  tbody.innerHTML += `
-    <tr>
-      <td class='px-6 py-4 whitespace-nowrap'>${carrera.nombre_evento}</td>
-      <td class='px-6 py-4 whitespace-nowrap'>${new Date(carrera.fecha_evento).toLocaleDateString('es-ES')}</td>
-      <td class='px-6 py-4 whitespace-nowrap'>${carrera.distancia || '-'}</td>
-      <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
-      <td class='px-6 py-4 whitespace-nowrap'>
-          <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${carrera.id_carrera}"'>Ver detalles</button>
-          <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${carrera.id_evento})'>Eliminar</button>
-      </td>
-    </tr>
-`;
+        
+        tbody.innerHTML += `
+          <tr>
+            <td class='px-6 py-4 whitespace-nowrap'>${participacion.nombre_evento}</td>
+            <td class='px-6 py-4 whitespace-nowrap'>${new Date(participacion.fecha_evento).toLocaleDateString('es-ES')}</td>
+            <td class='px-6 py-4 whitespace-nowrap'>${participacion.distancia || '-'}</td>
+            <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
+            <td class='px-6 py-4 whitespace-nowrap'>
+                <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${participacion.id_carrera || ""}"'>Ver detalles</button>
+                <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${participacion.id_evento})'>Eliminar</button>
+            </td>
+          </tr>
+        `;
       });
     })
     .catch((error) => {
@@ -231,9 +226,6 @@ function cargarCarrerasProgramadas() {
       tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
     });
 }
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   cargarEventos();
