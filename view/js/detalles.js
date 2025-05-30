@@ -249,6 +249,47 @@ function cargarOpcionesInscripcion(carrera) {
     }
 }
 
+// Función para cargar opciones de inscripción (simulado)
+function cargarOpcionesInscripcion(carrera) {
+    const selectCategoria = document.getElementById('select-categoria');
+    const selectTalla = document.getElementById('select-talla');
+
+    // Simular carga de categorías
+    selectCategoria.innerHTML = '';
+    if (carrera.categorias && carrera.categorias.length > 0) {
+        carrera.categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = `${cat.nombre} - $${cat.precio}`;
+            selectCategoria.appendChild(option);
+        });
+    } else {
+        // Categorías por defecto
+        const categorias = [
+            { id: '15k', nombre: '15k', precio: '150000' },
+            { id: '10k', nombre: '10k', precio: '140000' },
+            { id: '5k', nombre: '5k', precio: '130000' }
+        ];
+
+        categorias.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.id;
+            option.textContent = `${cat.nombre} - $${cat.precio} COP`;
+            selectCategoria.appendChild(option);
+        });
+    }
+
+    // Tallas de playera
+    selectTalla.innerHTML = '';
+    const tallas = ['S', 'M', 'L', 'XL'];
+    tallas.forEach(talla => {
+        const option = document.createElement('option');
+        option.value = talla.toLowerCase();
+        option.textContent = talla;
+        selectTalla.appendChild(option);
+    });
+}
+
 // Función para cargar la ruta
 async function cargarRuta(ipRuta) {
     try {
