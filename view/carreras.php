@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
     header("Location: acceso_denegado.html");
     exit();
-}else{
+} else {
     $id = $_SESSION['ID_USUARIO'];
     $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
     $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
@@ -29,30 +29,37 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         .gradient-bg {
             background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
         }
+
         .card-hover {
             transition: all 0.3s ease;
         }
+
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.2);
         }
+
         .event-card {
             transition: all 0.3s;
             background-size: cover;
             background-position: center;
         }
+
         .event-card:hover {
             transform: scale(1.02);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
         }
+
         .contenedor {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+
         .smooth-transition {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
@@ -68,7 +75,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         <img src="assets/img/icon-black.jpg" alt="Logo" class="w-12 h-12 rounded-full border-2 border-white">
                         <h1 class="text-2xl font-bold">RunningWeb</h1>
                     </a>
-                    
+
                     <nav class="hidden md:flex space-x-1">
                         <a href="carreras.php" class="px-4 py-2 rounded-lg nav-link smooth-transition">
                             <i class="fas fa-home mr-2"></i> Inicio
@@ -84,17 +91,24 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                         </a>
                     </nav>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
-                    <a href="runner.php" class="flex items-center gap-10"  >
-                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
+                    <a href="runner.php" class="flex items-center gap-10">
+                        <p><?php echo htmlspecialchars($nombre) ?> </p>
+                        <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+                            <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
+                                <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
+                            </span>
+                            <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
+                            <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
+                        </div>
                     </a>
                     <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                         <i class="fas fa-bars fa-lg"></i>
                     </button>
                 </div>
             </div>
-            
+
             <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
                 <a href="carreras.php" class="block px-4 py-2 rounded-lg nav-link smooth-transition">
                     <i class="fas fa-home mr-2"></i> Inicio
@@ -135,7 +149,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                 </div>
             </div>
         </section>
-        
+
         <section>
             <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
                 <i class="fas fa-list-ul text-blue-500 mr-2"></i>
@@ -150,7 +164,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         </section>
     </main>
 
-        <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+    <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="flex flex-col md:flex-row justify-between gap-8">
                 <div class="md:w-1/3">
@@ -188,7 +202,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                                 class="text-gray-600 hover:text-primary-600 block smooth-transition">
                                 <i class="fas fa-phone mr-2"></i> +1 234 567 890
                             </a>
-    
+
                             <div class="flex justify-center md:justify-start space-x-4 mt-3">
                                 <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-facebook-f"></i>
@@ -212,7 +226,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="js/carreras.js"></script> 
+    <script type="module" src="js/carreras.js"></script>
     <script>
         // Toggle Mobile Menu
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
@@ -221,4 +235,5 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
         });
     </script>
 </body>
+
 </html>

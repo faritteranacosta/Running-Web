@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor') {
     header("Location: acceso_denegado.html");
     exit();
-}else{
+} else {
     $id = $_SESSION['ID_USUARIO'];
     $nombre = ucfirst($_SESSION['NOMBRE_USUARIO']);
     $apellido = ucfirst($_SESSION['APELLIDO_USUARIO']);
@@ -16,6 +16,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,15 +99,22 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
 
                 <div class="flex items-center space-x-4">
                     <a href="runner.php" class="flex items-center gap-10">
-                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
+                        <p><?php echo htmlspecialchars($nombre) ?> </p>
+                        <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
+                            <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
+                                <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
+                            </span>
+                            <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
+                            <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
+                        </div>
                     </a>
-                    <div class="relative">                       
+                    <div class="relative">
                         <a href="carrito.php" class="relative">
                             <i class="fas fa-shopping-cart text-xl"></i>
                             <span
                                 class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
                                 style="display: none;">0</span>
-                        </a> 
+                        </a>
                     </div>
                     <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                         <i class="fas fa-bars fa-lg"></i>
@@ -237,17 +245,17 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
             </div>
 
             <div class="products-grid" id="todos-productos">
-              
+
                 <div class="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
                     <p class="text-gray-500">Cargando productos...</p>
                 </div>
             </div>
 
-             <div class="pagination-container flex justify-center items-center gap-2 mt-8"></div>
+            <div class="pagination-container flex justify-center items-center gap-2 mt-8"></div>
         </section>
     </main>
 
-        <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
+    <footer class="bg-white border-t border-gray-200 py-8 mt-auto" id="contacto">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="flex flex-col md:flex-row justify-between gap-8">
                 <div class="md:w-1/3">
@@ -285,7 +293,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
                                 class="text-gray-600 hover:text-primary-600 block smooth-transition">
                                 <i class="fas fa-phone mr-2"></i> +1 234 567 890
                             </a>
-    
+
                             <div class="flex justify-center md:justify-start space-x-4 mt-3">
                                 <a href="#" class="text-gray-600 hover:text-primary-600 smooth-transition">
                                     <i class="fab fa-facebook-f"></i>
