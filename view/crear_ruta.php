@@ -438,7 +438,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
                         icon: 'success'
                     });
 
-                    //limpiar la ruta si lo deseas
                     limpiarRuta();
 
                 } else {

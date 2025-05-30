@@ -142,7 +142,6 @@ function renderizarTablaProductos(productos, total) {
 }
 
 async function mostrarProductos() {
-    console.log('mostrarProductos ejecutado');
     const data = await obtenerProductos(paginaActualProductos, productosPorPagina);
     renderizarTablaProductos(data.productos, data.total);
 }
@@ -153,21 +152,50 @@ window.cambiarPaginaProducto = function(nuevaPagina) {
 };
 
 window.eliminarProducto = async function(idProducto) {
-    if (!confirm('¿Estás seguro de que deseas eliminar este producto?')) return;
     try {
+        
+        // Confirmación con SweetAlert en lugar de confirm()
+        const confirmResult = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede revertir",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+        
+        if (!confirmResult.isConfirmed) return;
+        
         const response = await fetch('../controller/action/ajax_productos_paginados.php', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idProducto })
         });
         const data = await response.json();
+        
         if (data.success) {
-            alert('Producto eliminado correctamente');
+            await Swal.fire({
+                icon: 'success',
+                title: 'Eliminado',
+                text: 'Producto eliminado correctamente',
+                timer: 2000,
+                showConfirmButton: false
+            });
             mostrarProductos(); // Recarga la tabla
         } else {
-            alert(data.error || 'Error al eliminar producto');
+            await Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.error || 'Error al eliminar producto'
+            });
         }
     } catch (error) {
-        alert('Error al eliminar producto');
+        await Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al eliminar producto'
+        });
     }
 };

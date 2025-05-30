@@ -310,7 +310,7 @@ window.editarEvento = async function(idEvento) { //
 async function actualizarEvento(datosEvento) {
     try {
         const response = await fetch('../controller/action/ajax_eventosAdmin.php', {
-            method: 'POST', // Usamos POST para la actualización como en tu PHP
+            method: 'POST', 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 action: 'actualizar',
@@ -320,7 +320,7 @@ async function actualizarEvento(datosEvento) {
                 fecha: datosEvento.fecha,
                 hora: datosEvento.hora,
                 descripcion: datosEvento.descripcion,
-                patrocinador: datosEvento.id_patrocinador, // <--- CAMBIO CLAVE
+                patrocinador: datosEvento.id_patrocinador,
                 ubicacion_id: datosEvento.ubicacion_id
             })
         });
