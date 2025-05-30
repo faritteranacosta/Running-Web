@@ -63,7 +63,7 @@ async function cargarDetallesCarrera(idCarrera) {
             throw new Error('No se encontró la carrera');
         }
 
-        // Actualizar datos principales
+        // Título y descripción
         document.getElementById('titulo').textContent = carrera.nombre || 'Carrera sin nombre';
         document.getElementById('descripcion-carrera').textContent = carrera.descripcion || 'No hay descripción disponible';
 
@@ -76,101 +76,41 @@ async function cargarDetallesCarrera(idCarrera) {
         estadoElement.textContent = estado.texto;
         estadoElement.className = `status ${estado.clase}`;
 
-        // Ubicación - Usar dirección si ubicación no está disponible
-        document.getElementById('ubicacion-carrera').textContent = carrera.ubicacion || carrera.direccion || 'Ubicación no disponible';
+        // Ubicación
+        document.getElementById('ubicacion-carrera').textContent = carrera.direccion || 'Ubicación no disponible';
 
-        // Imagen - Verificar si el campo existe
+        // Imagen (no existe en backend, así que siempre default)
         const imagenCarrera = document.getElementById('carrera-imagen');
-        if (carrera.imagen && carrera.imagen !== 'null' && carrera.imagen !== '') {
-            imagenCarrera.src = carrera.imagen;
-        } else {
-            // Imagen por defecto
-            imagenCarrera.src = '../assets/img/default_race.jpg';
-        }
+        imagenCarrera.src = '../assets/img/default_race.jpg';
 
         // Tags
         const tagsContainer = document.getElementById('tags-carrera');
         tagsContainer.innerHTML = '';
 
-        // Distancia puede estar como string o como número
         if (carrera.distancia) {
-            const distanciaValor = typeof carrera.distancia === 'string' 
-                ? carrera.distancia.replace(/"/g, '') 
-                : carrera.distancia;
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${distanciaValor} km</span>`;
+            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${carrera.distancia} km</span>`;
         }
-        
-        // Verificar si hay información de categoría
-        if (carrera.categoria && carrera.categoria.nombre) {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${carrera.categoria.nombre}</span>`;
-        } else if (carrera.categoria && typeof carrera.categoria === 'string') {
+        if (carrera.categoria) {
             tagsContainer.innerHTML += `<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${carrera.categoria}</span>`;
-        }
-        
-        // Verificar si hay información de tipo
-        if (carrera.tipo_carrera && carrera.tipo_carrera.nombre) {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">${carrera.tipo_carrera.nombre}</span>`;
-        } else if (carrera.tipo && typeof carrera.tipo === 'string') {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">${carrera.tipo}</span>`;
         }
 
         // Detalles técnicos
         document.getElementById('distancia-carrera').textContent = carrera.distancia ? `${carrera.distancia} km` : '-- km';
-        
-        // Tipo de ruta - puede venir en diferentes formatos
-        const tipoRuta = 
-            (carrera.ruta && carrera.ruta.nombre) || 
-            (carrera.tipo_ruta) || 
-            (carrera.tipo_carrera && carrera.tipo_carrera.nombre) || 
-            '--';
-        document.getElementById('tipo-ruta').textContent = tipoRuta;
-        
-        // Elevación
-        document.getElementById('elevacion-carrera').textContent = carrera.elevacion ? `${carrera.elevacion} m` : '-- m';
+        document.getElementById('tipo-ruta').textContent = '--'; // No disponible en backend
+        document.getElementById('elevacion-carrera').textContent = '-- m'; // No disponible
 
         // Patrocinador
         const patrocinadoresContainer = document.getElementById('patrocinadores');
         if (carrera.patrocinador) {
-            patrocinadoresContainer.innerHTML = `
-                <img src="${carrera.logo_patrocinador || 'https://via.placeholder.com/100x50?text=Patrocinador'}" 
-                     alt="${carrera.patrocinador}" class="h-10 object-contain">
-            `;
+            patrocinadoresContainer.innerHTML = `<span class="font-semibold">${carrera.patrocinador}</span>`;
         } else {
             patrocinadoresContainer.innerHTML = '<p>No hay patrocinadores registrados</p>';
         }
 
-        // Guardar el ID del evento - Manejar diferentes estructuras posibles
-        window.idEvento = null;
-        if (carrera.evento && carrera.evento.id) {
-            window.idEvento = carrera.evento.id;
-        } else if (carrera.id_evento) {
-            window.idEvento = carrera.id_evento;
-        } else if (carrera.evento && typeof carrera.evento === 'number') {
-            window.idEvento = carrera.evento;
-        } else if (carrera.evento_id) {
-            window.idEvento = carrera.evento_id;
-        }
+        // Guardar el ID del evento
+        window.idEvento = carrera.evento || null;
 
-        if (window.idEvento) {
-            const params = new URLSearchParams(window.location.search);
-            params.set('id', idCarrera);
-            params.set('evento', window.idEvento);
-            const newUrl = `${window.location.pathname}?${params.toString()}`;
-            window.history.replaceState({}, '', newUrl);
-        }
-
-        // Verificar si el ID de ruta está presente
-        if (carrera.ruta && carrera.ruta.id) {
-            const params = new URLSearchParams(window.location.search);
-            params.set('idRuta', carrera.ruta.id);
-            const newUrl = `${window.location.pathname}?${params.toString()}`;
-            window.history.replaceState({}, '', newUrl);
-            
-            // Cargar los datos de la ruta
-            cargarRuta(carrera.ruta.id);
-        }
-
-        // Resto del código para gestionar inscripciones...
+        // Validar inscripción y opciones
         validarInscripcion(window.idEvento);
         cargarOpcionesInscripcion(carrera);
 

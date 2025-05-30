@@ -24,12 +24,11 @@ class CarreraDAO {
    public function obtenerCarreraPorId($id_carrera) {
 
         $sql = "SELECT c.*, e.hora AS hora_evento, e.nombre AS evento_nombre, e.fecha AS evento_fecha,
-                    e.descripcion AS evento_descripcion, p.nombre AS patrocinador_nombre, cat.nombre AS nombre_categoria,
+                    e.descripcion AS evento_descripcion, e.direccion, cat.nombre AS nombre_categoria,
                     r.id AS id_ruta, r.nombre AS nombre_ruta, r.puntos, r.distancia AS distancia_ruta,
                     r.fecha_creacion AS fecha_creacion_ruta
                 FROM carrera c
                 LEFT JOIN evento e ON c.id_evento = e.id_evento
-                LEFT JOIN patrocinador p ON e.id_patrocinador = p.id_patrocinador 
                 LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
                 LEFT JOIN rutas r ON c.id_ruta = r.id
                 WHERE c.id_carrera = ?";
@@ -47,6 +46,7 @@ class CarreraDAO {
             $evento->setFechaEvento($row['evento_fecha']);
             $evento->setDescripcionEvento($row['evento_descripcion']);
             $evento->setHoraEvento($row['hora_evento']);
+            $evento->setDireccion($row['direccion']);
             
             // Crear instancia de Patrocinador
             $patrocinador = new Patrocinador();

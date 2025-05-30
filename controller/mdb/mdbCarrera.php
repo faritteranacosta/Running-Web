@@ -59,12 +59,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
     $fecha = method_exists($carrera->getEvento(), 'getFechaEvento') ? $carrera->getEvento()->getFechaEvento() : null;
     $hora = method_exists($carrera->getEvento(), 'getHoraEvento') ? $carrera->getEvento()->getHoraEvento() : null;
     $descripcion = method_exists($carrera->getEvento(), 'getDescripcionEvento') ? $carrera->getEvento()->getDescripcionEvento() : null;
-    $ubicacion = $carrera->getEvento() && method_exists($carrera->getEvento(), 'getUbicacion') ? $carrera->getEvento()->getDireccion() : null;
-    if ($ubicacion && method_exists($ubicacion, 'getDescripcion')) {
-        $descripcion = $ubicacion->getDescripcion();
-    } elseif (is_array($ubicacion) && isset($ubicacion['descripcion'])) {
-        $descripcion = $ubicacion['descripcion'];
-    }
+    $direccion = method_exists($carrera->getEvento(), 'getDireccion') ? $carrera->getEvento()->getDireccion() : null;
+    
     return [
         'id' => $carrera->getIdCarrera(),
         'evento' => $carrera->getEvento()->getIdEvento(),
@@ -74,7 +70,8 @@ function obtenerCarreraPorIdMDB($idCarrera) {
         'hora' => $hora,
         'distancia' => $carrera->getDistancia(),
         'categoria' => $categoriaNombre,
-        'patrocinador' => $patrocinadorNombre
+        'patrocinador' => $patrocinadorNombre,
+        'direccion' => $direccion
     ];
 }
 
