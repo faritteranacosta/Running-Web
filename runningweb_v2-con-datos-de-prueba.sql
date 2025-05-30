@@ -726,3 +726,19 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- Inserción de datos categorias de carrera
+INSERT INTO categoria (nombre, descripcion) VALUES 
+('Principiante', 'Nivel inicial de experiencia'),
+('Intermedio', 'Nivel medio de experiencia'),
+('Avanzado', 'Nivel alto de experiencia'),
+('Élite', 'Nivel profesional o competitivo');
+
+-- Inserción de datos tipos de carrera
+INSERT INTO tipo_carrera (nombre, descripcion) VALUES 
+('Velocidad', 'Carreras de corta distancia y alta intensidad'),
+('Medio fondista', 'Carreras de media distancia que combinan velocidad y resistencia'),
+('Fondista', 'Carreras de larga distancia que requieren resistencia y estrategia');
+
+

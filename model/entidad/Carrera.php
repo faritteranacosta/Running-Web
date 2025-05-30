@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/Tipo_Carrera.php';
+require_once __DIR__ . '/TipoCarrera.php';
 require_once __DIR__ . '/Categoria.php';
 require_once __DIR__ . '/Ruta.php';
 require_once __DIR__ . '/Evento.php';
@@ -49,6 +49,9 @@ class Carrera {
 
     public function getTipoCarrera() {
         return $this->tipo_carrera;
+    }
+    public function getIdTipoCarrera() {
+        return $this->tipo_carrera->getIdTipoCarrera();
     }
 
     public function setCategoria(Categoria $categoria) {

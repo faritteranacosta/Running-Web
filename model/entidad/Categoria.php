@@ -5,6 +5,7 @@ class Categoria {
     private $descripcion;
 
     public function __construct($nombre = null, $descripcion = null) {
+        $this->id_categoria = null; // Inicializar id_categoria como null
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
     }
