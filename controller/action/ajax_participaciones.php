@@ -10,7 +10,6 @@ if (!isset($_SESSION['ID_USUARIO'])) {
 }
 
 $id_usuario = $_SESSION['ID_USUARIO'];
-$participaciones = new ParticipacionEvento();
 $participaciones = obtenerParticipacionesPorUsuarioMDB($id_usuario);
 
 $result = [];
