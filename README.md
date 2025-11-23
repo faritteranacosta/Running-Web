@@ -38,7 +38,7 @@
 
 ## 📁 Estructura del proyecto
 📦 RunningWeb/
-
+~~~
 ├── config/ # Configuración general y conexión a la BD
 ├── controller/
 │ ├── action/ # Acciones que manejan peticiones del usuario
@@ -48,7 +48,7 @@
 │ └── entidad/ # Clases entidad (Corredor, Vendedor, etc.)
 ├── view/ # Interfaz de usuario (HTML + PHP)
 └── README.md # Este archivo :)
-
+~~~
 
 
 
@@ -56,3 +56,4 @@
 
 Crea tu cuenta, explora la comunidad y descubre que el running puede cambiarte la vida.  
 **¡Bienvenido a RunningWeb!**
+
