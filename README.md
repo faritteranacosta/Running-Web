@@ -1,4 +1,4 @@
-# 🏃‍♂️ RunningWeb
+#  RunningWeb
 
 **RunningWeb** es una plataforma diseñada para quienes están comenzando o quieren avanzar en el mundo del running. Si alguna vez te has preguntado:  
 - ¿Cómo empiezo a correr?  
@@ -9,18 +9,18 @@
 
 ---
 
-## 🚀 Funcionalidades principales
+##  Funcionalidades principales
 
-✅ Registro y login con roles de **corredor** y **vendedor**  
-✅ Búsqueda de lugares y eventos para entrenar  
-✅ Conexión con grupos de running locales  
-✅ Publicación y gestión de productos deportivos  
-✅ Interfaz intuitiva y amigable  
-✅ Arquitectura MVC con PHP puro
+Registro y login con roles de **corredor** y **vendedor**  
+Búsqueda de lugares y eventos para entrenar  
+Conexión con grupos de running locales  
+Publicación y gestión de productos deportivos  
+Interfaz intuitiva y amigable  
+Arquitectura MVC con PHP puro
 
 ---
 
-## 📸 Vista previa
+## Vista previa
 
 ![Uploading image.png…]()
 
@@ -36,8 +36,8 @@
 
 ---
 
-## 📁 Estructura del proyecto
-📦 RunningWeb/
+## Estructura del proyecto
+ RunningWeb/
 ~~~
 ├── config/ # Configuración general y conexión a la BD
 ├── controller/
@@ -52,7 +52,7 @@
 
 
 
-## 🏁 ¡Empieza a correr con confianza!
+## ¡Empieza a correr con confianza!
 
 Crea tu cuenta, explora la comunidad y descubre que el running puede cambiarte la vida.  
 **¡Bienvenido a RunningWeb!**
