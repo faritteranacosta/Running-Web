@@ -1,32 +1,109 @@
-.gradient-bg {
-    background: linear-gradient(135deg, #1a56d8 0%, #5a88fa 100%);
+/* ============================================
+   PRODUCTOS — específico de productos.php.
+   Reutiliza el shell de dashboard de vendedor.css (.sidebar, .dash-main, etc.)
+   y los campos de formulario de base.css (.input-box).
+   ============================================ */
+
+/* ---------- BANNER ---------- */
+.icon-accent{ color:var(--sky-dim); margin-right:8px; }
+.page-banner{
+  background:linear-gradient(135deg,var(--sky),var(--violet));
+  border-radius:var(--radius); padding:36px 32px; color:#fff;
+  margin-bottom:24px; position:relative; overflow:hidden;
 }
-
-.card-hover {
-    transition: all 0.3s ease;
+.page-banner::before{
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(400px 200px at 85% 0%, rgba(255,255,255,.18), transparent 70%);
 }
+.page-banner-inner{ position:relative; z-index:1; max-width:640px; }
+.page-banner h2{ color:#fff; font-size:1.7rem; margin-bottom:10px; display:flex; align-items:center; gap:12px; }
+.page-banner p{ color:rgba(255,255,255,.88); font-size:1rem; }
 
-.card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+/* ---------- FORMULARIO COLAPSABLE ---------- */
+.panel-form-head{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:22px;
 }
-
-.smooth-transition {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.panel-form-head h3{ font-size:1.1rem; display:flex; align-items:center; gap:10px; }
+.panel-form-head h3 i{ color:var(--sky-dim); }
+.toggle-form-btn{
+  background:none; border:none; color:var(--sky-dim); font-size:1rem; cursor:pointer;
+  width:32px; height:32px; border-radius:8px; transition:background .2s;
 }
+.toggle-form-btn:hover{ background:var(--paper-dim); }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+#product-form{
+  transition:max-height .35s var(--ease), opacity .3s var(--ease);
+  overflow:hidden; max-height:1200px;
 }
+.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.form-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.form-actions{ display:flex; justify-content:flex-end; gap:12px; padding-top:8px; }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
+/* ---------- BUSCAR / FILTRAR ---------- */
+.list-head{
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; gap:12px;
+}
+.list-head h3{ font-size:1.1rem; display:flex; align-items:center; gap:10px; }
+.list-head h3 i{ color:var(--sky-dim); }
+.list-tools{ display:flex; gap:10px; align-items:center; }
+.search-box{ position:relative; }
+.search-box i{ position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#94A3B8; font-size:.86rem; }
+.search-box input{
+  padding:9px 14px 9px 34px; border-radius:10px; border:1px solid var(--line);
+  background:var(--paper); font-size:.88rem; width:220px;
+  transition:border-color .2s, box-shadow .2s;
+}
+.search-box input:focus{ outline:none; border-color:var(--sky); box-shadow:0 0 0 3px var(--sky-glow); }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* ---------- TABLA DE PRODUCTOS PUBLICADOS ---------- */
+.prod-table-panel{ padding:0; overflow:hidden; }
+.prod-table-panel .list-head{ padding:22px 22px 0; }
+.table-wrap{ overflow-x:auto; }
+.ptable{ width:100%; border-collapse:collapse; }
+.ptable thead th{
+  background:var(--track); color:#fff; text-align:left; font-size:.78rem; font-weight:600;
+  padding:14px 18px;
+}
+.ptable thead th.th-center{ text-align:center; }
+.ptable td{ padding:14px 18px; border-bottom:1px solid var(--line); font-size:.88rem; vertical-align:middle; }
+.ptable tbody tr:last-child td{ border-bottom:none; }
+.ptable tbody tr:hover{ background:var(--paper-dim); }
+.prow-main{ display:flex; align-items:center; gap:14px; }
+.prow-main img{ width:46px; height:46px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+.prow-main .name{ font-weight:600; font-size:.9rem; }
+.prow-main .desc{ font-size:.78rem; color:var(--ink-soft); max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cat-pill{ background:var(--paper-dim); color:var(--ink-soft); font-size:.76rem; padding:4px 12px; border-radius:100px; }
+.status-pill{ font-size:.74rem; font-weight:600; padding:4px 12px; border-radius:100px; }
+.status-pill.active{ background:rgba(16,185,129,.12); color:#059669; }
+.status-pill.low-stock{ background:rgba(245,158,11,.14); color:#B45309; }
+.status-pill.out-of-stock{ background:rgba(220,38,38,.1); color:#DC2626; }
+.row-actions{ display:flex; justify-content:center; gap:6px; }
+.row-actions button{
+  width:32px; height:32px; border-radius:8px; border:none; background:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:background .2s;
+}
+.row-actions .act-edit{ color:#B45309; } .row-actions .act-edit:hover{ background:rgba(245,158,11,.1); }
+.row-actions .act-delete{ color:#DC2626; } .row-actions .act-delete:hover{ background:rgba(220,38,38,.08); }
+.row-actions .act-view{ color:var(--ink-soft); } .row-actions .act-view:hover{ background:var(--paper-dim); }
+.table-empty{ text-align:center; padding:28px; color:var(--ink-soft); }
+
+/* ---------- PAGINACIÓN ---------- */
+.list-footer{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 22px; background:var(--paper-dim); border-top:1px solid var(--line);
+  font-size:.84rem; color:var(--ink-soft); flex-wrap:wrap; gap:10px;
+}
+.pagination-controls{ display:flex; gap:6px; }
+.pagination-controls button{
+  min-width:32px; height:32px; padding:0 8px; border-radius:8px;
+  border:1px solid var(--line); background:#fff; color:var(--ink-soft);
+  font-size:.82rem; cursor:pointer; transition:background .2s, color .2s, border-color .2s;
+}
+.pagination-controls button:hover:not(:disabled){ border-color:var(--sky); color:var(--sky-dim); }
+.pagination-controls button.current{ background:var(--sky); border-color:var(--sky); color:#fff; }
+.pagination-controls button:disabled{ opacity:.4; cursor:not-allowed; }
+
+@media (max-width: 900px){
+  .form-grid-2, .form-grid-3{ grid-template-columns:1fr; }
+  .search-box input{ width:150px; }
 }

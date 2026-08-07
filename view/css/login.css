@@ -1,0 +1,58 @@
+/* ============================================
+   LOGIN — específico de iniciar_sesion.html.
+   Requiere que base.css esté cargado antes.
+   ============================================ */
+
+.login-section{ padding:72px 0 96px; }
+.login-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;
+}
+
+.login-side .kicker{
+  font-family:'JetBrains Mono',monospace; font-size:.76rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--sky-dim); margin-bottom:14px; display:block;
+}
+.login-side h1{
+  font-size:clamp(2.1rem, 3.6vw, 3rem); line-height:1.08; margin-bottom:18px;
+}
+.login-side .lead{ color:var(--ink-soft); font-size:1.05rem; max-width:440px; margin-bottom:36px; }
+
+.login-quote{
+  display:flex; gap:14px; align-items:flex-start;
+  background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--radius);
+  padding:20px; max-width:440px;
+}
+.login-quote img{ width:46px; height:46px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+.login-quote p{ font-size:.94rem; color:var(--ink); margin-bottom:6px; font-style:italic; }
+.login-quote span{ font-size:.76rem; color:var(--violet-dim); }
+
+.login-card{
+  background:#fff; border:1px solid var(--line); border-radius:20px;
+  padding:40px 36px; position:relative; overflow:hidden;
+  box-shadow:0 20px 50px -20px rgba(15,23,42,.15);
+}
+.login-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg,var(--sky),var(--violet));
+}
+.login-card .kicker{
+  font-family:'JetBrains Mono',monospace; font-size:.74rem; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--sky-dim); margin-bottom:8px; display:block;
+}
+.login-card h2{ font-size:1.5rem; margin-bottom:28px; }
+
+
+.login-card button[type="submit"]{ margin-top:8px; }
+
+.login-links{
+  margin-top:22px; display:flex; flex-direction:column; gap:10px;
+  text-align:center; font-size:.88rem; color:var(--ink-soft);
+}
+.login-links a{ color:var(--ink-soft); transition:color .2s; }
+.login-links a:hover{ color:var(--sky-dim); }
+.login-links a.accent{ color:var(--sky-dim); font-weight:600; }
+
+@media (max-width: 860px){
+  .login-grid{ grid-template-columns:1fr; gap:48px; }
+  .login-card{ padding:32px 24px; }
+}

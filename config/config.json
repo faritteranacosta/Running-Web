@@ -1,6 +1,6 @@
 {
-    "host": "localhost",
-    "username": "root",
-    "password": "",
-    "database": "runningweb_v2"
+  "host": "db",
+  "username": "root",
+  "password": "root",
+  "database": "runningweb_v2"
 }

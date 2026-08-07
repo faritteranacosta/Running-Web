@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const userId = document.getElementById("userId").value; 
-    
+    const userId = document.getElementById("userId").value;
+
     fetch(`../controller/action/ajax_productos.php?vendedor_id=${userId}`, {
         method: "GET",
         headers: {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!productos || !Array.isArray(productos) || productos.length === 0) {
             tableBody.innerHTML = `
                 <tr>
-                    <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                    <td colspan="7" class="table-empty">
                         No hay productos disponibles
                     </td>
                 </tr>
@@ -39,45 +39,33 @@ document.addEventListener("DOMContentLoaded", function() {
             // Determinar el estado basado en el stock
             let estadoClass, estadoTexto;
             if (producto.stock > 5) {
-                estadoClass = "bg-green-100 text-green-800";
+                estadoClass = "ok";
                 estadoTexto = "Disponible";
             } else if (producto.stock > 0) {
-                estadoClass = "bg-yellow-100 text-yellow-800";
+                estadoClass = "low";
                 estadoTexto = "Poco stock";
             } else {
-                estadoClass = "bg-red-100 text-red-800";
+                estadoClass = "out";
                 estadoTexto = "Agotado";
             }
 
-            // Determinar clase para el stock
-            let stockClass = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full ";
-            stockClass += producto.stock > 5 ? "bg-green-100 text-green-800" : 
-                          producto.stock > 0 ? "bg-yellow-100 text-yellow-800" : 
-                          "bg-red-100 text-red-800";
-
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 h-10 w-10">
-                            <img class="h-10 w-10 rounded-md object-cover" src="${producto.imagenUrl || 'assets/img/default-product.png'}" alt="${producto.name}">
-                        </div>
-                        <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">${producto.name}</div>
-                            <div class="text-sm text-gray-500">#PRD-${producto.id.toString().padStart(3, '0')}</div>
+                <td>
+                    <div class="prod-cell">
+                        <img src="${producto.imagenUrl || 'assets/img/default-product.png'}" alt="${producto.name}">
+                        <div>
+                            <div class="name">${producto.name}</div>
+                            <div class="sku">#PRD-${producto.id.toString().padStart(3, '0')}</div>
                         </div>
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${producto.categoria || 'Sin categoría'}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${producto.price.toFixed(2)}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="${stockClass}">${producto.stock}</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">0</td> <!-- Aquí irían las ventas si las tuvieras -->
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${estadoClass}">${estadoTexto}</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td class="cell-muted">${producto.categoria || 'Sin categoría'}</td>
+                <td class="cell-num">$${producto.price.toFixed(2)}</td>
+                <td><span class="stock-pill ${estadoClass}">${producto.stock}</span></td>
+                <td class="cell-num cell-muted">0</td> <!-- Aquí irían las ventas si las tuvieras -->
+                <td><span class="stock-pill ${estadoClass}">${estadoTexto}</span></td>
+                <td class="cell-muted">
                     <!-- Eliminados los botones de acción como solicitaste -->
                 </td>
             `;
@@ -89,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const tableBody = document.querySelector(".product-table tbody");
         tableBody.innerHTML = `
             <tr>
-                <td colspan="7" class="px-6 py-4 text-center text-red-500">
+                <td colspan="7" class="table-error">
                     Error al cargar los productos: ${error.message}
                 </td>
             </tr>

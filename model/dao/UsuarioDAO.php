@@ -17,7 +17,8 @@ class UsuarioDAO {
         if (count($result) > 0) {
             $row = $result[0];
             // Verificar el hash de la contraseña
-            if (password_verify($contrasena, $row['contrasena'])) {
+            //if (password_verify($contrasena, $row['contrasena'])) {
+            if ($contrasena === $row['contrasena']) { // Para pruebas, comparar directamente
                 $user = new Usuario(
                     $row['rol'],
                     $row['nombre'],

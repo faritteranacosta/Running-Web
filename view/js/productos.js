@@ -178,7 +178,7 @@ function renderProducts() {
     if (paginatedProducts.length === 0) {
         productList.innerHTML = `
             <tr>
-                <td colspan="6" class="py-8 text-center text-gray-500">
+                <td colspan="6" class="table-empty">
                     No hay productos disponibles
                 </td>
             </tr>
@@ -188,9 +188,9 @@ function renderProducts() {
 
     paginatedProducts.forEach(product => {
         const statusClass = {
-            active: "bg-green-100 text-green-800",
-            "low-stock": "bg-yellow-100 text-yellow-800",
-            "out-of-stock": "bg-red-100 text-red-800",
+            active: "active",
+            "low-stock": "low-stock",
+            "out-of-stock": "out-of-stock",
         }[product.status];
 
         const statusText = {
@@ -200,43 +200,29 @@ function renderProducts() {
         }[product.status];
 
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-gray-50';
         tr.innerHTML = `
-            <td class="py-4 px-6">
-                <div class="flex items-center">
-                    <img src="${product.image}" alt="${product.name}" 
-                         class="w-12 h-12 rounded-md object-cover mr-4">
+            <td>
+                <div class="prow-main">
+                    <img src="${product.image}" alt="${product.name}">
                     <div>
-                        <div class="font-medium text-gray-900">${product.name}</div>
-                        <div class="text-sm text-gray-500 line-clamp-1">
-                            ${product.description}
-                        </div>
+                        <div class="name">${product.name}</div>
+                        <div class="desc">${product.description}</div>
                     </div>
                 </div>
             </td>
-            <td class="py-4 px-6">
-                <span class="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-800">
-                    ${product.categoria}
-                </span>
-            </td>
-            <td class="py-4 px-6 font-medium">$${product.price.toFixed(2)}</td>
-            <td class="py-4 px-6">${product.stock}</td>
-            <td class="py-4 px-6">
-                <span class="px-3 py-1 text-xs rounded-full ${statusClass}">
-                    ${statusText}
-                </span>
-            </td>
-            <td class="py-4 px-6 text-center">
-                <div class="flex justify-center space-x-2">
-                    <button onclick="editProduct('${product.id}')" 
-                            class="p-2 text-yellow-500 hover:text-yellow-700 hover:bg-yellow-50 rounded-full">
-                        <i class="fas fa-edit"></i>
+            <td><span class="cat-pill">${product.categoria}</span></td>
+            <td class="cell-num">$${product.price.toFixed(2)}</td>
+            <td class="cell-num">${product.stock}</td>
+            <td><span class="status-pill ${statusClass}">${statusText}</span></td>
+            <td>
+                <div class="row-actions">
+                    <button onclick="editProduct('${product.id}')" class="act-edit" aria-label="Editar">
+                        <i class="fas fa-pen"></i>
                     </button>
-                    <button onclick="deleteProduct('${product.id}')" 
-                            class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full">
+                    <button onclick="deleteProduct('${product.id}')" class="act-delete" aria-label="Eliminar">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    <button class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-full">
+                    <button class="act-view" aria-label="Ver detalle">
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
@@ -247,38 +233,29 @@ function renderProducts() {
 }
 
 // Paginación
-// Paginación - Versión corregida
 function renderPagination() {
     const totalPages = Math.ceil(products.length / itemsPerPage);
     const paginationControls = document.getElementById('pagination-controls');
-    
-    // Limpiar todos los controles existentes
+
     paginationControls.innerHTML = '';
 
-    // Crear botón Anterior
     const prevBtn = document.createElement('button');
     prevBtn.id = 'prev-btn';
-    prevBtn.className = 'px-3 py-1 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100';
     prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
     prevBtn.onclick = previousPage;
     prevBtn.disabled = currentPage === 1;
     paginationControls.appendChild(prevBtn);
 
-    // Agregar números de página
     for (let i = 1; i <= totalPages; i++) {
         const pageBtn = document.createElement('button');
-        pageBtn.className = `px-3 py-1 rounded-md ${currentPage === i 
-            ? 'bg-primary-600 text-white' 
-            : 'border border-gray-300 text-gray-600 hover:bg-gray-100'}`;
+        pageBtn.className = currentPage === i ? 'current' : '';
         pageBtn.textContent = i;
         pageBtn.onclick = () => goToPage(i);
         paginationControls.appendChild(pageBtn);
     }
 
-    // Crear botón Siguiente
     const nextBtn = document.createElement('button');
     nextBtn.id = 'next-btn';
-    nextBtn.className = 'px-3 py-1 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100';
     nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
     nextBtn.onclick = nextPage;
     nextBtn.disabled = currentPage === totalPages || totalPages === 0;
