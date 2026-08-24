@@ -1,210 +1,72 @@
+/* ============================================
+   RUNNER — perfil del corredor.
+   Reutiliza el shell de vendedor.css (.sidebar, .dash-main, .stat-grid...)
+   ============================================ */
 
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'MiFuente', sans-serif;
+.profile-card{ text-align:center; }
+.profile-avatar-wrap{ display:flex; flex-direction:column; align-items:center; margin-bottom:20px; }
+.profile-avatar-wrap img{
+  width:120px; height:120px; border-radius:50%; object-fit:cover;
+  border:4px solid var(--sky); margin-bottom:12px;
 }
+.link-btn{ background:none; border:none; color:var(--sky-dim); font-size:.86rem; cursor:pointer; font-weight:600; }
+.link-btn:hover{ text-decoration:underline; }
 
-body {
-    background-color: #ffffff;
-    text-align: center;
+.profile-fields{ text-align:left; display:flex; flex-direction:column; gap:16px; margin-bottom:22px; }
+.profile-fields .flabel{ font-size:.78rem; color:var(--ink-soft); margin-bottom:2px; }
+.profile-fields .fval{ font-weight:600; font-size:.92rem; }
+
+.level-row{ display:flex; align-items:center; gap:10px; }
+.level-bar{ flex:1; background:var(--paper-dim); border-radius:100px; height:8px; overflow:hidden; }
+.level-bar-fill{ height:100%; width:var(--pct,0%); background:linear-gradient(90deg,var(--sky),var(--violet)); border-radius:100px; }
+.profile-card-title{ text-align:left; font-size:1.1rem; margin-bottom:18px; }
+.panel-head-spaced{ margin-top:28px; }
+
+/* ---------- TABLA DE CARRERAS ---------- */
+.races-table{ width:100%; border-collapse:collapse; }
+.races-table th{
+  text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--ink-soft); padding:10px 14px; background:var(--paper-dim);
 }
+.races-table td{ padding:14px; border-bottom:1px solid var(--line); font-size:.88rem; }
+.races-table tr:last-child td{ border-bottom:none; }
+.races-table .link-action{ color:var(--sky-dim); font-weight:600; background:none; border:none; cursor:pointer; font-size:.84rem; }
+.races-table .link-action:hover{ text-decoration:underline; }
+.races-table .link-danger{ color:#DC2626; font-weight:600; background:none; border:none; cursor:pointer; font-size:.84rem; margin-left:12px; }
+.races-table .link-danger:hover{ text-decoration:underline; }
 
-/* Tabla Modernizada */
-.tabla {
-    width: 90%;
-    margin: 20px auto;
-    border-spacing: 0;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+/* Estados — mismos nombres de clase que ya usa runner.js */
+.status{
+  display:inline-block; padding:4px 12px; border-radius:100px;
+  font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
 }
+.status-proximo{ background:rgba(14,165,233,.12); color:var(--sky-dim); }
+.status-en-curso{ background:rgba(16,185,129,.12); color:#059669; }
+.status-finalizado{ background:rgba(107,114,128,.12); color:#6B7280; }
 
-th, td {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 20px;
-    text-align: left;
+/* ---------- EVENTOS ---------- */
+.events-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.event-card{
+  display:flex; align-items:center; gap:14px; padding:14px;
+  background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+  cursor:pointer; transition:transform .25s var(--ease), box-shadow .25s var(--ease);
 }
+.event-card:hover{ transform:translateY(-3px); box-shadow:0 12px 26px -16px rgba(15,23,42,.2); }
+.event-card img{ width:56px; height:56px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+.event-card-body{ flex:1; min-width:0; }
+.event-card-top{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:4px; }
+.event-card-top h3{ font-size:.94rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.event-card-meta{ font-size:.76rem; color:var(--ink-soft); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.event-card-meta .icon-sep{ margin-left:6px; }
 
-th {
-    background-color: #f4f4f4;
-    font-weight: bold;
-}
+.empty-msg{ color:var(--ink-soft); font-size:.9rem; padding:16px 0; }
+.empty-msg.empty-error{ color:#DC2626; }
 
-tr:hover {
-    background-color: #f9f9f9;
-}
+/* ---------- PRODUCTOS RECOMENDADOS ---------- */
+.products-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
 
-/* Secciones */
-.seccion {
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
-    border-radius: 10px;
-    padding: 20px;
-}
-
-/* Títulos */
-h1, h2 {
-    color: #000000;
-    background-color: transparent;
-    padding: 15px 0;
-    text-align: left;
-}
-
-/* Perfil */
-.perfil {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background-color: #f0f0f0;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 1000px;
-}
-
-.est {
-    width: 210px;
-    height: 210px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid #ddd;
-}
-
-/* Botón de volver */
-.btn-volver {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 12px 24px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s;
-}
-
-.btn-volver:hover {
-    background-color: #333333;
-}
-
-/* Tarjetas para eventos o perfiles */
-.card {
-    background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin: 20px auto;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
-}
-
-.card img {
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-}
-
-.card h3 {
-    margin: 15px 0 10px 0;
-    font-size: 20px;
-    text-align: center;
-}
-
-.card p {
-    font-size: 14px;
-    color: #555555;
-    padding: 0 20px 20px;
-    text-align: center;
-}
-
-.contenedor {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    max-width: 1200px;
-    margin: 40px auto;
-}
-
-/* Evento destacado */
-.event-card {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 90%;
-    max-width: 1000px;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px auto;
-}
-
-.event-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
-.event-info {
-    font-size: 16px;
-    text-align: center;
-}
-
-.event-info h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.event-info p {
-    font-size: 14px;
-    color: #666666;
-}
-
-.participate-btn {
-    background-color: #000000;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-.participate-btn:hover {
-    background-color: #333333;
-}
-
-/* Responsive para pantallas pequeñas */
-@media (max-width: 600px) {
-    .perfil {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .event-card {
-        flex-direction: column;
-    }
-
-    .contenedor {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 1100px){
+  .panel-grid{ grid-template-columns:1fr; }
+  .events-grid{ grid-template-columns:1fr; }
+  .products-grid{ grid-template-columns:repeat(2,1fr); }
 }

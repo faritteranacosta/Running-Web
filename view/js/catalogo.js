@@ -111,9 +111,9 @@ async function loadProducts(page = 1, category = "all") {
   } catch (error) {
     console.error("Error al cargar productos:", error);
     document.getElementById("todos-productos").innerHTML = `
-            <div class="col-span-full text-center py-8">
-                <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-4"></i>
-                <p class="text-gray-600">Error al cargar los productos. Por favor, inténtalo de nuevo.</p>
+            <div class="catalog-empty">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Error al cargar los productos. Por favor, inténtalo de nuevo.</p>
             </div>
         `;
   }
@@ -125,9 +125,9 @@ function renderProducts(products) {
 
   if (products.length === 0) {
     container.innerHTML = `
-            <div class="col-span-full text-center py-8">
-                <i class="fas fa-box-open text-gray-400 text-4xl mb-4"></i>
-                <p class="text-gray-600">No se encontraron productos en esta categoría.</p>
+            <div class="catalog-empty">
+                <i class="fas fa-box-open"></i>
+                <p>No se encontraron productos en esta categoría.</p>
             </div>
         `;
     return;
@@ -136,44 +136,29 @@ function renderProducts(products) {
   container.innerHTML = products
     .map(
       (producto) => `
-        <div class="product-card bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="relative">
-                <img src="${producto.image ? producto.image : 'assets/img/default_product.jpg'}" alt="${
-        producto.name
-      }" class="w-full h-48 object-cover">
+        <div class="product-card">
+            <div class="product-media">
+                <img src="${producto.image ? producto.image : 'assets/img/default_product.jpg'}" alt="${producto.name}">
                 ${
                   producto.stock <= 0
-                    ? `
-                <span class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    AGOTADO
-                </span>`
+                    ? `<span class="product-flag out">AGOTADO</span>`
                     : ""
                 }
             </div>
-            <div class="p-4">
-                <h3 class="font-bold text-lg">${producto.name}</h3>
-                <p class="text-gray-500 text-sm capitalize">${producto.categoria ? producto.categoria.toLowerCase() : 'Sin categoría'}</p>
-                <p class="text-gray-600 mt-2 line-clamp-2">${
-                  producto.description
-                }</p>
-                <div class="mt-3 flex justify-between items-center">
-                    <span class="text-blue-600 font-bold">$${
-                      producto.price
-                    }</span>
-                    <span class="text-gray-500 text-sm">${
-                      producto.stock
-                    } disponibles</span>
+            <div class="product-body">
+                <h3>${producto.name}</h3>
+                <p class="product-cat">${producto.categoria ? producto.categoria.toLowerCase() : 'Sin categoría'}</p>
+                <p class="product-desc">${producto.description}</p>
+                <div class="product-row">
+                    <span class="product-price">$${producto.price}</span>
+                    <span class="product-stock">${producto.stock} disponibles</span>
                 </div>
-                
                 <button onclick="agregarAlCarrito(${JSON.stringify(
                   producto
-                ).replace(/"/g, "&quot;")})" 
-                    class="mt-3 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition 
-                    ${
-                      producto.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""
-                    }" 
+                ).replace(/"/g, "&quot;")})"
+                    class="add-cart-btn"
                     ${producto.stock <= 0 ? "disabled" : ""}>
-                    <i class="fas fa-cart-plus mr-2"></i> 
+                    <i class="fas fa-cart-plus"></i>
                     ${producto.stock <= 0 ? "Agotado" : "Añadir al carrito"}
                 </button>
             </div>
@@ -191,9 +176,7 @@ function updatePagination(totalProducts) {
   if (!paginationContainer) return;
 
   let paginationHTML = `
-        <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 
-            ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}"
-            ${currentPage === 1 ? "disabled" : ""}
+        <button ${currentPage === 1 ? "disabled" : ""}
             onclick="loadProducts(${currentPage - 1})">
             <i class="fas fa-chevron-left"></i>
         </button>
@@ -214,22 +197,15 @@ function updatePagination(totalProducts) {
   // Botón para la primera página si no está visible
   if (startPage > 1) {
     paginationHTML += `
-            <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-                onclick="loadProducts(1)">
-                1
-            </button>
-            ${startPage > 2 ? '<span class="px-2">...</span>' : ""}
+            <button onclick="loadProducts(1)">1</button>
+            ${startPage > 2 ? '<span class="pagination-ellipsis">...</span>' : ""}
         `;
   }
 
   // Botones de páginas
   for (let i = startPage; i <= endPage; i++) {
     paginationHTML += `
-            <button class="px-3 py-1 ${
-              currentPage === i
-                ? "bg-blue-500 text-white"
-                : "border border-gray-300"
-            } rounded-lg hover:bg-gray-100"
+            <button class="${currentPage === i ? "current" : ""}"
                 onclick="loadProducts(${i})">
                 ${i}
             </button>
@@ -239,21 +215,14 @@ function updatePagination(totalProducts) {
   // Botón para la última página si no está visible
   if (endPage < totalPages) {
     paginationHTML += `
-            ${endPage < totalPages - 1 ? '<span class="px-2">...</span>' : ""}
-            <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100"
-                onclick="loadProducts(${totalPages})">
-                ${totalPages}
-            </button>
+            ${endPage < totalPages - 1 ? '<span class="pagination-ellipsis">...</span>' : ""}
+            <button onclick="loadProducts(${totalPages})">${totalPages}</button>
         `;
   }
 
   // Botón siguiente
   paginationHTML += `
-        <button class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-100 
-            ${
-              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-            }"
-            ${currentPage === totalPages ? "disabled" : ""}
+        <button ${currentPage === totalPages ? "disabled" : ""}
             onclick="loadProducts(${currentPage + 1})">
             <i class="fas fa-chevron-right"></i>
         </button>
@@ -269,9 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
   actualizarContadorCarrito();
 
   // Filtros por categoría
-  document.querySelectorAll(".category-filter").forEach((button) => {
+  document.querySelectorAll(".filter-chip").forEach((button) => {
     button.addEventListener("click", function () {
-      document.querySelectorAll(".category-filter").forEach((btn) => {
+      document.querySelectorAll(".filter-chip").forEach((btn) => {
         btn.classList.remove("active");
       });
       this.classList.add("active");
@@ -288,13 +257,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const productCards = document.querySelectorAll(".product-card");
 
     productCards.forEach((card) => {
-      const title = card.querySelector("h3").textContent.toLowerCase();
-      const description = card
-        .querySelector("p.text-gray-600")
-        .textContent.toLowerCase();
+      const title = card.querySelector("h3")?.textContent.toLowerCase() || "";
+      const description = card.querySelector(".product-desc")?.textContent.toLowerCase() || "";
 
       if (title.includes(searchTerm) || description.includes(searchTerm)) {
-        card.style.display = "block";
+        card.style.display = "";
       } else {
         card.style.display = "none";
       }
@@ -303,12 +270,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Toggle Mobile Menu
-document
-  .getElementById("mobile-menu-button")
-  .addEventListener("click", function () {
-    const menu = document.getElementById("mobile-menu");
-    menu.classList.toggle("hidden");
-  });
+const menuBtn = document.getElementById("mobile-menu-button");
+const mobileMenu = document.getElementById("mobile-menu");
+menuBtn.addEventListener("click", function () {
+  const isOpen = mobileMenu.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", isOpen);
+});
 
 // Hacer funciones accesibles globalmente
 window.agregarAlCarrito = agregarAlCarrito;

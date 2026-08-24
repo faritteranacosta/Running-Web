@@ -1,8 +1,3 @@
-document.getElementById('toggle-sidebar').addEventListener('click', function () {
-  document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
-  document.querySelector('.main-content').classList.toggle('ml-20');
-});
-
 function cargarEventos() {
   fetch("../controller/action/ajax_eventos.php", {
     method: "GET",
@@ -28,7 +23,7 @@ function cargarEventos() {
       contenedor.innerHTML = "";
 
       if (!eventos || !Array.isArray(eventos)) {
-        contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos</p>";
+        contenedor.innerHTML = "<p class='empty-msg'>No hay eventos próximos</p>";
         return;
       }
 
@@ -45,7 +40,7 @@ function cargarEventos() {
       });
 
       if (eventosProximos.length === 0) {
-        contenedor.innerHTML = "<p class='text-gray-500'>No hay eventos próximos</p>";
+        contenedor.innerHTML = "<p class='empty-msg'>No hay eventos próximos</p>";
         return;
       }
 
@@ -79,22 +74,20 @@ function cargarEventos() {
         }
 
         const tarjeta = document.createElement("div");
-        tarjeta.className =
-          "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover p-4 flex items-center gap-4";
+        tarjeta.className = "event-card";
         tarjeta.innerHTML = `
-            <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}"
-             class="w-16 h-16 object-cover rounded-lg flex-shrink-0">
-            <div class="flex-1">
-            <div class="flex justify-between items-center mb-1">
-                <h3 class="text-base font-semibold text-gray-800">${evento.nombre || "Sin nombre"}</h3>
+            <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
+            <div class="event-card-body">
+              <div class="event-card-top">
+                <h3>${evento.nombre || "Sin nombre"}</h3>
                 <span class="status ${claseEstado}">${estado}</span>
-            </div>
-            <div class="text-xs text-gray-500 flex items-center gap-2">
+              </div>
+              <div class="event-card-meta">
                 <i class="fas fa-calendar-day"></i>
                 <span>${fechaFormateada}</span>
-                <i class="fas fa-map-marker-alt ml-3"></i>
+                <i class="fas fa-map-marker-alt icon-sep"></i>
                 <span>${evento.direccion || "Sin ubicación"}</span>
-            </div>
+              </div>
             </div>
         `;
 
@@ -108,7 +101,7 @@ function cargarEventos() {
     .catch((error) => {
       console.error("Error:", error);
       const contenedor = document.getElementById("events-container");
-      contenedor.innerHTML = "<p class='text-red-500'>Error al cargar eventos.</p>";
+      contenedor.innerHTML = "<p class='empty-msg empty-error'>Error al cargar eventos.</p>";
     });
 }
 
@@ -183,7 +176,7 @@ function cargarCarrerasProgramadas() {
       const tbody = document.getElementById("races-table-body");
       tbody.innerHTML = "";
       if (!data.success || !Array.isArray(data.participaciones) || data.participaciones.length === 0) {
-        tbody.innerHTML = `<tr><td colspan='5' class='text-center text-gray-500'>No tienes carreras programadas.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan='5' class='empty-msg'>No tienes carreras programadas.</td></tr>`;
         return;
       }
       
@@ -209,13 +202,13 @@ function cargarCarrerasProgramadas() {
         
         tbody.innerHTML += `
           <tr>
-            <td class='px-6 py-4 whitespace-nowrap'>${participacion.nombre_evento}</td>
-            <td class='px-6 py-4 whitespace-nowrap'>${new Date(participacion.fecha_evento).toLocaleDateString('es-ES')}</td>
-            <td class='px-6 py-4 whitespace-nowrap'>${participacion.distancia || '-'}</td>
-            <td class='px-6 py-4 whitespace-nowrap'><span class='status ${claseEstado}'>${estado}</span></td>
-            <td class='px-6 py-4 whitespace-nowrap'>
-                <button class='text-blue-500 hover:underline' onclick='window.location.href="detalles.php?id=${participacion.id_carrera || ""}"'>Ver detalles</button>
-                <button class='text-red-500 hover:underline ml-2' onclick='eliminarParticipacion(${participacion.id_evento})'>Eliminar</button>
+            <td>${participacion.nombre_evento}</td>
+            <td>${new Date(participacion.fecha_evento).toLocaleDateString('es-ES')}</td>
+            <td>${participacion.distancia || '-'}</td>
+            <td><span class='status ${claseEstado}'>${estado}</span></td>
+            <td>
+                <button class='link-action' onclick='window.location.href="detalles.php?id=${participacion.id_carrera || ""}"'>Ver detalles</button>
+                <button class='link-danger' onclick='eliminarParticipacion(${participacion.id_evento})'>Eliminar</button>
             </td>
           </tr>
         `;
@@ -223,7 +216,7 @@ function cargarCarrerasProgramadas() {
     })
     .catch((error) => {
       const tbody = document.getElementById("races-table-body");
-      tbody.innerHTML = `<tr><td colspan='5' class='text-center text-red-500'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan='5' class='empty-msg empty-error'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
     });
 }
 

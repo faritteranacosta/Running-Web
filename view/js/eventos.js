@@ -30,7 +30,27 @@ function cargarEventos() {
       }
 
       const contenedor = document.querySelector(".contenedor");
+      const destacadoContenedor = document.getElementById("evento-destacado");
+
+      if (eventos.length === 0) {
+        contenedor.innerHTML = `
+          <div class="catalog-empty">
+            <i class="fas fa-calendar-xmark"></i>
+            <p>No hay eventos disponibles por ahora.</p>
+          </div>
+        `;
+        destacadoContenedor.innerHTML = `
+          <div class="featured-loading">
+            <p>No hay evento destacado por ahora.</p>
+          </div>
+        `;
+        return;
+      }
+
       contenedor.innerHTML = "";
+
+      // El primer evento próximo se usa como evento destacado
+      let eventoDestacado = null;
 
       eventos.forEach((evento) => {
         const fecha = evento.fecha ? new Date(evento.fecha) : new Date();
@@ -52,6 +72,9 @@ function cargarEventos() {
         if (fechaEvento > hoy) {
           estado = "Próximo";
           claseEstado = "status-proximo";
+          if (!eventoDestacado) {
+            eventoDestacado = { ...evento, fechaFormateada, estado, claseEstado };
+          }
         } else if (fechaEvento.getTime() === hoy.getTime()) {
           estado = "En curso";
           claseEstado = "status-en-curso";
@@ -61,65 +84,75 @@ function cargarEventos() {
         }
 
         const tarjeta = document.createElement("div");
-        tarjeta.className =
-          "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
+        tarjeta.className = "event-card";
         tarjeta.innerHTML = `
-    <div class="h-48 overflow-hidden">
-        <img src="${"assets/img/runner9.png"}" alt="${
-          evento.nombre || "Evento"
-        }" 
-             class="w-full h-full object-cover hover:scale-105 transition duration-300">
+    <div class="event-card-media">
+        <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
     </div>
-    <div class="p-6">
-        <div class="flex justify-between items-start mb-2">
-            <h3 class="text-xl font-bold text-gray-800">${
-              evento.nombre || "Nombre no disponible"
-            }</h3>
+    <div class="event-card-body">
+        <div class="event-card-top">
+            <h3>${evento.nombre || "Nombre no disponible"}</h3>
             <span class="status ${claseEstado}">${estado}</span>
         </div>
-        <p class="text-gray-600 mb-4 line-clamp-2">${
-          evento.descripcion || "Descripción no disponible"
-        }</p>
-        
-        <div class="flex items-center text-gray-500 mb-3">
-            <i class="fas fa-calendar-day mr-2"></i>
-            <span>${fechaFormateada}</span>
+        <p class="event-card-desc">${evento.descripcion || "Descripción no disponible"}</p>
+
+        <div class="event-card-meta">
+            <div><i class="fas fa-calendar-day"></i> <span>${fechaFormateada}</span></div>
+            <div><i class="far fa-clock"></i> <span>${evento.hora || "Hora no especificada"}</span></div>
+            <div><i class="fas fa-running"></i> <span>${evento.tipo || "Tipo no especificado"}</span></div>
+            <div><i class="fas fa-map-marker-alt"></i> <span>${evento.direccion || "Dirección no especificada"}</span></div>
         </div>
-        
-        <div class="flex items-center text-gray-500 mb-3">
-            <i class="far fa-clock mr-2"></i>
-            <span>${evento.hora || "Hora no especificada"}</span>
-        </div>
-        
-        <div class="flex items-center text-gray-500 mb-3">
-            <i class="fas fa-running mr-2"></i>
-            <span>${evento.tipo || "Tipo no especificado"}</span>
-        </div>
-        
-        <div class="flex items-center text-gray-500 mb-3">
-            <i class="fas fa-map-marker-alt mr-2"></i>
-            <span>${evento.direccion || "Dirección no especificada"}</span>
-        </div>
-    </div>
-    <div class="p-4 bg-gray-50 border-t border-gray-200">
-        <button class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 flex items-center justify-center">
-            <i class="fas fa-info-circle mr-2"></i>
-            Ver detalles
+
+        <button class="event-card-cta">
+            <i class="fas fa-info-circle"></i> Ver detalles
         </button>
     </div>
 `;
 
-        // Añadir evento de clic si es necesario
         tarjeta.addEventListener("click", () => {
-          // Aquí puedes añadir la lógica para mostrar más detalles del evento
           console.log("Evento seleccionado:", evento);
         });
 
         contenedor.appendChild(tarjeta);
       });
+
+      // Renderizar el evento destacado
+      if (eventoDestacado) {
+        destacadoContenedor.innerHTML = `
+          <img src="assets/img/runner9.png" alt="${eventoDestacado.nombre || "Evento"}">
+          <div class="featured-event-body">
+            <span class="status ${eventoDestacado.claseEstado}">${eventoDestacado.estado}</span>
+            <h3>${eventoDestacado.nombre || "Nombre no disponible"}</h3>
+            <p>${eventoDestacado.descripcion || "Descripción no disponible"}</p>
+            <div class="featured-event-meta">
+              <div><i class="fas fa-calendar-day"></i> <span>${eventoDestacado.fechaFormateada}</span></div>
+              <div><i class="far fa-clock"></i> <span>${eventoDestacado.hora || "Hora no especificada"}</span></div>
+              <div><i class="fas fa-running"></i> <span>${eventoDestacado.tipo || "Tipo no especificado"}</span></div>
+              <div><i class="fas fa-map-marker-alt"></i> <span>${eventoDestacado.direccion || "Dirección no especificada"}</span></div>
+            </div>
+            <button class="btn btn-primary"><i class="fas fa-info-circle"></i> Ver detalles</button>
+          </div>
+        `;
+      } else {
+        destacadoContenedor.innerHTML = `
+          <div class="featured-loading">
+            <p>No hay evento destacado por ahora.</p>
+          </div>
+        `;
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
+
+      const contenedor = document.querySelector(".contenedor");
+      if (contenedor) {
+        contenedor.innerHTML = `
+          <div class="catalog-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>No se pudieron cargar los eventos.</p>
+          </div>
+        `;
+      }
 
       Swal.fire({
         icon: "error",

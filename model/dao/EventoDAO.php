@@ -49,7 +49,9 @@ class EventoDAO {
  
     public function obtenerEventoPorId($id_evento) {
 
-        $sql = "SELECT * FROM evento e
+        $sql = "SELECT e.*, u.direccion AS direccion
+                FROM evento e
+                LEFT JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion
                 WHERE e.id_evento = ?";
         $params = [$id_evento];
         $result = $this->dataSource->ejecutarConsulta($sql, $params);
@@ -71,7 +73,9 @@ class EventoDAO {
     }
  
     public function obtenerTodosLosEventos() {
-        $sql = "SELECT * FROM evento";
+        $sql = "SELECT e.*, u.direccion AS direccion
+                FROM evento e
+                LEFT JOIN ubicacion u ON e.ubicacion_id = u.id_ubicacion";
         $result = $this->dataSource->ejecutarConsulta($sql);
         $eventos = [];
         foreach ($result as $row) {
@@ -90,4 +94,3 @@ class EventoDAO {
         return $eventos;
     }
 }
- 
