@@ -20,6 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
         if (ob_get_length()) ob_clean();
         echo json_encode($carreras, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+    } catch (PDOException $e) {
+        error_log('[ajax_carreras_metodos] ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'Ocurrió un error al cargar las carreras. Inténtalo de nuevo más tarde.',
+            'success' => false
+        ]);
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode([
@@ -60,6 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             throw new Exception('No se pudo insertar la carrera');
         }
+    } catch (PDOException $e) {
+        error_log('[ajax_carreras_metodos] ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'Ocurrió un error al insertar la carrera. Inténtalo de nuevo más tarde.',
+            'success' => false
+        ]);
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode([

@@ -62,7 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             'id' => $resultado // Si devuelve ID o algún resultado
         ], JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
         exit;
+    } catch (PDOException $e) {
+        // Error de base de datos: se registra en el log del servidor, pero al
+        // navegador solo se le muestra un mensaje genérico (no detalles de SQL).
+        error_log('[ajax_carreras] ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'Ocurrió un error al crear la carrera. Inténtalo de nuevo más tarde.',
+            'success' => false
+        ]);
+        exit;
     } catch (Exception $e) {
+        // Errores de validación propios (campos faltantes, tipo no encontrado, etc.):
+        // sí es seguro mostrarlos, porque los generamos nosotros mismos.
         http_response_code(500);
         echo json_encode([
             'error' => $e->getMessage(),
@@ -80,6 +92,13 @@ try {
     }
     if(ob_get_length()) ob_clean();
     echo json_encode($carreras, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+} catch (PDOException $e) {
+    error_log('[ajax_carreras] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Ocurrió un error al cargar las carreras. Inténtalo de nuevo más tarde.',
+        'success' => false
+    ]);
 } catch(Exception $e) {
     http_response_code(500);
     echo json_encode([

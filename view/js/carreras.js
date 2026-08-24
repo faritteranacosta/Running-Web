@@ -43,11 +43,64 @@ export function listarCarreras() {
   return fetch(`${API_URL}?action=listar`).then((r) => r.json());
 }
 
-// Renderizado dinámico de carreras en carreras.html
+// Renderizado dinámico de carreras
 
 document.addEventListener("DOMContentLoaded", function () {
   cargarCarreras();
 });
+
+function calcularEstado(carrera) {
+  const fecha = carrera.fecha ? new Date(carrera.fecha) : null;
+  const fechaFormateada = fecha
+    ? fecha.toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
+    : "Fecha por definir";
+
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const fechaCarrera = fecha ? new Date(carrera.fecha) : null;
+  let estado = "";
+  let claseEstado = "";
+
+  if (!fechaCarrera) {
+    estado = "Por definir";
+    claseEstado = "status-pendiente";
+  } else {
+    fechaCarrera.setHours(0, 0, 0, 0);
+    if (fechaCarrera > hoy) {
+      estado = "Próxima";
+      claseEstado = "status-proxima";
+    } else if (fechaCarrera.getTime() === hoy.getTime()) {
+      estado = "Hoy";
+      claseEstado = "status-hoy";
+    } else {
+      estado = "Finalizada";
+      claseEstado = "status-finalizada";
+    }
+  }
+
+  return { fecha, fechaFormateada, hoy, fechaCarrera, estado, claseEstado };
+}
+
+function renderBotonParticipar(carrera, carreraId, idRuta, estado, fechaCarrera, hoy) {
+  if (carreraId && (!fechaCarrera || fechaCarrera > hoy)) {
+    return `
+      <a href="detalles.php?id=${carreraId}&idRuta=${idRuta}" class="race-cta enabled">
+        <i class="fas fa-running"></i> Participar
+      </a>
+    `;
+  } else if (fechaCarrera && fechaCarrera <= hoy) {
+    return `
+      <button class="race-cta disabled" disabled>
+        ${estado === "Hoy" ? "¡Carrera en curso!" : "Carrera finalizada"}
+      </button>
+    `;
+  }
+  return `<button class="race-cta disabled" disabled>Próximamente</button>`;
+}
 
 function cargarCarreras() {
   fetch("../controller/action/ajax_carreras.php?action=listar", {
@@ -73,138 +126,98 @@ function cargarCarreras() {
       }
 
       const contenedor = document.querySelector(".contenedor");
+      const destacadaContenedor = document.getElementById("carrera-destacada");
+
+      if (carreras.length === 0) {
+        contenedor.innerHTML = `
+          <div class="catalog-empty">
+            <i class="fas fa-flag-checkered"></i>
+            <p>No hay carreras disponibles por ahora.</p>
+          </div>
+        `;
+        destacadaContenedor.innerHTML = `
+          <div class="featured-loading"><p>No hay carrera destacada por ahora.</p></div>
+        `;
+        return;
+      }
+
       contenedor.innerHTML = "";
-    
+      let carreraDestacada = null;
+
       carreras.forEach((carrera) => {
-      let carreraId;
-      let idRuta = carrera.ruta;
-        if (carrera.idCarrera ) {
-          carreraId = carrera.idCarrera;
-        } else {
-          carreraId = null; 
+        const carreraId = carrera.idCarrera || null;
+        const idRuta = carrera.ruta;
+        const { fechaFormateada, hoy, fechaCarrera, estado, claseEstado } = calcularEstado(carrera);
+
+        if (!carreraDestacada && estado === "Próxima") {
+          carreraDestacada = { ...carrera, carreraId, idRuta, fechaFormateada, estado, claseEstado, fechaCarrera, hoy };
         }
 
-
-        const fecha = carrera.fecha ? new Date(carrera.fecha) : null;
-        const fechaFormateada = fecha
-          ? fecha.toLocaleDateString("es-ES", {
-              day: "2-digit",
-              month: "long",
-              year: "numeric",
-            })
-          : "Fecha por definir";
-
-        // Determinar estado de la carrera
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
-        const fechaCarrera = fecha ? new Date(carrera.fecha) : null;
-        let estado = "";
-        let claseEstado = "";
-
-        if (!fechaCarrera) {
-          estado = "Por definir";
-          claseEstado = "status-pendiente";
-        } else {
-          fechaCarrera.setHours(0, 0, 0, 0);
-
-          if (fechaCarrera > hoy) {
-            estado = "Próxima";
-            claseEstado = "status-proxima";
-          } else if (fechaCarrera.getTime() === hoy.getTime()) {
-            estado = "Hoy";
-            claseEstado = "status-hoy";
-          } else {
-            estado = "Finalizada";
-            claseEstado = "status-finalizada";
-          }
-        }
+        const botonParticipar = renderBotonParticipar(carrera, carreraId, idRuta, estado, fechaCarrera, hoy);
 
         const tarjeta = document.createElement("div");
-        tarjeta.className =
-          "bg-white rounded-xl shadow-md overflow-hidden event-card card-hover";
-
-        let botonParticipar = "";
-        if (carreraId && (!fechaCarrera || fechaCarrera > hoy)) {
-            botonParticipar = `
-              <a href="detalles.php?id=${carreraId}&idRuta=${idRuta}" class="block mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg transition duration-300">
-                <i class="fas fa-running mr-2"></i> Participar
-              </a>
-            `;
-        } else if (fechaCarrera && fechaCarrera <= hoy) {
-          botonParticipar = `
-                <button class="mt-4 w-full bg-gray-400 text-white py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                    ${
-                      estado === "Hoy"
-                        ? "¡Carrera en curso!"
-                        : "Carrera finalizada"
-                    }
-                </button>
-            `;
-        } else {
-          botonParticipar = `
-                <button class="mt-4 w-full bg-gray-300 text-gray-600 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                    Próximamente
-                </button>
-            `;
-        }
-
+        tarjeta.className = "event-card";
         tarjeta.innerHTML = `
-            <div class="relative">
-                <img src="${carrera.imagen || "assets/img/runner5.png"}" alt="${
-            carrera.nombre || "Carrera"
-            }" 
-                     class="w-full h-48 object-cover hover:scale-105 transition duration-300">
-                <span class="absolute top-2 right-2 ${claseEstado} text-white text-xs font-bold px-3 py-1 rounded-full">
-                    ${estado}
-                </span>
+            <div class="race-card-media">
+                <img src="${carrera.imagen || "assets/img/runner5.png"}" alt="${carrera.nombre || "Carrera"}">
+                <span class="status ${claseEstado}">${estado}</span>
             </div>
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-xl font-bold text-gray-800">${
-                      carrera.nombre || "Nombre no disponible"
-                    }</h3>
+            <div class="race-card-body">
+                <h3>${carrera.nombre || "Nombre no disponible"}</h3>
+                <span class="race-card-distance"><i class="fas fa-ruler-horizontal"></i> ${carrera.distancia || "Distancia no especificada"}</span>
+                <p class="race-card-desc">${carrera.descripcion || "Descripción no disponible"}</p>
+
+                <div class="race-card-meta">
+                    <div><i class="fas fa-calendar-day"></i> <span>${fechaFormateada}</span></div>
+                    <div><i class="fas fa-map-marker-alt"></i> <span>${carrera.ubicacion || "Ubicación por definir"}</span></div>
+                    <div><i class="fas fa-tag"></i> <span class="cap">${carrera.categoria || "Categoría no especificada"}</span></div>
                 </div>
-                <span class="text-blue-600 font-semibold">
-                    <i class="fas fa-ruler-horizontal mr-1"></i>
-                    Distancia: ${carrera.distancia || "No especificada"}
-                </span>
-                
-                <p class="text-gray-600 mb-3 line-clamp-2">${
-                  carrera.descripcion || "Descripción no disponible"
-                }</p>
-                
-                <div class="flex items-center text-gray-500 mb-2">
-                    <i class="fas fa-calendar-day mr-2"></i>
-                    <span>${fechaFormateada}</span>
-                </div>
-                
-                <div class="flex items-center text-gray-500 mb-2">
-                    <i class="fas fa-map-marker-alt mr-2"></i>
-                    <span>${carrera.ubicacion || "Ubicación por definir"}</span>
-                </div>
-                
-                <div class="flex items-center text-gray-500 mb-4">
-                    <i class="fas fa-tag mr-2"></i>
-                    <span class="capitalize">${
-                      carrera.categoria || "Categoría no especificada"
-                    }</span>
-                </div>
-                
+
                 ${botonParticipar}
             </div>
         `;
 
         contenedor.appendChild(tarjeta);
       });
+
+      if (carreraDestacada) {
+        const botonDestacado = renderBotonParticipar(
+          carreraDestacada,
+          carreraDestacada.carreraId,
+          carreraDestacada.idRuta,
+          carreraDestacada.estado,
+          carreraDestacada.fechaCarrera,
+          carreraDestacada.hoy
+        );
+        destacadaContenedor.innerHTML = `
+          <img src="${carreraDestacada.imagen || "assets/img/runner5.png"}" alt="${carreraDestacada.nombre || "Carrera"}">
+          <div class="featured-race-body">
+            <span class="status ${carreraDestacada.claseEstado}">${carreraDestacada.estado}</span>
+            <h3>${carreraDestacada.nombre || "Nombre no disponible"}</h3>
+            <span class="featured-race-distance"><i class="fas fa-ruler-horizontal"></i> ${carreraDestacada.distancia || "Distancia no especificada"}</span>
+            <p class="desc">${carreraDestacada.descripcion || "Descripción no disponible"}</p>
+            <div class="featured-race-meta">
+              <div><i class="fas fa-calendar-day"></i> <span>${carreraDestacada.fechaFormateada}</span></div>
+              <div><i class="fas fa-map-marker-alt"></i> <span>${carreraDestacada.ubicacion || "Ubicación por definir"}</span></div>
+              <div><i class="fas fa-tag"></i> <span class="cap">${carreraDestacada.categoria || "Categoría no especificada"}</span></div>
+            </div>
+            ${botonDestacado}
+          </div>
+        `;
+      } else {
+        destacadaContenedor.innerHTML = `
+          <div class="featured-loading"><p>No hay carrera destacada por ahora.</p></div>
+        `;
+      }
     })
     .catch((error) => {
       console.error("Error al cargar carreras:", error);
       const contenedor = document.querySelector(".contenedor");
       contenedor.innerHTML = `
-        <div class="col-span-full text-center py-8">
-            <i class="fas fa-exclamation-triangle text-yellow-500 text-4xl mb-4"></i>
-            <p class="text-gray-600">Error al cargar las carreras. Por favor, inténtalo de nuevo.</p>
-            <p class="text-sm text-gray-500 mt-2">${error.message}</p>
+        <div class="catalog-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>Error al cargar las carreras. Por favor, inténtalo de nuevo.</p>
+            <p class="error-detail">${error.message}</p>
         </div>
     `;
     });
