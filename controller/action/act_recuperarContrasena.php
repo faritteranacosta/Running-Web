@@ -67,6 +67,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Correo no encontrado."
             ]);
         }
+    } catch (PDOException $e) {
+        error_log('[act_recuperarContrasena] ' . $e->getMessage());
+        echo json_encode([
+            "success" => false,
+            "message" => "Ocurrió un error al procesar tu solicitud. Inténtalo de nuevo más tarde."
+        ]);
     } catch (Exception $e) {
         echo json_encode([
             "success" => false,

@@ -115,6 +115,13 @@ try {
             echo json_encode(['success' => false, 'msg' => 'Método no soportado.']);
             break;
     }
+} catch (PDOException $e) {
+    error_log('[ajax_productos] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'msg' => 'Ocurrió un error al procesar el producto. Inténtalo de nuevo más tarde.'
+    ]);
 } catch (Exception $e) {
     http_response_code(400);
     echo json_encode([

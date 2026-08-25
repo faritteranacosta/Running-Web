@@ -36,7 +36,11 @@ class DataSource {
             $this->cadenaConexion="mysql:host=".$json['host'].";dbname=".$json['database'].';charset=utf8';
             $this->conexion = new PDO($this->cadenaConexion,$json['username'],$json['password']);
         } catch (PDOException $ex) {
-             echo $ex->getMessage();
+             // No imprimir el error de conexión crudo: se registra en el log
+             // del servidor y se relanza para que el endpoint que llamó lo
+             // capture y le muestre al cliente un mensaje genérico.
+             error_log('[DataSource] Error de conexión: ' . $ex->getMessage());
+             throw $ex;
         }
     }
     

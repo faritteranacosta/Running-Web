@@ -12,7 +12,8 @@ class EventoDAO {
     }
  
     public function insertarEvento(Evento $evento) {
-        $idUbicacion = $this->resolverUbicacion($evento->getDireccion());
+        $idUbicacion = $evento->getUbicacionId()
+            ?: $this->resolverUbicacion($evento->getDireccion());
 
         $sql = "INSERT INTO evento (nombre, tipo, fecha, hora, descripcion, id_patrocinador, ubicacion_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $params = [
@@ -29,14 +30,20 @@ class EventoDAO {
     }
 
     public function actualizarEvento(Evento $evento) {
-        // Buscar si el evento ya tiene una ubicación asociada, para actualizarla
-        // en vez de crear una nueva cada vez que se edita el evento.
-        $actual = $this->dataSource->ejecutarConsulta(
-            "SELECT ubicacion_id FROM evento WHERE id_evento = ?",
-            [$evento->getIdEvento()]
-        );
-        $idUbicacionExistente = $actual[0]['ubicacion_id'] ?? null;
-        $idUbicacion = $this->resolverUbicacion($evento->getDireccion(), $idUbicacionExistente);
+        // Si ya nos pasaron un ubicacion_id explícito (panel de admin, donde se
+        // elige una ubicación existente), se usa directo. Si no, se busca la
+        // ubicación actual del evento para actualizarla con el texto de
+        // dirección (flujo de "crear carrera", que solo maneja texto libre).
+        if ($evento->getUbicacionId()) {
+            $idUbicacion = $evento->getUbicacionId();
+        } else {
+            $actual = $this->dataSource->ejecutarConsulta(
+                "SELECT ubicacion_id FROM evento WHERE id_evento = ?",
+                [$evento->getIdEvento()]
+            );
+            $idUbicacionExistente = $actual[0]['ubicacion_id'] ?? null;
+            $idUbicacion = $this->resolverUbicacion($evento->getDireccion(), $idUbicacionExistente);
+        }
 
         $sql = "UPDATE evento SET nombre = ?, tipo = ?, fecha = ?, hora = ?, descripcion = ?, id_patrocinador = ?, ubicacion_id = ? WHERE id_evento = ?";
         $params = [
@@ -109,6 +116,7 @@ class EventoDAO {
                 $row['direccion'] 
             );
             $evento->setIdEvento($row['id_evento']);
+            $evento->setUbicacionId($row['ubicacion_id']);
             return $evento;
         }
         return null;
@@ -136,3 +144,4 @@ class EventoDAO {
         return $eventos;
     }
 }
+ 

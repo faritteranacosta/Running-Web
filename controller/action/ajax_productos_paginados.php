@@ -1,10 +1,11 @@
 <?php 
 require_once __DIR__ . '/../mdb/mdbProducto.php';
 header('Content-Type: application/json');
-// Mostrar errores para depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+// Los errores se registran en el log del servidor, pero nunca se muestran
+// directamente al cliente (evita filtrar detalles internos como SQL).
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
+ini_set('log_errors', 1);
 
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -48,7 +49,30 @@ try {
         ]);
         exit;
     }
+
+    if ($method === "DELETE") {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $idProducto = $data['idProducto'] ?? null;
+
+        if (!$idProducto) {
+            throw new Exception("Se requiere el ID del producto para eliminar.");
+        }
+
+        $result = eliminarProducto($idProducto);
+        echo json_encode([
+            'success' => (bool)$result,
+            'msg' => $result ? 'Producto eliminado correctamente.' : 'No se pudo eliminar el producto.'
+        ]);
+        exit;
+    }
     
+} catch (PDOException $e) {
+    error_log('[ajax_productos_paginados] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Ocurrió un error al cargar los productos. Inténtalo de nuevo más tarde.',
+        'success' => false
+    ]);
 } catch(Exception $e) {
     http_response_code(500);
     echo json_encode([

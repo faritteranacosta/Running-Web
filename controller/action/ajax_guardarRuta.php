@@ -73,6 +73,14 @@ try {
         
     ];
 
+} catch (PDOException $e) {
+    error_log('[ajax_guardarRuta] ' . $e->getMessage());
+    $response = [
+        'success' => false,
+        'message' => 'Ocurrió un error al guardar la ruta. Inténtalo de nuevo más tarde.',
+        'error_code' => 500
+    ];
+    http_response_code(500);
 } catch (Exception $e) {
     $response = [
         'success' => false,

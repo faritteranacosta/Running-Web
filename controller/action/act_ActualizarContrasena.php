@@ -34,6 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Token inválido."
             ]);
         }
+    } catch (PDOException $e) {
+        error_log('[act_ActualizarContrasena] ' . $e->getMessage());
+        echo json_encode([
+            "success" => false,
+            "message" => "Ocurrió un error al actualizar la contraseña. Inténtalo de nuevo más tarde."
+        ]);
     } catch (Exception $e) {
         echo json_encode([
             "success" => false,

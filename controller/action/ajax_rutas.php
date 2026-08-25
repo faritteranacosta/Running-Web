@@ -32,6 +32,13 @@ try {
     
     echo json_encode($response);
     
+} catch (PDOException $e) {
+    error_log('[ajax_rutas] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ocurrió un error al cargar la ruta. Inténtalo de nuevo más tarde.'
+    ]);
 } catch (Exception $e) {
     http_response_code($e->getCode() ?: 500);
     echo json_encode([

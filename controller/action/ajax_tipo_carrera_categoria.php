@@ -42,6 +42,13 @@ try {
     if (ob_get_length()) ob_clean();
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
 
+} catch (PDOException $e) {
+    error_log('[ajax_tipo_carrera_categoria] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Ocurrió un error al cargar los datos. Inténtalo de nuevo más tarde.',
+        'success' => false
+    ]);
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([

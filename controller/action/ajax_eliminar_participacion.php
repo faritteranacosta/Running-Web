@@ -17,10 +17,19 @@ if (!$id_evento) {
     exit;
 }
 
-$resultado = eliminarParticipacionMDB($id_usuario, $id_evento);
+try {
+    $resultado = eliminarParticipacionMDB($id_usuario, $id_evento);
 
-if ($resultado) {
-    echo json_encode(['success' => true]);
-} else {
-    echo json_encode(['success' => false, 'error' => 'No se pudo eliminar la participación']);
+    if ($resultado) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'No se pudo eliminar la participación']);
+    }
+} catch (PDOException $e) {
+    error_log('[ajax_eliminar_participacion] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => 'Ocurrió un error al eliminar la participación. Inténtalo de nuevo más tarde.']);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
 }

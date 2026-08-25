@@ -13,6 +13,7 @@ class Evento {
     private $descripcion_evento;
     private $patrocinador; //instancia de Patrocinador
     private $direccion; //instancia de Ubicacion
+    private $ubicacion_id; // id numérico de una ubicación ya existente (usado por el panel de admin)
 
 
     public function __construct($nombre_evento = null, $tipo_evento = null, $fecha_evento = null, $hora_evento = null, $descripcion_evento = null, $patrocinador = null, $direccion = null) {
@@ -23,6 +24,14 @@ class Evento {
         $this->descripcion_evento = $descripcion_evento;
         $this->patrocinador = $patrocinador;
         $this->direccion = $direccion;
+    }
+
+    public function setUbicacionId($ubicacion_id) {
+        $this->ubicacion_id = $ubicacion_id;
+    }
+
+    public function getUbicacionId() {
+        return $this->ubicacion_id;
     }
 
 

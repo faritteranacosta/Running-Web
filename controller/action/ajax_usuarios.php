@@ -1,9 +1,8 @@
 <?php 
 require_once __DIR__ . '/../mdb/mdbUsuario.php';
-// Mostrar errores para depuración
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
 error_reporting(E_ALL);
+ini_set('log_errors', 1);
 
 header('Content-Type: application/json; charset=utf-8');
 $method = $_SERVER['REQUEST_METHOD'];
@@ -82,7 +81,7 @@ try {
             $result = eliminarUsuario($data['idUsuario']);
 
             if ($result === false) {
-                throw new Exception("Error al eliminar el gato");
+                throw new Exception("Error al eliminar el usuario");
             }
 
             echo json_encode(['success' => true, 'msg' => 'Usuario eliminado correctamente']);
@@ -92,6 +91,13 @@ try {
             http_response_code(405);
             echo json_encode(['error' => 'Método no permitido']);
     }
+} catch (PDOException $e) {
+    error_log('[ajax_usuarios] ' . $e->getMessage());
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Ocurrió un error al procesar la solicitud. Inténtalo de nuevo más tarde.',
+        'success' => false
+    ]);
 } catch(Exception $e) {
     http_response_code(500);
     echo json_encode([

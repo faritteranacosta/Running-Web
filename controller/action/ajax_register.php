@@ -1,8 +1,8 @@
 <?php 
     session_start();
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
+    ini_set('display_errors', 0);
     error_reporting(E_ALL);
+    ini_set('log_errors', 1);
     header('Content-Type: application/json'); // Asegúrate de que la respuesta sea JSON
 
 
@@ -53,6 +53,13 @@
     ];
 
     echo json_encode($result); // Convertir el array a JSON
+} catch (PDOException $e) {
+    error_log('[ajax_register] ' . $e->getMessage());
+    echo json_encode([
+        "message" => "Ocurrió un error al registrar tu cuenta. Inténtalo de nuevo más tarde.",
+        "ruta" => null,
+        "user" => null
+    ]);
 } catch (Exception $e) {
     echo json_encode([
         "message" => "An error occurred: " . $e->getMessage(),
