@@ -1,17 +1,17 @@
-/* Paleta inspirada en el index */
+/* Paleta alineada al sistema de diseño del proyecto (base.css) */
 :root {
-    --primary: #8b5cf6;      /* Morado principal */
-    --primary-dark: #6d28d9; /* Morado oscuro */
-    --secondary: #0ea5e9;    /* Azul claro */
-    --secondary-dark: #0369a1;
-    --input-bg: #f5f3ff;
+    --primary: #7C3AED;      /* var(--violet) */
+    --primary-dark: #6D28D9; /* var(--violet-dim) */
+    --secondary: #0EA5E9;    /* var(--sky) */
+    --secondary-dark: #0284C7;
+    --input-bg: #FAFBFC;
     --input-border: #d1d5db;
-    --input-focus: #a78bfa;
-    --input-shadow: rgba(139, 92, 246, 0.08);
-    --btn-gradient: linear-gradient(90deg, #8b5cf6 60%, #0ea5e9 100%);
-    --btn-gradient-hover: linear-gradient(90deg, #6d28d9 60%, #0ea5e9 100%);
+    --input-focus: #0EA5E9;
+    --input-shadow: rgba(14, 165, 233, 0.12);
+    --btn-gradient: linear-gradient(90deg, #0EA5E9 0%, #7C3AED 100%);
+    --btn-gradient-hover: linear-gradient(90deg, #0284C7 0%, #6D28D9 100%);
     --btn-text: #fff;
-    --btn-shadow: 0 2px 12px 0 rgba(139,92,246,0.10);
+    --btn-shadow: 0 2px 12px 0 rgba(14,165,233,0.15);
     --form-radius: 12px;
 }
 
@@ -31,7 +31,7 @@
     margin-bottom: 2rem;
     letter-spacing: 1px;
     text-transform: uppercase;
-    font-family: 'Poppins', 'Inter', Arial, sans-serif;
+    font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
 }
 
 .section-title {
@@ -41,7 +41,7 @@
     margin-bottom: 1.2rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    font-family: 'Poppins', 'Inter', Arial, sans-serif;
+    font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
 }
 
 /* Grid del formulario */

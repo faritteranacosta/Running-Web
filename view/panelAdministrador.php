@@ -14,565 +14,359 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
     $fecha_registro = $_SESSION['FECHA_REGISTRO'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="assets/img/icon.ico" type="image/x-icon">
-    <title>Panel de Administración - RunningWeb</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/crear_carrera.css">
-    <style>
-        .sidebar {
-            transition: all 0.3s ease;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            width: 260px;
-        }
-
-        .sidebar-collapsed {
-            width: 70px;
-        }
-
-        .sidebar-collapsed .nav-text,
-        .sidebar-collapsed .user-name,
-        .sidebar-collapsed .user-role,
-        .sidebar-collapsed .logo-text {
-            display: none;
-        }
-
-        .sidebar-collapsed .notification-badge {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-        }
-
-        .main-content {
-            transition: margin-left 0.3s ease;
-            flex: 1;
-            overflow-y: auto;
-            height: 100vh;
-        }
-
-        .active-nav {
-            background-color: #0ea5e9;
-            color: white;
-        }
-
-        .active-nav i {
-            color: white;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .form-card {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .form-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, .3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración — RunningWeb</title>
+<link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/vendedor.css">
+<link rel="stylesheet" href="css/productos.css">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/crear_carrera.css">
 </head>
+<body class="dash">
 
-<body class="bg-gray-50 flex">
-    <!-- Sidebar (mantiene el código existente) -->
-    <div class="sidebar bg-white shadow-lg">
-        <!-- Logo y Toggle -->
-        <div class="p-4 flex items-center justify-between border-b">
-            <div class="flex items-center">
-                <img src="assets/img/icon-black.jpg" alt="Logo" class="w-10 h-10 rounded-full">
-                <span class="ml-3 font-bold text-xl logo-text">RunningWeb</span>
-            </div>
-            <button id="toggle-sidebar" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
+<div class="dash-shell">
 
-        <!-- Perfil del Administrador -->
-        <div class="p-4 border-b flex items-center justify-center">
-            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg transform transition-all duration-300 hover:scale-105 border-2 border-white relative overflow-hidden mr-3">
-                    <span class="text-lg font-extrabold" style="text-shadow: 0px 1px 2px rgba(0,0,0,0.2);">
-                        <?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?>
-                    </span>
-                    <div class="absolute inset-0 bg-white opacity-10 rounded-full"></div>
-                    <div class="absolute -inset-1 bg-gradient-to-br from-blue-400 to-purple-500 opacity-30 blur-sm"></div>
-                </div>
-            <div class="ml-3">
-                <h3 class="font-semibold user-name">Admin RunningPro</h3>
-                <p class="text-sm text-gray-500 user-role">Administrador</p>
-            </div>
-        </div>
-
-        <!-- Menú de Navegación -->
-        <nav class="flex-1 overflow-y-auto">
-            <ul class="p-2">
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('dashboard')">
-                        <i class="fas fa-tachometer-alt text-blue-500"></i>
-                        <span class="nav-text ml-3">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg active-nav" onclick="showTab('eventos')">
-                        <i class="fas fa-calendar-alt text-blue-500"></i>
-                        <span class="nav-text ml-3">Eventos</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('carreras', event)">
-                        <i class="fas fa-running text-blue-500"></i>
-                        <span class="nav-text ml-3">Carreras</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('usuarios', event)">
-                        <i class="fas fa-users text-blue-500"></i>
-                        <span class="nav-text ml-3">Usuarios</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('productos', event)">
-                        <i class="fas fa-boxes text-blue-500"></i>
-                        <span class="nav-text ml-3">Productos</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('reportes')">
-                        <i class="fas fa-chart-line text-blue-500"></i>
-                        <span class="nav-text ml-3">Reportes</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="flex items-center p-3 rounded-lg hover:bg-blue-50 text-gray-700" onclick="showTab('configuracion')">
-                        <i class="fas fa-cog text-blue-500"></i>
-                        <span class="nav-text ml-3">Configuración</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Cerrar Sesión -->
-        <div class="p-4 border-t">
-            <a href="../controller/action/act_logout.php" class="flex items-center justify-center p-2 rounded-lg hover:bg-red-50 text-red-500">
-                <i class="fas fa-sign-out-alt"></i>
-                <span class="nav-text ml-3">Cerrar Sesión</span>
-            </a>
-        </div>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+      <a href="index.html" class="sidebar-brand">
+        <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+        <span class="hide-on-collapse">RunningWeb</span>
+      </a>
+      <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Colapsar menú">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
 
-    <!-- Contenido Principal -->
-    <div class="main-content">
-        <!-- Header -->
-        <header class="bg-white shadow-sm p-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-gray-800" id="tab-title">Panel de Administración</h1>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <button class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-bell text-xl"></i>
-                        <span class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                    </button>
-                </div>
-                <div class="relative">
-                    <button class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-question-circle text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Contenido Dinámico -->
-        <main class="p-6">
-            <!-- Dashboard (mantiene el código existente) -->
-            <div id="dashboard" class="tab-content">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="text-lg font-semibold mb-4">Resumen General</h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span>Usuarios registrados</span>
-                                <span id="nUsuarios" class="font-bold">0</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span>Eventos activos</span>
-                                <span class="font-bold">18</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span>Carreras programadas</span>
-                                <span class="font-bold">32</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="text-lg font-semibold mb-4">Actividad Reciente</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-start">
-                                <div class="bg-blue-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-user-plus text-blue-500"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm">25 nuevos usuarios esta semana</p>
-                                    <p class="text-xs text-gray-500">Hace 2 horas</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="bg-green-100 p-2 rounded-full mr-3">
-                                    <i class="fas fa-calendar-plus text-green-500"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm">Nuevo evento creado: "Maratón Primavera 2023"</p>
-                                    <p class="text-xs text-gray-500">Ayer</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="text-lg font-semibold mb-4">Estadísticas Rápidas</h3>
-                        <div class="h-48 flex items-center justify-center">
-                            <p class="text-gray-400">Gráfico de estadísticas aparecerá aquí</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gestión de Eventos -->
-            <div id="eventos" class="tab-content active">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">Gestión de Eventos</h2>
-                    <button onclick="showEventForm()" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
-                        <i class="fas fa-plus mr-1"></i> Nuevo Evento
-                    </button>
-                </div>
-
-                <!-- Formulario de Evento (oculto inicialmente) -->
-                <div id="event-form" class="bg-white rounded-xl shadow-md p-6 mb-8 form-card hidden">
-                    <h3 class="text-xl font-semibold mb-4">Crear Nuevo Evento</h3>
-                    <form onsubmit="manejarFormularioEvento(event)" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Nombre del Evento *</label>
-                                <input type="text" name="nombre" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ej: Maratón Ciudad 2023" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Tipo de Evento *</label>
-                                <select name="tipo" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                                    <option value="">Seleccionar tipo</option>
-                                    <option value="carrera">Carrera</option>
-                                    <option value="entrenamiento">Entrenamiento</option>
-                                    <option value="charla">Charla/Taller</option>
-                                    <option value="competencia">Competencia</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Fecha *</label>
-                                <input type="date" name="fecha" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            </div>
-                            <div>
-                                <label class="block text-gray-700 font-medium mb-2">Hora *</label>
-                                <input type="time" name="hora" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">Descripción *</label>
-                            <textarea name="descripcion" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical" rows="4" placeholder="Descripción detallada del evento, requisitos, premios, etc." required></textarea>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">Ubicación (ID) *</label>
-                            <input type="number" name="ubicacion_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico de la ubicación" required>
-                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico de la ubicación</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-700 font-medium mb-2">Patrocinador (ID) *</label>
-                            <input type="number" name="id_patrocinador" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Ingrese el ID numérico del patrocinador" required>
-                            <p class="text-sm text-gray-500 mt-1">Debe ser el ID numérico del patrocinador</p>
-                        </div>
-
-                        <div class="flex justify-end space-x-4 pt-4">
-                            <button type="button" onclick="hideEventForm()" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-                                Cancelar
-                            </button>
-                            <button type="submit" class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
-                                <i class="fas fa-save mr-1"></i> Guardar Evento
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Lista de Eventos -->
-                <div id="eventos-table-container">
-                    <!-- La tabla se cargará aquí dinámicamente -->
-                    <div class="bg-white rounded-xl shadow-md p-8 text-center">
-                        <div class="loading mx-auto mb-4"></div>
-                        <p class="text-gray-500">Cargando eventos...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Otras secciones (mantienen el código existente) -->
-            <div id="productos" class="tab-content">
-                <div id="productos-table-container" class="flex justify-center mt-8"></div>
-            </div>
-
-            <div id="usuarios" class="tab-content">
-                <div id="usuarios-table-container" class="flex justify-center mt-8"></div>
-            </div>
-
-
-            <div id="carreras" class="tab-content">
-                <div class="form-container">
-                    <h2 class="form-title">GESTIÓN DE CARRERAS</h2>
-
-                    <form id="formCarrera" method="POST" class="form-carrera">
-                        <div class="form-section">
-                            <h3 class="section-title">DATOS DEL EVENTO</h3>
-
-                            <div class="form-grid">
-                                <div class="form-group full-width">
-                                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Evento" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="date" id="fecha" name="fecha" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="time" id="hora" name="hora" required>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <textarea id="descripcion" name="descripcion" rows="3" placeholder="Descripción" required></textarea>
-                                </div>
-
-                                <div class="form-group full-width">
-                                    <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h3 class="section-title">DATOS DE LA CARRERA</h3>
-
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <select id="categoriaSelect" name="idCategoria" required>
-                                        <option value="">Categoría</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <select id="tipoCarreraSelect" name="idTipoCarrera" required>
-                                        <option value="">Tipo de Carrera</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="number" step="0.01" id="distancia" name="distancia" placeholder="Distancia (km)" required>
-                                </div>
-
-                                <div class="form-group ruta-field">
-                                    <div class="input-group">
-                                        <input type="number" id="idRuta" name="idRuta" placeholder="ID Ruta" required readonly>
-                                        <button type="button" id="btnCrearRuta" class="btn-ruta">CREAR RUTA</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-actions">
-                            <button type="submit" class="btn-submit">GUARDAR CARRERA</button>
-                        </div>
-                    </form>
-                </div>
-
-                <script>
-                    let ventanaRuta = null;
-
-                    document.getElementById('btnCrearRuta').addEventListener('click', function(e) {
-                        e.preventDefault();
-
-                        const width = Math.min(window.screen.availWidth, 1200);
-                        const height = window.screen.availHeight;
-                        const left = (window.screen.width - width) / 2;
-
-                        const ventanaRuta = window.open(
-                            '../view/crear_ruta.php?from_form=1',
-                            'CrearRuta',
-                            `width=${screen.width},height=${screen.height},left=0,top=0,scrollbars=yes`
-                        );
-                    });
-
-                    // Agrega el listener solo una vez
-                    window.addEventListener('message', function(event) {
-                        if (event.data && event.data.type === 'rutaCreada') {
-                            document.getElementById('idRuta').value = event.data.id_ruta;
-                            if (ventanaRuta && !ventanaRuta.closed) {
-                                ventanaRuta.close();
-                            }
-                        }
-                    });
-                </script>
-            </div>
-
-            <!-- Reportes -->
-            <div id="reportes" class="tab-content">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">Reportes y Estadísticas</h2>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-8 text-center">
-                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
-                </div>
-            </div>
-
-            <!-- Configuración -->
-            <div id="configuracion" class="tab-content">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">Configuración del Sistema</h2>
-                </div>
-                <div class="bg-white rounded-xl shadow-md p-8 text-center">
-                    <p class="text-gray-500">Funcionalidad en desarrollo</p>
-                </div>
-            </div>
-
-        </main>
+    <div class="sidebar-user">
+      <div class="avatar-chip"><?php echo strtoupper(mb_substr($nombre, 0, 1, 'UTF-8')); ?></div>
+      <div class="hide-on-collapse">
+        <h3><?php echo htmlspecialchars($nombre) . ' ' . htmlspecialchars($apellido); ?></h3>
+        <p><?php echo htmlspecialchars($rol); ?></p>
+      </div>
     </div>
 
-    <script>
-        // Toggle Sidebar
-        document.getElementById('toggle-sidebar').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('sidebar-collapsed');
-            document.querySelector('.main-content').classList.toggle('ml-20');
-        });
+    <nav class="sidebar-nav">
+      <a href="#" onclick="showTab('dashboard', event); return false;" data-tab="dashboard">
+        <i class="fas fa-gauge-high"></i> <span class="hide-on-collapse">Dashboard</span>
+      </a>
+      <a href="#" onclick="showTab('eventos', event); return false;" data-tab="eventos" class="active">
+        <i class="fas fa-calendar-alt"></i> <span class="hide-on-collapse">Eventos</span>
+      </a>
+      <a href="#" onclick="showTab('carreras', event); return false;" data-tab="carreras">
+        <i class="fas fa-person-running"></i> <span class="hide-on-collapse">Carreras</span>
+      </a>
+      <a href="#" onclick="showTab('usuarios', event); return false;" data-tab="usuarios">
+        <i class="fas fa-users"></i> <span class="hide-on-collapse">Usuarios</span>
+      </a>
+      <a href="#" onclick="showTab('productos', event); return false;" data-tab="productos">
+        <i class="fas fa-boxes"></i> <span class="hide-on-collapse">Productos</span>
+      </a>
+      <a href="#" onclick="showTab('reportes', event); return false;" data-tab="reportes">
+        <i class="fas fa-chart-line"></i> <span class="hide-on-collapse">Reportes</span>
+      </a>
+      <a href="#" onclick="showTab('configuracion', event); return false;" data-tab="configuracion">
+        <i class="fas fa-gear"></i> <span class="hide-on-collapse">Configuración</span>
+      </a>
+    </nav>
 
-        // Mostrar/ocultar pestañas
-        function showTab(tabId, event) {
-            // Ocultar todas las pestañas
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+    <div class="sidebar-foot">
+      <a href="../controller/action/act_logout.php">
+        <i class="fas fa-arrow-right-from-bracket"></i> <span class="hide-on-collapse">Cerrar sesión</span>
+      </a>
+    </div>
+  </aside>
 
-            // Mostrar la pestaña seleccionada
-            document.getElementById(tabId).classList.add('active');
+  <div class="dash-main">
+    <header class="dash-topbar">
+      <h1 id="tab-title">Gestión de eventos</h1>
+      <div class="topbar-actions">
+        <button class="icon-btn" aria-label="Notificaciones">
+          <i class="fas fa-bell"></i><span class="dot">3</span>
+        </button>
+        <button class="icon-btn" aria-label="Ayuda">
+          <i class="fas fa-circle-question"></i>
+        </button>
+      </div>
+    </header>
 
-            // Actualizar título
-            const tabTitles = {
-                'dashboard': 'Dashboard',
-                'eventos': 'Gestión de Eventos',
-                'carreras': 'Gestión de Carreras',
-                'usuarios': 'Gestión de Usuarios',
-                'productos': 'Gestión de Productos',
-                'reportes': 'Reportes y Estadísticas',
-                'configuracion': 'Configuración del Sistema'
-            };
-            document.getElementById('tab-title').textContent = tabTitles[tabId];
+    <main class="dash-content">
 
-            // Actualizar menú activo
-            document.querySelectorAll('.nav-item a').forEach(item => {
-                item.classList.remove('active-nav');
-            });
-            // Solo si event existe (es decir, si viene de un click)
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active-nav');
-            }
+      <!-- Dashboard -->
+      <div id="dashboard" class="tab-content">
+        <div class="admin-stats-grid">
+          <div class="panel">
+            <h2 class="admin-panel-title">Resumen general</h2>
+            <div class="admin-summary-row"><span>Usuarios registrados</span><span class="num" id="nUsuarios">0</span></div>
+            <div class="admin-summary-row"><span>Eventos activos</span><span class="num">18</span></div>
+            <div class="admin-summary-row"><span>Carreras programadas</span><span class="num">32</span></div>
+          </div>
+          <div class="panel">
+            <h2 class="admin-panel-title">Actividad reciente</h2>
+            <div class="activity-row">
+              <div class="activity-icon sky"><i class="fas fa-user-plus"></i></div>
+              <div><p>25 nuevos usuarios esta semana</p><p class="when">Hace 2 horas</p></div>
+            </div>
+            <div class="activity-row">
+              <div class="activity-icon green"><i class="fas fa-calendar-plus"></i></div>
+              <div><p>Nuevo evento creado: "Maratón Primavera"</p><p class="when">Ayer</p></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h2 class="admin-panel-title">Estadísticas rápidas</h2>
+            <div class="chart-placeholder admin-chart-placeholder">Gráfico de estadísticas aparecerá aquí</div>
+          </div>
+        </div>
+      </div>
 
-            // Llamar a las funciones específicas según la pestaña
-            if (tabId === 'usuarios') {
-                if (typeof mostrarUsuarios === 'function') {
-                    mostrarUsuarios();
-                }
-            } else if (tabId === 'productos') {
-                if (typeof mostrarProductos === 'function') {
-                    mostrarProductos();
-                }
+      <!-- Gestión de Eventos -->
+      <div id="eventos" class="tab-content active">
+        <div class="tab-head">
+          <h2>Gestión de eventos</h2>
+          <button onclick="showEventForm()" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo evento
+          </button>
+        </div>
 
-            } else if (tabId === 'eventos') {
-                if (typeof mostrarEventos === 'function') {
-                    mostrarEventos();
+        <div id="event-form" class="panel hidden">
+          <h3 class="admin-panel-title">Crear nuevo evento</h3>
+          <form onsubmit="manejarFormularioEvento(event)">
+            <div class="event-form-grid">
+              <div class="input-box">
+                <label>Nombre del evento <span class="req">*</span></label>
+                <input type="text" name="nombre" placeholder="Ej: Maratón Ciudad 2026" required>
+              </div>
+              <div class="input-box">
+                <label>Tipo de evento <span class="req">*</span></label>
+                <select name="tipo" required>
+                  <option value="">Seleccionar tipo</option>
+                  <option value="carrera">Carrera</option>
+                  <option value="entrenamiento">Entrenamiento</option>
+                  <option value="charla">Charla/Taller</option>
+                  <option value="competencia">Competencia</option>
+                </select>
+              </div>
+            </div>
 
-                } else if (tabId === 'carreras') {
-                    if (typeof mostrarCarreras === 'function') {
-                        mostrarCarreras();
-                    }
-                }
-            }else if(tabId === 'dashboard') {
-                totalUsuarios();
-            }
+            <div class="event-form-grid">
+              <div class="input-box">
+                <label>Fecha <span class="req">*</span></label>
+                <input type="date" name="fecha" required>
+              </div>
+              <div class="input-box">
+                <label>Hora <span class="req">*</span></label>
+                <input type="time" name="hora" required>
+              </div>
+            </div>
 
-            // Mostrar/ocultar formulario de evento
-            function showEventForm() {
-                const form = document.getElementById('event-form');
-                form.classList.remove('hidden');
-                form.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+            <div class="input-box">
+              <label>Descripción <span class="req">*</span></label>
+              <textarea name="descripcion" rows="4" placeholder="Descripción detallada del evento, requisitos, premios, etc." required></textarea>
+            </div>
 
-            function hideEventForm() {
-                document.getElementById('event-form').classList.add('hidden');
-                // Limpiar el formulario
-                document.querySelector('#event-form form').reset();
-            }
+            <div class="input-box">
+              <label>Ubicación (ID) <span class="req">*</span></label>
+              <input type="number" name="ubicacion_id" placeholder="Ingresa el ID numérico de la ubicación" required>
+              <p class="field-hint">Debe ser el ID numérico de una ubicación ya registrada.</p>
+            </div>
 
-            document.addEventListener('DOMContentLoaded', function() {
-                showTab('dashboard');
-            });
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/administradorUsuarios.js"></script>
-    <script src="js/administradorProductos.js"></script>
-    <script src="js/administradorEventos.js"></script>
-    <script src="js/administradorCarreras.js"></script>
+            <div class="input-box">
+              <label>Patrocinador (ID) <span class="req">*</span></label>
+              <input type="number" name="id_patrocinador" placeholder="Ingresa el ID numérico del patrocinador" required>
+              <p class="field-hint">Debe ser el ID numérico de un patrocinador ya registrado.</p>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" onclick="hideEventForm()" class="btn btn-ghost">Cancelar</button>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar evento</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="eventos-table-container">
+          <div class="empty-panel">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Cargando eventos...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Productos -->
+      <div id="productos" class="tab-content">
+        <div class="tab-head"><h2>Gestión de productos</h2></div>
+        <div id="productos-table-container"></div>
+      </div>
+
+      <!-- Gestión de Usuarios -->
+      <div id="usuarios" class="tab-content">
+        <div class="tab-head"><h2>Gestión de usuarios</h2></div>
+        <div id="usuarios-table-container"></div>
+      </div>
+
+      <!-- Gestión de Carreras -->
+      <div id="carreras" class="tab-content">
+        <div class="panel admin-carrera-panel">
+          <form id="formCarrera" method="POST" class="form-carrera">
+            <div class="form-container">
+              <h2 class="form-title">Gestión de carreras</h2>
+
+              <div class="form-section">
+                <h3 class="section-title">Datos del evento</h3>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del evento" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="date" id="fecha" name="fecha" required>
+                  </div>
+                  <div class="form-group">
+                    <input type="time" id="hora" name="hora" required>
+                  </div>
+                  <div class="form-group full-width">
+                    <textarea id="descripcion" name="descripcion" rows="3" placeholder="Descripción" required></textarea>
+                  </div>
+                  <div class="form-group full-width">
+                    <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <h3 class="section-title">Datos de la carrera</h3>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <select id="categoriaSelect" name="idCategoria" required>
+                      <option value="">Categoría</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <select id="tipoCarreraSelect" name="idTipoCarrera" required>
+                      <option value="">Tipo de carrera</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <input type="number" step="0.01" id="distancia" name="distancia" placeholder="Distancia (km)" required>
+                  </div>
+                  <div class="form-group ruta-field">
+                    <div class="input-group">
+                      <input type="number" id="idRuta" name="idRuta" placeholder="ID Ruta" required readonly>
+                      <button type="button" id="btnCrearRuta" class="btn-ruta">Crear ruta</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn-submit">Guardar carrera</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Reportes -->
+      <div id="reportes" class="tab-content">
+        <div class="tab-head"><h2>Reportes y estadísticas</h2></div>
+        <div class="empty-panel">Funcionalidad en desarrollo</div>
+      </div>
+
+      <!-- Configuración -->
+      <div id="configuracion" class="tab-content">
+        <div class="tab-head"><h2>Configuración del sistema</h2></div>
+        <div class="empty-panel">Funcionalidad en desarrollo</div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  let ventanaRuta = null;
+  document.getElementById('btnCrearRuta').addEventListener('click', function(e) {
+    e.preventDefault();
+    ventanaRuta = window.open(
+      '../view/crear_ruta.php?from_form=1',
+      'CrearRuta',
+      `width=${screen.width},height=${screen.height},left=0,top=0,scrollbars=yes`
+    );
+  });
+
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'rutaCreada') {
+      document.getElementById('idRuta').value = event.data.id_ruta;
+      if (ventanaRuta && !ventanaRuta.closed) {
+        ventanaRuta.close();
+      }
+    }
+  });
+
+  // Toggle sidebar
+  document.getElementById('toggle-sidebar').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  });
+
+  // Mostrar/ocultar formulario de evento
+  function showEventForm() {
+    const form = document.getElementById('event-form');
+    form.classList.remove('hidden');
+    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function hideEventForm() {
+    document.getElementById('event-form').classList.add('hidden');
+    document.querySelector('#event-form form').reset();
+  }
+
+  const tabTitles = {
+    'dashboard': 'Dashboard',
+    'eventos': 'Gestión de eventos',
+    'carreras': 'Gestión de carreras',
+    'usuarios': 'Gestión de usuarios',
+    'productos': 'Gestión de productos',
+    'reportes': 'Reportes y estadísticas',
+    'configuracion': 'Configuración del sistema'
+  };
+
+  // Mostrar/ocultar pestañas
+  function showTab(tabId, event) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.getElementById('tab-title').textContent = tabTitles[tabId];
+
+    document.querySelectorAll('.sidebar-nav a').forEach(item => item.classList.remove('active'));
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
+    } else {
+      document.querySelector(`.sidebar-nav a[data-tab="${tabId}"]`)?.classList.add('active');
+    }
+
+    if (tabId === 'usuarios' && typeof mostrarUsuarios === 'function') {
+      mostrarUsuarios();
+    } else if (tabId === 'productos' && typeof mostrarProductos === 'function') {
+      mostrarProductos();
+    } else if (tabId === 'eventos' && typeof mostrarEventos === 'function') {
+      mostrarEventos();
+    } else if (tabId === 'dashboard' && typeof totalUsuarios === 'function') {
+      totalUsuarios();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    showTab('eventos');
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="js/administradorUsuarios.js"></script>
+<script src="js/administradorProductos.js"></script>
+<script src="js/administradorEventos.js"></script>
+<script src="js/administradorCarreras.js"></script>
 </body>
-
 </html>
