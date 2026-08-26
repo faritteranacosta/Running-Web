@@ -224,6 +224,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
     </footer>
 
     <script src="js/carrito.js"></script>
+    <script src="js/navegacionLogo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

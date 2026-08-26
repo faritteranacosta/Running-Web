@@ -58,7 +58,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
       <a href="#" onclick="showTab('dashboard', event); return false;" data-tab="dashboard">
         <i class="fas fa-gauge-high"></i> <span class="hide-on-collapse">Dashboard</span>
       </a>
-      <a href="#" onclick="showTab('eventos', event); return false;" data-tab="eventos" class="active">
+      <a href="#" onclick="showTab('eventos', event); return false;" data-tab="eventos">
         <i class="fas fa-calendar-alt"></i> <span class="hide-on-collapse">Eventos</span>
       </a>
       <a href="#" onclick="showTab('carreras', event); return false;" data-tab="carreras">
@@ -128,7 +128,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
       </div>
 
       <!-- Gestión de Eventos -->
-      <div id="eventos" class="tab-content active">
+      <div id="eventos" class="tab-content">
         <div class="tab-head">
           <h2>Gestión de eventos</h2>
           <button onclick="showEventForm()" class="btn btn-primary">
@@ -360,7 +360,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    showTab('eventos');
+    showTab('dashboard');
   });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -368,5 +368,6 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'admin') {
 <script src="js/administradorProductos.js"></script>
 <script src="js/administradorEventos.js"></script>
 <script src="js/administradorCarreras.js"></script>
+<script src="js/navegacionLogo.js"></script>
 </body>
 </html>

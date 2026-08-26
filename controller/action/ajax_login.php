@@ -29,7 +29,7 @@ if ($usuario != null) {
         $ruta = "panelAdministrador.php";
         $msg = "Puede iniciar sesión satisfactoriamente como administrador";
     }else if($usuario->getRol() == "corredor"){
-        $ruta = "runner.php";
+        $ruta = "eventos.php";
         $msg = "Puede iniciar sesión satisfactoriamente como corredor";
     }
     

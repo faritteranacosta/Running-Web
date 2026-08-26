@@ -246,6 +246,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'vendedor')
 </div>
 
 <script src="js/productos.js"></script>
+<script src="js/navegacionLogo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.getElementById('toggle-sidebar').addEventListener('click', function() {

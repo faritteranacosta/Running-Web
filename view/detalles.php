@@ -403,6 +403,7 @@ if (!isset($_SESSION['ROL_USUARIO']) || $_SESSION['ROL_USUARIO'] !== 'corredor')
     </footer>
 
     <script src="js/detalles.js"></script>
+    <script src="js/navegacionLogo.js"></script>
 </body>
 
 </html>
