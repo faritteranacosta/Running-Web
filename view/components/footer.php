@@ -3,7 +3,7 @@
     <div class="foot-grid">
       <div>
         <div class="foot-brand">
-          <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+          <img src="../public/assets/img/icon-black.jpg" alt="RunningWeb">
           <span>RunningWeb</span>
         </div>
         <p class="foot-desc">La plataforma para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.</p>

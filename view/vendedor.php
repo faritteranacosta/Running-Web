@@ -8,13 +8,13 @@ require __DIR__ . '/components/session.php';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel de vendedor — RunningWeb</title>
-<link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+<link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/vendedor.css">
+<link rel="stylesheet" href="../public/css/base.css">
+<link rel="stylesheet" href="../public/css/vendedor.css">
 </head>
 <body class="dash">
 
@@ -23,7 +23,7 @@ require __DIR__ . '/components/session.php';
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-head">
       <a href="#" class="sidebar-brand">
-        <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+        <img src="../public/assets/img/icon-black.jpg" alt="RunningWeb">
         <span class="hide-on-collapse">RunningWeb</span>
       </a>
       <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Colapsar menú">
@@ -66,7 +66,7 @@ require __DIR__ . '/components/session.php';
     </nav>
 
     <div class="sidebar-foot">
-      <a href="../controller/action/act_logout.php">
+      <a href="../api/logout">
         <i class="fas fa-arrow-right-from-bracket"></i> <span class="hide-on-collapse">Cerrar sesión</span>
       </a>
     </div>
@@ -193,7 +193,7 @@ require __DIR__ . '/components/session.php';
 
         <div class="review">
           <div class="review-top">
-            <img src="assets/img/user1.jpg" alt="Carlos Méndez">
+            <img src="../public/assets/img/user1.jpg" alt="Carlos Méndez">
             <div>
               <h4>Carlos Méndez</h4>
               <span class="review-stars">
@@ -207,7 +207,7 @@ require __DIR__ . '/components/session.php';
 
         <div class="review">
           <div class="review-top">
-            <img src="assets/img/user2.jpg" alt="Ana Rodríguez">
+            <img src="../public/assets/img/user2.jpg" alt="Ana Rodríguez">
             <div>
               <h4>Ana Rodríguez</h4>
               <span class="review-stars">
@@ -224,8 +224,8 @@ require __DIR__ . '/components/session.php';
   </div>
 </div>
 
-<script src="js/productosVendedor.js"></script>
-<script src="js/navegacionLogo.js"></script>
+<script src="../public/js/productosVendedor.js"></script>
+<script src="../public/js/navegacionLogo.js"></script>
 <script>
   document.getElementById('toggle-sidebar').addEventListener('click', function() {
     document.getElementById('sidebar').classList.toggle('collapsed');

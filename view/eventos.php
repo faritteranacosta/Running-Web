@@ -3,8 +3,8 @@ $requiredRole = 'corredor';
 require __DIR__ . '/components/session.php';
 
   $pageTitle = 'Eventos — RunningWeb';
-  $pageStyles = ['css/eventos.css'];
-  $pageScripts = [['src' => 'js/eventos.js']];
+  $pageStyles = ['../public/css/eventos.css'];
+  $pageScripts = [['src' => '../public/js/eventos.js']];
   $activePage = 'eventos';
   $showCart = false;
 

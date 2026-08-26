@@ -6,7 +6,7 @@ let idEventoAEditar = null;
 // Función para obtener eventos con paginación
 async function obtenerEventos(pagina = 1, porPagina = 20) {
     try {
-        const response = await fetch(`../controller/action/ajax_eventos.php?pagina=${pagina}&porPagina=${porPagina}`);
+        const response = await fetch(`../api/eventos?pagina=${pagina}&porPagina=${porPagina}`);
         if (!response.ok) {
             throw new Error('Error al obtener eventos');
         }
@@ -143,7 +143,7 @@ function formatearFecha(fecha) {
 // Función para crear evento
 async function crearEvento(datosEvento) {
     try {
-        const response = await fetch('../controller/action/ajax_eventosAdmin.php', {
+        const response = await fetch('../api/eventos/admin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -258,7 +258,7 @@ function mostrarAlerta(mensaje, tipo = 'info') {
 
 async function obtenerEventoPorId(id) {
     try {
-        const response = await fetch(`../controller/action/ajax_eventosAdmin.php?action=obtenerPorId&id=${id}`);
+        const response = await fetch(`../api/eventos/admin?action=obtenerPorId&id=${id}`);
         if (!response.ok) {
             throw new Error('Error al obtener los detalles del evento');
         }
@@ -305,7 +305,7 @@ window.editarEvento = async function(idEvento) { //
 
 async function actualizarEvento(datosEvento) {
     try {
-        const response = await fetch('../controller/action/ajax_eventosAdmin.php', {
+        const response = await fetch('../api/eventos/admin', {
             method: 'POST', 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -411,7 +411,7 @@ window.eliminarEvento = async function(idEvento) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const response = await fetch('../controller/action/ajax_eventosAdmin.php', {
+                const response = await fetch('../api/eventos/admin', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'eliminar', id_evento: idEvento })

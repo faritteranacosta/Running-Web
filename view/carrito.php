@@ -29,7 +29,7 @@ require __DIR__ . '/components/session.php';
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
                     <a href="index.html" class="flex items-center space-x-3">
-                        <img src="assets/img/icon-black.jpg" alt="Logo"
+                        <img src="../public/assets/img/icon-black.jpg" alt="Logo"
                             class="w-12 h-12 rounded-full border-2 border-white">
                         <h1 class="text-2xl font-bold">RunningWeb</h1>
                     </a>
@@ -52,7 +52,7 @@ require __DIR__ . '/components/session.php';
 
                 <div class="flex items-center space-x-4">
                     <a href="runner.php" class="flex items-center gap-10"  >
-                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
+                        <p><?php echo htmlspecialchars($nombre)?> </p><img src="../public/assets/img/milei.png" alt="Perfil" class="w-10 h-10 rounded-full border-2 border-white">
                     </a>
                     <div class="relative">
                         <a href="carrito.php" class="relative">
@@ -156,7 +156,7 @@ require __DIR__ . '/components/session.php';
                 <div class="md:w-1/3">
                     <div class="flex items-center space-x-3">
                         <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
-                            src="assets/img/icon-black.jpg" />
+                            src="../public/assets/img/icon-black.jpg" />
                         <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                     </div>
                     <p class="mt-2 text-gray-600">
@@ -211,8 +211,8 @@ require __DIR__ . '/components/session.php';
         </div>
     </footer>
 
-    <script src="js/carrito.js"></script>
-    <script src="js/navegacionLogo.js"></script>
+    <script src="../public/js/carrito.js"></script>
+    <script src="../public/js/navegacionLogo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Nueva Contraseña - Running Web</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="shortcut icon" href="assets/img/icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../public/assets/img/icon.ico" type="image/x-icon">
     <script>
         tailwind.config = {
             theme: {
@@ -51,7 +51,7 @@
     <div class="w-full max-w-md">
         <div class="text-center mb-8">
             <div class="flex justify-center mb-4">
-                <img src="assets/img/icon-black.jpg" alt="Logo RunningWeb" class="w-16 h-16 rounded-full">
+                <img src="../public/assets/img/icon-black.jpg" alt="Logo RunningWeb" class="w-16 h-16 rounded-full">
             </div>
             <h1 class="text-3xl font-bold text-gray-800 mb-2">Running Web</h1>
             <p class="text-gray-600">Establece tu nueva contraseña</p>
@@ -114,6 +114,6 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/restablecer.js"></script>
+    <script src="../public/js/restablecer.js"></script>
 </body>
 </html>

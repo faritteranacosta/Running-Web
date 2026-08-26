@@ -1,4 +1,4 @@
-const API_URL = "../controller/action/ajax_carreras.php";
+const API_URL = "../api/carreras";
 
 export function insertarCarrera(data) {
   return fetch(API_URL, {
@@ -103,7 +103,7 @@ function renderBotonParticipar(carrera, carreraId, idRuta, estado, fechaCarrera,
 }
 
 function cargarCarreras() {
-  fetch("../controller/action/ajax_carreras.php?action=listar", {
+  fetch("../api/carreras", {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -159,7 +159,7 @@ function cargarCarreras() {
         tarjeta.className = "event-card";
         tarjeta.innerHTML = `
             <div class="race-card-media">
-                <img src="${carrera.imagen || "assets/img/runner5.png"}" alt="${carrera.nombre || "Carrera"}">
+                <img src="${carrera.imagen || "../public/assets/img/runner5.png"}" alt="${carrera.nombre || "Carrera"}">
                 <span class="status ${claseEstado}">${estado}</span>
             </div>
             <div class="race-card-body">
@@ -190,7 +190,7 @@ function cargarCarreras() {
           carreraDestacada.hoy
         );
         destacadaContenedor.innerHTML = `
-          <img src="${carreraDestacada.imagen || "assets/img/runner5.png"}" alt="${carreraDestacada.nombre || "Carrera"}">
+          <img src="${carreraDestacada.imagen || "../public/assets/img/runner5.png"}" alt="${carreraDestacada.nombre || "Carrera"}">
           <div class="featured-race-body">
             <span class="status ${carreraDestacada.claseEstado}">${carreraDestacada.estado}</span>
             <h3>${carreraDestacada.nombre || "Nombre no disponible"}</h3>

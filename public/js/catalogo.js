@@ -88,7 +88,7 @@ function mostrarNotificacion(titulo, mensaje, tipo) {
 async function loadProducts(page = 1, category = "all") {
   try {
     currentPage = page;
-    const response = await fetch("../controller/action/ajax_productos.php");
+    const response = await fetch("../api/productos");
     const data = await response.json();
     allProducts = data;
 
@@ -137,7 +137,7 @@ function renderProducts(products) {
       (producto) => `
         <div class="product-card">
             <div class="product-media">
-                <img src="${producto.image ? producto.image : 'assets/img/default_product.jpg'}" alt="${producto.name}">
+                <img src="${producto.image ? producto.image : '../public/assets/img/default_product.jpg'}" alt="${producto.name}">
                 ${
                   producto.stock <= 0
                     ? `<span class="product-flag out">AGOTADO</span>`

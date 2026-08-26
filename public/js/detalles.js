@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function cargarDetallesCarrera(idCarrera) {
     try {
-        const response = await fetch(`../controller/action/ajax_carreras.php?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`);
+        const response = await fetch(`../api/carreras?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
@@ -79,7 +79,7 @@ async function cargarDetallesCarrera(idCarrera) {
 
         // Imagen (no existe en backend, así que siempre default)
         const imagenCarrera = document.getElementById('carrera-imagen');
-        imagenCarrera.src = '../assets/img/default_race.jpg';
+        imagenCarrera.src = '../public/assets/img/default_race.jpg';
 
         // Tags
         const tagsContainer = document.getElementById('tags-carrera');
@@ -134,7 +134,7 @@ async function validarInscripcion(idEvento) {
     btnInscribirse.parentNode.replaceChild(nuevoBoton, btnInscribirse);
     
     try {
-        const checkUrl = `../controller/action/ajax_participar.php?check=1&id_evento=${encodeURIComponent(idEvento)}`;
+        const checkUrl = `../api/participar?check=1&id_evento=${encodeURIComponent(idEvento)}`;
         console.log('Consultando:', checkUrl);
         
         const checkResponse = await fetch(checkUrl);
@@ -165,7 +165,7 @@ async function validarInscripcion(idEvento) {
     }
 }
 
-// Función para registrar participación adaptada a ajax_participar.php
+// Función para registrar participación vía API
 async function registrarParticipacion(idEvento) {
     const btnInscribirse = document.getElementById('btn-inscribirse');
     if (!btnInscribirse) {
@@ -181,7 +181,7 @@ async function registrarParticipacion(idEvento) {
         const formData = new FormData();
         formData.append('id_evento', idEvento);
         
-        const response = await fetch('../controller/action/ajax_participar.php', {
+        const response = await fetch('../api/participar', {
             method: 'POST',
             body: formData
         });
@@ -285,7 +285,7 @@ function cargarOpcionesInscripcion(carrera) {
 // Función para cargar la ruta
 async function cargarRuta(ipRuta) {
     try {
-        const response = await fetch(`../controller/action/ajax_rutas.php?id=${encodeURIComponent(ipRuta)}`);
+        const response = await fetch(`../api/rutas?id=${encodeURIComponent(ipRuta)}`);
         
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);

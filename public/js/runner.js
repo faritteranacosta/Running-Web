@@ -1,5 +1,5 @@
 function cargarEventos() {
-  fetch("../controller/action/ajax_eventos.php", {
+  fetch("../api/eventos", {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -76,7 +76,7 @@ function cargarEventos() {
         const tarjeta = document.createElement("div");
         tarjeta.className = "event-card";
         tarjeta.innerHTML = `
-            <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
+            <img src="../public/assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
             <div class="event-card-body">
               <div class="event-card-top">
                 <h3>${evento.nombre || "Sin nombre"}</h3>
@@ -117,7 +117,7 @@ function eliminarParticipacion(idEvento) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch("../controller/action/ajax_eliminar_participacion.php", {
+            fetch("../api/participaciones/eliminar", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `id_evento=${encodeURIComponent(idEvento)}`
@@ -159,7 +159,7 @@ function eliminarParticipacion(idEvento) {
 
 // Cargar carreras programadas del usuario
 function cargarCarrerasProgramadas() {
-  fetch("../controller/action/ajax_participaciones.php", {
+  fetch("../api/participaciones", {
     method: "GET",
     headers: { Accept: "application/json" },
     credentials: "same-origin"

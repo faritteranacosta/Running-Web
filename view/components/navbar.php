@@ -1,7 +1,7 @@
 <nav class="nav">
   <div class="wrap nav-row">
     <a href="index.html" class="brand">
-      <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+      <img src="../public/assets/img/icon-black.jpg" alt="RunningWeb">
       <span>RunningWeb</span>
     </a>
     <div class="nav-links">

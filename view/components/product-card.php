@@ -1,6 +1,6 @@
 <?php
 $producto = $producto ?? [];
-$productoImagen = $producto['image'] ?? 'assets/img/default_product.jpg';
+$productoImagen = $producto['image'] ?? '../public/assets/img/default_product.jpg';
 $productoNombre = $producto['name'] ?? 'Producto';
 $productoCategoria = $producto['categoria'] ?? 'Sin categoría';
 $productoPrecio = $producto['price'] ?? null;

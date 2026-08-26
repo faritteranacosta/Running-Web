@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function cargarEventos() {
-  fetch("../controller/action/ajax_eventos.php", {
+  fetch("../api/eventos", {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -87,7 +87,7 @@ function cargarEventos() {
         tarjeta.className = "event-card";
         tarjeta.innerHTML = `
     <div class="event-card-media">
-        <img src="assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
+        <img src="../public/assets/img/runner9.png" alt="${evento.nombre || "Evento"}">
     </div>
     <div class="event-card-body">
         <div class="event-card-top">
@@ -119,7 +119,7 @@ function cargarEventos() {
       // Renderizar el evento destacado
       if (eventoDestacado) {
         destacadoContenedor.innerHTML = `
-          <img src="assets/img/runner9.png" alt="${eventoDestacado.nombre || "Evento"}">
+          <img src="../public/assets/img/runner9.png" alt="${eventoDestacado.nombre || "Evento"}">
           <div class="featured-event-body">
             <span class="status ${eventoDestacado.claseEstado}">${eventoDestacado.estado}</span>
             <h3>${eventoDestacado.nombre || "Nombre no disponible"}</h3>

@@ -3,8 +3,8 @@ $requiredRole = 'corredor';
 require __DIR__ . '/components/session.php';
 
   $pageTitle = 'Catálogo de productos — RunningWeb';
-  $pageStyles = ['css/catalogo_productos.css'];
-  $pageScripts = [['src' => 'js/catalogo.js']];
+  $pageStyles = ['../public/css/catalogo_productos.css'];
+  $pageScripts = [['src' => '../public/js/catalogo.js']];
   $activePage = 'productos';
   $showCart = true;
   $productoDestacado = [

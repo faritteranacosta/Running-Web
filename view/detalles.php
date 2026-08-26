@@ -15,7 +15,7 @@ require __DIR__ . '/components/session.php';
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #0ea5e9 0%, #8b5cf6 100%);
@@ -86,7 +86,7 @@ require __DIR__ . '/components/session.php';
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-6">
                     <a href="index.html" class="flex items-center space-x-3">
-                        <img src="assets/img/icon-black.jpg" alt="Logo"
+                        <img src="../public/assets/img/icon-black.jpg" alt="Logo"
                             class="w-12 h-12 rounded-full border-2 border-white">
                         <h1 class="text-2xl font-bold">RunningWeb</h1>
                     </a>
@@ -150,7 +150,7 @@ require __DIR__ . '/components/session.php';
         <div class="flex flex-col md:flex-row gap-8 mb-12">
             <div class="md:w-2/3">
                 <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
-                    <img id="carrera-imagen" src="assets/img/runner1.png" alt="Imagen de la carrera"
+                    <img id="carrera-imagen" src="../public/assets/img/runner1.png" alt="Imagen de la carrera"
                         class="w-full h-64 md:h-80 object-cover">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-4">
@@ -335,7 +335,7 @@ require __DIR__ . '/components/session.php';
                 <div class="md:w-1/3">
                     <div class="flex items-center space-x-3">
                         <img alt="Logo RunningWeb" class="w-10 h-10 rounded-full object-cover"
-                            src="assets/img/icon-black.jpg" />
+                            src="../public/assets/img/icon-black.jpg" />
                         <h2 class="text-xl font-bold text-primary-600">RunningWeb</h2>
                     </div>
                     <p class="mt-2 text-gray-600">
@@ -390,8 +390,8 @@ require __DIR__ . '/components/session.php';
         </div>
     </footer>
 
-    <script src="js/detalles.js"></script>
-    <script src="js/navegacionLogo.js"></script>
+    <script src="../public/js/detalles.js"></script>
+    <script src="../public/js/navegacionLogo.js"></script>
 </body>
 
 </html>

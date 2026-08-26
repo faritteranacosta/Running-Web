@@ -8,14 +8,14 @@ require __DIR__ . '/components/session.php';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestión de productos — RunningWeb</title>
-<link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+<link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/vendedor.css">
-<link rel="stylesheet" href="css/productos.css">
+<link rel="stylesheet" href="../public/css/base.css">
+<link rel="stylesheet" href="../public/css/vendedor.css">
+<link rel="stylesheet" href="../public/css/productos.css">
 </head>
 <body class="dash">
 
@@ -24,7 +24,7 @@ require __DIR__ . '/components/session.php';
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-head">
       <a href="index.html" class="sidebar-brand">
-        <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+        <img src="../public/assets/img/icon-black.jpg" alt="RunningWeb">
         <span class="hide-on-collapse">RunningWeb</span>
       </a>
       <button class="sidebar-toggle" id="toggle-sidebar" aria-label="Colapsar menú">
@@ -67,7 +67,7 @@ require __DIR__ . '/components/session.php';
     </nav>
 
     <div class="sidebar-foot">
-      <a href="../controller/action/act_logout.php">
+      <a href="../api/logout">
         <i class="fas fa-arrow-right-from-bracket"></i> <span class="hide-on-collapse">Cerrar sesión</span>
       </a>
     </div>
@@ -203,7 +203,7 @@ require __DIR__ . '/components/session.php';
         <div class="foot-grid">
           <div>
             <div class="foot-brand">
-              <img src="assets/img/icon-black.jpg" alt="RunningWeb">
+              <img src="../public/assets/img/icon-black.jpg" alt="RunningWeb">
               <span>RunningWeb</span>
             </div>
             <p class="foot-desc">La plataforma para la comunidad de runners. Conecta, entrena y mejora tu rendimiento.</p>
@@ -233,8 +233,8 @@ require __DIR__ . '/components/session.php';
   </div>
 </div>
 
-<script src="js/productos.js"></script>
-<script src="js/navegacionLogo.js"></script>
+<script src="../public/js/productos.js"></script>
+<script src="../public/js/navegacionLogo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.getElementById('toggle-sidebar').addEventListener('click', function() {

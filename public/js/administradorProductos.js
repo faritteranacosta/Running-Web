@@ -5,7 +5,7 @@ async function obtenerProductos(pagina = 1, porPagina = 20) {
     
    
     try {
-        const response = await fetch(`../controller/action/ajax_productos_paginados.php?pagina=${pagina}&porPagina=${porPagina}`);
+        const response = await fetch(`../api/productos/paginados?pagina=${pagina}&porPagina=${porPagina}`);
         if (!response.ok) {
             throw new Error('Error al obtener productos');
         }
@@ -166,7 +166,7 @@ window.eliminarProducto = async function(idProducto) {
         
         if (!confirmResult.isConfirmed) return;
         
-        const response = await fetch('../controller/action/ajax_productos_paginados.php', {
+        const response = await fetch('../api/productos/paginados', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ idProducto })

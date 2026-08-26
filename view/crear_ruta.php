@@ -8,7 +8,7 @@ require __DIR__ . '/components/session.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Rutas Personalizadas</title>
-    <link rel="icon" href="./assets/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -401,7 +401,7 @@ require __DIR__ . '/components/session.php';
             if (!nombreRuta) return;
 
             try {
-                const response = await fetch('../controller/action/ajax_guardarRuta.php', {
+                const response = await fetch('../api/rutas', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

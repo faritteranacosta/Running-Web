@@ -38,7 +38,7 @@ function renderizarCarrito() {
         const productoElement = document.createElement('div');
         productoElement.className = 'p-4 border-b border-gray-200 flex items-center';
         productoElement.innerHTML = `
-            <img src="${item.imagenUrl || 'assets/img/producto-default.jpg'}" 
+            <img src="${item.imagenUrl || '../public/assets/img/producto-default.jpg'}"
                  alt="${item.name}" 
                  class="w-16 h-16 rounded-md object-cover mr-4">
             <div class="flex-1">

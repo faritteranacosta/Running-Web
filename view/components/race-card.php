@@ -1,6 +1,6 @@
 <?php
 $carrera = $carrera ?? [];
-$carreraImagen = $carrera['imagen'] ?? 'assets/img/runner5.png';
+$carreraImagen = $carrera['imagen'] ?? '../public/assets/img/runner5.png';
 $carreraNombre = $carrera['nombre'] ?? 'Nombre no disponible';
 $carreraDistancia = $carrera['distancia'] ?? 'Distancia no especificada';
 $carreraDescripcion = $carrera['descripcion'] ?? 'Descripción no disponible';

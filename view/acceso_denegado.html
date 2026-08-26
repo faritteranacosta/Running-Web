@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/img/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
     <title>Acceso Denegado - RunningWeb</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                 </div>
                 
                 <div class="flex justify-center space-x-4">
-                    <a href="../controller/action/act_logout.php" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                    <a href="../api/logout" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                         <i class="fas fa-sign-in-alt mr-2"></i> Ir a Login
                     </a>
                     <a href="index.html" class="px-6 py-3 border border-gray-300 hover:bg-gray-100 text-gray-700 rounded-lg transition-colors">
@@ -90,7 +90,7 @@
                 window.location.href = document.referrer;
             } else {
                 // Si no hay página anterior válida, ir a login
-                window.location.href = '../controller/action/act_logout.php';
+                window.location.href = '../api/logout';
             }
         }
         

@@ -55,7 +55,7 @@ $(document).ready(function () {
 
 function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, contrasena, nombre_tienda="") {
     $.ajax({
-        url: '../../Running-web/controller/action/ajax_register.php',
+        url: '../api/register',
         type: 'POST',
         data: {
             nombre: nombre,

@@ -42,7 +42,7 @@ function handleFormSubmit(e) {
 function loadProducts() {
     showLoading(true);
     
-    fetch(`../controller/action/ajax_productos.php?vendedor_id=${userId}`)
+    fetch(`../api/productos?vendedor_id=${userId}`)
         .then(handleResponse)
         .then(data => {
             products = data;
@@ -72,8 +72,8 @@ function saveProduct() {
     const isEdit = productForm.dataset.editId;
   
     const url = isEdit 
-        ? `../controller/action/ajax_productos.php?id=${productForm.dataset.editId}`
-        : '../controller/action/ajax_productos.php';
+        ? `../api/productos?id=${productForm.dataset.editId}`
+        : '../api/productos';
     const method = isEdit ? 'PUT' : 'POST';
 
     showLoading(true, saveProductBtn);
@@ -154,7 +154,7 @@ function deleteProduct(productId) {
         confirmButtonText: 'Sí, eliminarlo'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch(`../controller/action/ajax_productos.php?id=${productId}`, {
+            fetch(`../api/productos?id=${productId}`, {
                 method: 'DELETE'
             })
             .then(handleResponse)

@@ -1,6 +1,6 @@
 <?php
 $evento = $evento ?? [];
-$eventoImagen = $evento['imagen'] ?? 'assets/img/runner9.png';
+$eventoImagen = $evento['imagen'] ?? '../public/assets/img/runner9.png';
 $eventoNombre = $evento['nombre'] ?? 'Nombre no disponible';
 $eventoDescripcion = $evento['descripcion'] ?? 'Descripción no disponible';
 $eventoFecha = $evento['fechaFormateada'] ?? 'Fecha por definir';

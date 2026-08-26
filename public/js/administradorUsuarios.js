@@ -3,7 +3,7 @@ const usuariosPorPagina = 20;
 async function obtenerUsuarios(pagina = 1, porPagina = 20) {
   try {
     const response = await fetch(
-      `../controller/action/ajax_usuarios.php?pagina=${pagina}&porPagina=${porPagina}`
+      `../api/usuarios?pagina=${pagina}&porPagina=${porPagina}`
     );
     if (!response.ok) {
       throw new Error("Error al obtener usuarios");
@@ -164,7 +164,7 @@ window.cambiarPagina = function (nuevaPagina) {
 window.eliminarUsuario = async function (idUsuario) {
   if (!confirm("¿Estás seguro de que deseas eliminar este usuario?")) return;
   try {
-    const response = await fetch("../controller/action/ajax_usuarios.php", {
+    const response = await fetch("../api/usuarios", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idUsuario }),

@@ -3,8 +3,8 @@ $requiredRole = 'corredor';
 require __DIR__ . '/components/session.php';
 
 $pageTitle = 'Carreras — RunningWeb';
-$pageStyles = ['css/carreras.css'];
-$pageScripts = [['src' => 'js/carreras.js', 'type' => 'module']];
+$pageStyles = ['../public/css/carreras.css'];
+$pageScripts = [['src' => '../public/js/carreras.js', 'type' => 'module']];
 $activePage = 'carreras';
 $showCart = false;
 

@@ -26,7 +26,7 @@ document.querySelector('.form-container form').addEventListener('submit', functi
         }
     });
 
-    fetch('../controller/action/ajax_login.php', {
+    fetch('../api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const userId = document.getElementById("userId").value;
 
-    fetch(`../controller/action/ajax_productos.php?vendedor_id=${userId}`, {
+    fetch(`../api/productos?vendedor_id=${userId}`, {
         method: "GET",
         headers: {
             Accept: "application/json",
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
             row.innerHTML = `
                 <td>
                     <div class="prod-cell">
-                        <img src="${producto.imagenUrl || 'assets/img/default-product.png'}" alt="${producto.name}">
+                        <img src="${producto.imagenUrl || '../public/assets/img/default-product.png'}" alt="${producto.name}">
                         <div>
                             <div class="name">${producto.name}</div>
                             <div class="sku">#PRD-${producto.id.toString().padStart(3, '0')}</div>

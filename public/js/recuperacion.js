@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const response = await fetch(
-        "../controller/action/act_recuperarContrasena.php",
+        "../api/password/recover",
         {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },

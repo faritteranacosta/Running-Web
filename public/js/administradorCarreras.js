@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const tipoCarreraSelect = document.getElementById('tipoCarreraSelect');
   const form = document.getElementById('formCarrera');
 
-  const urlDatos = '../controller/action/ajax_tipo_carrera_categoria.php';
-  const urlGuardar = '../controller/action/ajax_carreras.php';
+  const urlDatos = '../api/categorias-tipos';
+  const urlGuardar = '../api/carreras';
 
   // Cargar categorías y tipos de carrera
   function cargarDatos() {

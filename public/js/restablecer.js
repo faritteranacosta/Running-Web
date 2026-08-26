@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     try {
       const response = await fetch(
-        "../controller/action/act_ActualizarContrasena.php",
+        "../api/password/reset",
         {
           method: "POST",
           headers: {
