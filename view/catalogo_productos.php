@@ -7,6 +7,16 @@ require __DIR__ . '/components/session.php';
   $pageScripts = [['src' => 'js/catalogo.js']];
   $activePage = 'productos';
   $showCart = true;
+  $productoDestacado = [
+    'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+    'name' => 'Zapatillas Running Pro',
+    'categoria' => 'Calzado',
+    'price' => '89.99',
+    'featured' => true,
+    'rating' => '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>',
+    'reviews' => '(142)',
+    'action' => '<button class="add-cart-btn"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>'
+  ];
 
   ob_start();
 ?>
@@ -59,30 +69,10 @@ require __DIR__ . '/components/session.php';
       <h2><i class="fas fa-star star"></i> Productos destacados</h2>
     </div>
     <div class="products-grid" id="productos-destacados">
-      <div class="product-card">
-        <div class="product-media">
-          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Zapatillas Running Pro">
-          <span class="product-flag featured">DESTACADO</span>
-        </div>
-        <div class="product-body">
-          <div class="product-row">
-            <div>
-              <h3>Zapatillas Running Pro</h3>
-              <p class="product-cat">Calzado</p>
-            </div>
-            <span class="product-price">$89.99</span>
-          </div>
-          <div class="product-row">
-            <span>
-              <span class="product-stars">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-              </span>
-              <span class="product-reviews">(142)</span>
-            </span>
-          </div>
-          <button class="add-cart-btn"><i class="fas fa-cart-plus"></i> Añadir al carrito</button>
-        </div>
-      </div>
+      <?php
+      $producto = $productoDestacado;
+      require __DIR__ . '/components/product-card.php';
+      ?>
     </div>
   </section>
 </main>
