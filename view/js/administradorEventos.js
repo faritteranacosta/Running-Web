@@ -167,7 +167,6 @@ async function crearEvento(datosEvento) {
 
         return await response.json();
     } catch (error) {
-        console.error('Error en crearEvento:', error);
         return { 
             success: false, 
             error: error.message || 'Error de conexión' 
@@ -203,8 +202,6 @@ window.manejarFormularioEvento = async function(event) {
             id_patrocinador: formData.get('id_patrocinador')
         };
 
-        console.log("Datos enviados desde el formulario:", datosEvento); // <-- AÑADE ESTA LÍNEA
-
         let resultado;
         if (modoEdicionEvento) {
             datosEvento.id_evento = idEventoAEditar;
@@ -213,7 +210,6 @@ window.manejarFormularioEvento = async function(event) {
             resultado = await crearEvento(datosEvento);
         }
     } catch (error) {
-        console.error('Error en manejarFormularioEvento:', error);
         mostrarAlerta('Error al procesar la solicitud', 'error');
     } finally {
         submitBtn.disabled = false;

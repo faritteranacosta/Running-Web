@@ -211,7 +211,6 @@ function cargarCarreras() {
       }
     })
     .catch((error) => {
-      console.error("Error al cargar carreras:", error);
       const contenedor = document.querySelector(".contenedor");
       contenedor.innerHTML = `
         <div class="catalog-empty">

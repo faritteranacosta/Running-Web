@@ -305,7 +305,6 @@ function handleResponse(response) {
 }
 
 function handleError(error) {
-    console.error('Error:', error);
     showError(error.message || 'Error en la operación');
 }
 

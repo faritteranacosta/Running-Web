@@ -10,10 +10,8 @@ async function obtenerProductos(pagina = 1, porPagina = 20) {
             throw new Error('Error al obtener productos');
         }
         const data = await response.json();
-        console.log('Datos obtenidos:', data);
         return data; // { productos: [...], total: 123 }
     } catch (error) {
-        console.error('Error:', error);
         return { productos: [], total: 0 };
     }
 }

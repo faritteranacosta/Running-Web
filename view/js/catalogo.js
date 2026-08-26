@@ -109,7 +109,6 @@ async function loadProducts(page = 1, category = "all") {
     // Actualizar paginador
     updatePagination(filteredProducts.length);
   } catch (error) {
-    console.error("Error al cargar productos:", error);
     document.getElementById("todos-productos").innerHTML = `
             <div class="catalog-empty">
                 <i class="fas fa-exclamation-triangle"></i>

@@ -99,7 +99,6 @@ function cargarEventos() {
       });
     })
     .catch((error) => {
-      console.error("Error:", error);
       const contenedor = document.getElementById("events-container");
       contenedor.innerHTML = "<p class='empty-msg empty-error'>Error al cargar eventos.</p>";
     });

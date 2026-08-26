@@ -10,10 +10,8 @@ async function obtenerUsuarios(pagina = 1, porPagina = 20) {
     }
     const data = await response.json();
     //{ usuarios: [...], total: 123 }
-    console.log("Datos obtenidos:", data);
     return data;
   } catch (error) {
-    console.error("Error:", error);
     return { usuarios: [], total: 0 };
   }
 }
@@ -172,8 +170,6 @@ window.eliminarUsuario = async function (idUsuario) {
       body: JSON.stringify({ idUsuario }),
     });
     const data = await response.json();
-    console.log("Se recibio", data);
-    console.log("Se recibio", response);
     if (data.success) {
       alert("Usuario eliminado correctamente");
       mostrarUsuarios(); // Recarga la tabla

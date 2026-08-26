@@ -57,8 +57,6 @@ async function cargarDetallesCarrera(idCarrera) {
         }
         
         const carrera = await response.json();
-        console.log('Datos recibidos de la carrera:', carrera);
-        
         if (!carrera) {
             throw new Error('No se encontró la carrera');
         }
@@ -115,7 +113,6 @@ async function cargarDetallesCarrera(idCarrera) {
         cargarOpcionesInscripcion(carrera);
 
     } catch (error) {
-        console.error('Error al cargar detalles:', error);
         document.getElementById('titulo').textContent = 'Error al cargar la carrera';
         document.getElementById('descripcion-carrera').textContent = error.message;
     }
@@ -124,14 +121,11 @@ async function cargarDetallesCarrera(idCarrera) {
 // Nueva función para validar inscripción
 async function validarInscripcion(idEvento) {
     if (!idEvento) {
-        console.error('Error: idEvento no está definido');
         return;
     }
     
-    console.log('Validando inscripción para evento:', idEvento);
     const btnInscribirse = document.getElementById('btn-inscribirse');
     if (!btnInscribirse) {
-        console.error('Error: No se encontró el botón de inscripción');
         return;
     }
     
@@ -158,17 +152,14 @@ async function validarInscripcion(idEvento) {
             nuevoBoton.textContent = 'Confirmar inscripción';
             nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
             nuevoBoton.addEventListener('click', function() {
-                console.log('Botón de inscripción clickeado para evento:', idEvento);
                 registrarParticipacion(idEvento);
             });
         }
     } catch (e) {
-        console.error('Error al verificar inscripción:', e);
         nuevoBoton.disabled = false;
         nuevoBoton.textContent = 'Confirmar inscripción';
         nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
         nuevoBoton.addEventListener('click', function() {
-            console.log('Botón de inscripción clickeado (después de error) para evento:', idEvento);
             registrarParticipacion(idEvento);
         });
     }
@@ -178,11 +169,9 @@ async function validarInscripcion(idEvento) {
 async function registrarParticipacion(idEvento) {
     const btnInscribirse = document.getElementById('btn-inscribirse');
     if (!btnInscribirse) {
-        console.error('No se encontró el botón de inscripción');
         return;
     }
 
-    console.log('Iniciando registro de participación para evento:', idEvento);
     try {
         // Deshabilitar botón mientras se procesa
         btnInscribirse.disabled = true;
@@ -192,15 +181,12 @@ async function registrarParticipacion(idEvento) {
         const formData = new FormData();
         formData.append('id_evento', idEvento);
         
-        console.log('Enviando solicitud a ajax_participar.php...');
         const response = await fetch('../controller/action/ajax_participar.php', {
             method: 'POST',
             body: formData
         });
 
-        console.log('Respuesta recibida, status:', response.status);
         const data = await response.json();
-        console.log('Datos recibidos:', data);
 
         if (data.success) {
             // Verificar si SweetAlert está disponible
@@ -324,7 +310,6 @@ async function cargarRuta(ipRuta) {
             throw new Error('La ruta no tiene suficientes puntos para mostrar');
         }
     } catch (error) {
-        console.error('Error:', error);
         document.getElementById('mapa-ruta').innerHTML = `
             <div class="p-4 bg-red-100 text-red-800 rounded">
                 <p class="font-bold">Error al cargar el mapa</p>

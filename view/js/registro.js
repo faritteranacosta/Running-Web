@@ -42,8 +42,6 @@ $(document).ready(function () {
                 });
                 return;
             }
-            console.log(nombre, apellido, sexo, rol, correo, contrasena, nombre_tienda, fecha_nacimiento);
-   
             ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, contrasena, nombre_tienda);
         } else {
             Swal.fire({
@@ -88,10 +86,11 @@ function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, con
             });
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.error("Fallo en la solicitud AJAX:");
-        console.error("Estado:", textStatus);
-        console.error("Error:", errorThrown);
-        console.error("Respuesta del servidor:", jqXHR.responseText);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo completar el registro.'
+        });
     });
     const menuBtn = document.getElementById("menu-btn");
     const mobileMenu = document.getElementById("mobile-menu");

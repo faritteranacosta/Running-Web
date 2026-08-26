@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     })
     .catch((error) => {
-        console.error("Error:", error);
         const tableBody = document.querySelector(".product-table tbody");
         tableBody.innerHTML = `
             <tr>
