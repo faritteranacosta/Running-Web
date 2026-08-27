@@ -70,19 +70,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showMessage(message, type) {
     messageDiv.textContent = message;
-    messageDiv.className = "mt-4 text-sm text-center";
-
-    if (type === "success") {
-      messageDiv.classList.add("text-green-600");
-    } else {
-      messageDiv.classList.add("text-red-600");
-    }
-
-    messageDiv.classList.remove("hidden");
+    messageDiv.className = "auth-msg show " + (type === "success" ? "success" : "error");
 
     // Ocultar el mensaje después de 5 segundos
     setTimeout(() => {
-      messageDiv.classList.add("hidden");
+      messageDiv.classList.remove("show");
     }, 5000);
   }
 });

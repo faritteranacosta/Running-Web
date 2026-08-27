@@ -74,6 +74,9 @@ main{ flex:1; }
 }
 .input-box.with-prefix input{ padding-left:30px; }
 
+/* Utilidad genérica usada por varios scripts para mostrar/ocultar elementos */
+.hidden{ display:none !important; }
+
 /* ============================================
    NAV
    ============================================ */

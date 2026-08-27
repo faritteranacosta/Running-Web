@@ -120,10 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showMessage(message, type) {
     formMessage.textContent = message;
-    formMessage.className =
-      "mt-4 text-sm text-center " +
-      (type === "success" ? "text-green-600" : "text-red-600");
-    formMessage.classList.remove("hidden");
+    formMessage.className = "auth-msg show " + (type === "success" ? "success" : "error");
   }
 
   function showSuccessMessage(message) {
