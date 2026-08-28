@@ -7,218 +7,14 @@ require __DIR__ . '/components/session.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa de Rutas Personalizadas</title>
+    <title>Mapa de Rutas Personalizadas — RunningWeb</title>
     <link rel="icon" href="../public/assets/img/icon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166088;
-            --accent-color: #4fc3f7;
-            --light-color: #f8f9fa;
-            --dark-color: #343a40;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f7fa;
-            color: var(--dark-color);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            font-weight: 300;
-            opacity: 0.9;
-        }
-
-        .map-container {
-            position: relative;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            height: 600px;
-        }
-
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-danger {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-success {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .stats {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        .stats h3 {
-            margin-bottom: 15px;
-            color: var(--secondary-color);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .stat-item {
-            background-color: var(--light-color);
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .map-container {
-                height: 400px;
-            }
-
-            .btn {
-                padding: 10px 18px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Estilos para los marcadores personalizados */
-        .custom-marker {
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: block;
-            border: 3px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Estilo para el popup de marcadores */
-        .leaflet-popup-content {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Estilo para el tooltip de la ruta */
-        .leaflet-tooltip {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            border-radius: 4px;
-        }
-    </style>
+    <link rel="stylesheet" href="../public/css/crear_ruta.css">
 </head>
 
 <body>
@@ -270,35 +66,34 @@ require __DIR__ . '/components/session.php';
     </div>
 
     <footer>
-        <p>© 2023 Mapa Interactivo de Rutas | Desarrollado con Leaflet</p>
+        <p>© 2026 RunningWeb | Mapa interactivo con Leaflet</p>
     </footer>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-gpx/gpx.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/togeojson@0.16.0/dist/togeojson.min.js"></script>
     <script>
+        // Si esta ventana se abrió desde el formulario del panel de admin
+        // (crear_ruta.php?from_form=1), se agrega un botón extra de "Guardar y Volver".
+        const fromParent = new URLSearchParams(window.location.search).get('from_form') === '1';
+
         // Configuración inicial
         const map = L.map('map').setView([11.2408, -74.199], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            maxZoom: 18
+            maxZoom: 19
         }).addTo(map);
 
         // Variables de estado
         let puntosRuta = [];
         let markers = [];
         let polyline = L.polyline([], {
-            color: '#4a6fa5',
+            color: '#0EA5E9',
             weight: 5,
-            opacity: 0.8,
+            opacity: 0.85,
             dashArray: '10, 10',
             lineJoin: 'round'
         }).addTo(map);
-
-        /*async function obtenerUsuarioId() {
-            console.log("Hola",<?php echo $id; ?>);
-            return <?php echo $id; ?>;
-        }*/
 
         // Función para calcular distancia entre puntos
         function calcularDistancia(lat1, lon1, lat2, lon2) {
@@ -443,23 +238,17 @@ require __DIR__ . '/components/session.php';
             }
         }
 
-        // Modificar los botones de control
+        // Si la ventana se abrió desde el formulario del panel de admin,
+        // se agrega un botón extra de "Guardar y Volver".
         document.addEventListener('DOMContentLoaded', function() {
-            const controls = document.querySelector('.controls');
-            
             if (fromParent) {
-                // Añadir botón "Guardar y Volver" si viene del formulario padre
+                const controls = document.querySelector('.controls');
                 const returnButton = document.createElement('button');
                 returnButton.className = 'btn btn-return';
                 returnButton.innerHTML = '<i class="fas fa-arrow-left"></i> Guardar y Volver';
                 returnButton.onclick = guardarRuta;
                 controls.insertBefore(returnButton, controls.firstChild);
             }
-
-            // Asignar eventos a los botones existentes
-            document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
-            document.querySelector('.btn-success').addEventListener('click', exportarRuta);
-            document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
         });
 
         // Función para exportar a GPX
@@ -499,7 +288,7 @@ require __DIR__ . '/components/session.php';
                 text: "Esta acción borrará todos los puntos de la ruta actual.",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#4a6fa5',
+                confirmButtonColor: '#0EA5E9',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, limpiar',
                 cancelButtonText: 'Cancelar'
@@ -542,12 +331,7 @@ require __DIR__ . '/components/session.php';
             URL.revokeObjectURL(url);
         }
 
-        document.querySelector('.btn-primary').addEventListener('click', guardarRuta);
-        document.querySelector('.btn-success').addEventListener('click', exportarRuta);
-        document.querySelector('.btn-danger').addEventListener('click', limpiarRuta);
-
     </script>
-    
-</body>
 
+</body>
 </html>

@@ -1,9 +1,3 @@
-// Toggle Mobile Menu
-document.getElementById('mobile-menu-button').addEventListener('click', function () {
-    const menu = document.getElementById('mobile-menu');
-    menu.classList.toggle('hidden');
-});
-
 // Función para formatear la fecha
 function formatearFecha(fechaStr) {
     if (!fechaStr) return 'No disponible';
@@ -25,11 +19,11 @@ function determinarEstado(fechaStr) {
     fechaCarrera.setHours(0, 0, 0, 0);
 
     if (fechaCarrera > hoy) {
-        return { texto: 'Próximo', clase: 'status-proximo' };
+        return { texto: 'Próximo', clase: 'status-proxima' };
     } else if (fechaCarrera.getTime() === hoy.getTime()) {
         return { texto: 'Hoy', clase: 'status-hoy' };
     } else {
-        return { texto: 'Finalizado', clase: 'status-finalizado' };
+        return { texto: 'Finalizado', clase: 'status-finalizada' };
     }
 }
 
@@ -86,10 +80,10 @@ async function cargarDetallesCarrera(idCarrera) {
         tagsContainer.innerHTML = '';
 
         if (carrera.distancia) {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">${carrera.distancia} km</span>`;
+            tagsContainer.innerHTML += `<span class="tag-pill sky">${carrera.distancia} km</span>`;
         }
         if (carrera.categoria) {
-            tagsContainer.innerHTML += `<span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">${carrera.categoria}</span>`;
+            tagsContainer.innerHTML += `<span class="tag-pill green">${carrera.categoria}</span>`;
         }
 
         // Detalles técnicos
@@ -100,7 +94,7 @@ async function cargarDetallesCarrera(idCarrera) {
         // Patrocinador
         const patrocinadoresContainer = document.getElementById('patrocinadores');
         if (carrera.patrocinador) {
-            patrocinadoresContainer.innerHTML = `<span class="font-semibold">${carrera.patrocinador}</span>`;
+            patrocinadoresContainer.innerHTML = `<span class="tag-pill sky">${carrera.patrocinador}</span>`;
         } else {
             patrocinadoresContainer.innerHTML = '<p>No hay patrocinadores registrados</p>';
         }
@@ -146,11 +140,11 @@ async function validarInscripcion(idEvento) {
         if (yaInscrito) {
             nuevoBoton.disabled = true;
             nuevoBoton.textContent = 'Ya estás inscrito';
-            nuevoBoton.className = 'w-full bg-gray-400 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
+            nuevoBoton.className = 'btn btn-block enroll-btn-disabled';
         } else {
             nuevoBoton.disabled = false;
             nuevoBoton.textContent = 'Confirmar inscripción';
-            nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+            nuevoBoton.className = 'btn btn-primary btn-block';
             nuevoBoton.addEventListener('click', function() {
                 registrarParticipacion(idEvento);
             });
@@ -158,7 +152,7 @@ async function validarInscripcion(idEvento) {
     } catch (e) {
         nuevoBoton.disabled = false;
         nuevoBoton.textContent = 'Confirmar inscripción';
-        nuevoBoton.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+        nuevoBoton.className = 'btn btn-primary btn-block';
         nuevoBoton.addEventListener('click', function() {
             registrarParticipacion(idEvento);
         });
@@ -175,7 +169,7 @@ async function registrarParticipacion(idEvento) {
     try {
         // Deshabilitar botón mientras se procesa
         btnInscribirse.disabled = true;
-        btnInscribirse.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Procesando...';
+        btnInscribirse.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
 
         // Construir FormData para enviar al servidor
         const formData = new FormData();
@@ -211,7 +205,7 @@ async function registrarParticipacion(idEvento) {
             });
             
             btnInscribirse.textContent = 'Ya estás inscrito';
-            btnInscribirse.className = 'w-full bg-green-500 text-white py-3 rounded-lg font-semibold cursor-not-allowed';
+            btnInscribirse.className = 'btn btn-block enroll-btn-success';
             btnInscribirse.disabled = true;
         } else {
             throw new Error(data.message || 'Error al registrar participación');
@@ -233,7 +227,7 @@ async function registrarParticipacion(idEvento) {
         
         btnInscribirse.disabled = false;
         btnInscribirse.innerHTML = 'Confirmar inscripción';
-        btnInscribirse.className = 'w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold';
+        btnInscribirse.className = 'btn btn-primary btn-block';
     }
 }
 
@@ -311,8 +305,8 @@ async function cargarRuta(ipRuta) {
         }
     } catch (error) {
         document.getElementById('mapa-ruta').innerHTML = `
-            <div class="p-4 bg-red-100 text-red-800 rounded">
-                <p class="font-bold">Error al cargar el mapa</p>
+            <div class="map-error">
+                <p class="map-error-title">Error al cargar el mapa</p>
                 <p>${error.message}</p>
             </div>`;
     }
@@ -321,36 +315,37 @@ async function cargarRuta(ipRuta) {
 function mostrarMapa(puntos) {
     // Limpia el contenedor y crea el div para el mapa
     const mapaContainer = document.getElementById('mapa-ruta');
-    mapaContainer.innerHTML = '<div id="leaflet-map" style="height: 400px; width: 100%;"></div>';
+    mapaContainer.innerHTML = '<div id="leaflet-map" class="leaflet-map-el"></div>';
 
     // Crea el mapa centrado en la primera coordenada
     const map = L.map('leaflet-map').setView(puntos[0], 15);
 
-    // Añade capa de tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    // Añade capa de tiles (sin subdominios {s}, que OSM ya no recomienda)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
     }).addTo(map);
 
     // Dibuja la ruta
     const polyline = L.polyline(puntos, {
-        color: '#3498db',
+        color: '#0EA5E9',
         weight: 6,
-        opacity: 0.8,
+        opacity: 0.85,
         lineJoin: 'round'
     }).addTo(map);
 
     // Añade marcadores para inicio y fin
     L.marker(puntos[0], {
         icon: L.divIcon({
-            className: 'start-marker',
-            html: '<div class="bg-blue-600 text-white rounded-full p-2">INICIO</div>'
+            className: 'route-marker',
+            html: '<div class="route-marker-pill start">INICIO</div>'
         })
     }).addTo(map);
 
     L.marker(puntos[puntos.length - 1], {
         icon: L.divIcon({
-            className: 'end-marker',
-            html: '<div class="bg-red-600 text-white rounded-full p-2">FIN</div>'
+            className: 'route-marker',
+            html: '<div class="route-marker-pill end">FIN</div>'
         })
     }).addTo(map);
 

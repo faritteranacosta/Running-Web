@@ -14,59 +14,51 @@ function renderizarCarrito() {
 
     if (carrito.length === 0) {
         listaCarrito.innerHTML = `
-            <div class="p-8 text-center text-gray-500">
-                <i class="fas fa-shopping-cart text-4xl mb-4 text-gray-300"></i>
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
                 <p>Tu carrito está vacío</p>
-                <a href="catalogo_productos.php" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    Ir a productos
-                </a>
+                <a href="catalogo_productos.php" class="btn btn-primary">Ir a productos</a>
             </div>
         `;
-        
+
         // Actualizar totales
         subtotalElement.textContent = '$00.0';
         envioElement.textContent = '$00.0';
         totalElement.textContent = '$00.0';
-        
+
         // Deshabilitar botón de pago
         btnPagar.disabled = true;
         return;
     }
-    
+
     // Renderizar cada producto
     carrito.forEach(item => {
         const productoElement = document.createElement('div');
-        productoElement.className = 'p-4 border-b border-gray-200 flex items-center';
+        productoElement.className = 'cart-item';
         productoElement.innerHTML = `
-            <img src="${item.imagenUrl || '../public/assets/img/producto-default.jpg'}"
-                 alt="${item.name}" 
-                 class="w-16 h-16 rounded-md object-cover mr-4">
-            <div class="flex-1">
-                <h3 class="font-medium">${item.name}</h3>
-                <p class="text-gray-600">$${item.price} c/u</p>
-                <p class="text-sm text-gray-500">${item.categoria}</p>
+            <img src="${item.imagenUrl || '../public/assets/img/producto-default.jpg'}" alt="${item.name}">
+            <div class="cart-item-info">
+                <h3>${item.name}</h3>
+                <p class="unit-price">$${item.price} c/u</p>
+                <p class="cat">${item.categoria}</p>
             </div>
-            <div class="flex items-center">
-                <button onclick="cambiarCantidad(${item.id}, -1)" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md">
-                    <i class="fas fa-minus text-xs"></i>
+            <div class="qty-stepper">
+                <button onclick="cambiarCantidad(${item.id}, -1)" aria-label="Restar">
+                    <i class="fas fa-minus"></i>
                 </button>
-                <span class="w-10 h-8 flex items-center justify-center border-t border-b border-gray-300">
-                    ${item.cantidad}
-                </span>
-                <button onclick="cambiarCantidad(${item.id}, 1)" class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md">
-                    <i class="fas fa-plus text-xs"></i>
+                <span class="qty-value">${item.cantidad}</span>
+                <button onclick="cambiarCantidad(${item.id}, 1)" aria-label="Sumar">
+                    <i class="fas fa-plus"></i>
                 </button>
             </div>
-            <div class="ml-4 text-right w-20">
-                <p class="font-medium">$${(item.price * item.cantidad).toFixed(2)}</p>
-            </div>
-            <button onclick="eliminarDelCarrito(${item.id})" class="ml-4 text-red-500 hover:text-red-700">
+            <div class="cart-item-total">$${(item.price * item.cantidad).toFixed(2)}</div>
+            <button onclick="eliminarDelCarrito(${item.id})" class="cart-item-remove" aria-label="Eliminar">
                 <i class="fas fa-trash"></i>
             </button>
         `;
         listaCarrito.appendChild(productoElement);
     });
-    
+
     // Calcular totales
     calcularTotales();
 }
