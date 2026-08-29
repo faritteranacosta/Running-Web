@@ -211,12 +211,12 @@ function cargarCarreras() {
       }
     })
     .catch((error) => {
+      console.error("Error al cargar carreras:", error);
       const contenedor = document.querySelector(".contenedor");
       contenedor.innerHTML = `
         <div class="catalog-empty">
             <i class="fas fa-exclamation-triangle"></i>
             <p>Error al cargar las carreras. Por favor, inténtalo de nuevo.</p>
-            <p class="error-detail">${error.message}</p>
         </div>
     `;
     });

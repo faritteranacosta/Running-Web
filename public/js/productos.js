@@ -297,11 +297,24 @@ function clearForm() {
 
 function handleResponse(response) {
     if (!response.ok) {
-        return response.json().then(err => {
-            throw new Error(err.msg || 'Error en la solicitud');
+        return response.text().then(rawText => {
+            let serverMsg = null;
+            try {
+                serverMsg = JSON.parse(rawText).msg;
+            } catch (e) {
+                console.error('Respuesta de error no válida del servidor:', rawText);
+            }
+            throw new Error(serverMsg || 'Ocurrió un error al procesar la solicitud. Inténtalo de nuevo más tarde.');
         });
     }
-    return response.json();
+    return response.text().then(rawText => {
+        try {
+            return JSON.parse(rawText);
+        } catch (e) {
+            console.error('Respuesta no válida del servidor:', rawText);
+            throw new Error('El servidor no devolvió una respuesta válida. Inténtalo de nuevo más tarde.');
+        }
+    });
 }
 
 function handleError(error) {

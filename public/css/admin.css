@@ -34,6 +34,7 @@
 
 /* ---------- FORMULARIO DE CARRERA (reutiliza crear_carrera.css) ---------- */
 .admin-carrera-panel{ padding:0; overflow:hidden; }
+.form-error-text{ color:#DC2626; margin-top:10px; font-size:.88rem; }
 
 /* ---------- ALERTAS TEMPORALES (usadas por administradorEventos.js) ---------- */
 .alerta-temporal{

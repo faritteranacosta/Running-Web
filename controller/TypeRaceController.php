@@ -10,6 +10,6 @@ class TypeRaceController
         $this->tipoCarreraDAO = new TipoCarreraDAO();
     }
 
-    public function listar() { return $this->tipoCarreraDAO->listarTiposCarrera(); }
+    public function listar() { return $this->tipoCarreraDAO->obtenerTiposCarrera(); }
     public function obtenerPorId($idTipoCarrera) { return $this->tipoCarreraDAO->obtenerTipoCarreraPorId($idTipoCarrera); }
 }

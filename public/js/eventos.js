@@ -157,7 +157,7 @@ function cargarEventos() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        html: `No se pudieron cargar los eventos.<br><small>${error.message}</small>`,
+        text: "No se pudieron cargar los eventos. Inténtalo de nuevo más tarde.",
         confirmButtonText: "Entendido",
       });
     });

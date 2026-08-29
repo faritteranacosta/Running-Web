@@ -214,8 +214,9 @@ function cargarCarrerasProgramadas() {
       });
     })
     .catch((error) => {
+      console.error("Error al cargar carreras:", error);
       const tbody = document.getElementById("races-table-body");
-      tbody.innerHTML = `<tr><td colspan='5' class='empty-msg empty-error'>Error al cargar tus carreras.<br><small>${error.message}</small></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan='5' class='empty-msg empty-error'>Error al cargar tus carreras. Inténtalo de nuevo más tarde.</td></tr>`;
     });
 }
 

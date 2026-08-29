@@ -40,10 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
       .catch(err => {
+        console.error('Error al cargar categorías/tipos de carrera:', err);
         Swal.fire({
           icon: 'error',
           title: 'Error al cargar datos',
-          text: err.message
+          text: 'No se pudieron cargar las categorías y tipos de carrera. Inténtalo de nuevo más tarde.'
         });
       });
   }
@@ -83,7 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Error HTTP ${response.status}: ${errorText}`);
+        console.error(`Error HTTP ${response.status} al guardar la carrera:`, errorText);
+        throw new Error('No se pudo guardar la carrera. Inténtalo de nuevo más tarde.');
       }
       
       const data = await response.json();
@@ -110,11 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       // Mostrar error detallado en la interfaz
-      const errorContainer = document.getElementById('error-message') || 
+      const errorContainer = document.getElementById('error-message') ||
                             document.createElement('div');
       errorContainer.id = 'error-message';
-      errorContainer.style.color = 'red';
-      errorContainer.style.marginTop = '10px';
+      errorContainer.className = 'form-error-text';
       errorContainer.textContent = err.message;
       
       if (!document.getElementById('error-message')) {

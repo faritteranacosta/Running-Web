@@ -73,11 +73,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     })
     .catch((error) => {
+        console.error("Error al cargar productos:", error);
         const tableBody = document.querySelector(".product-table tbody");
         tableBody.innerHTML = `
             <tr>
                 <td colspan="7" class="table-error">
-                    Error al cargar los productos: ${error.message}
+                    Error al cargar los productos. Inténtalo de nuevo más tarde.
                 </td>
             </tr>
         `;

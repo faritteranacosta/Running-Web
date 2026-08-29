@@ -46,10 +46,13 @@ document.addEventListener('DOMContentLoaded', function () {
 async function cargarDetallesCarrera(idCarrera) {
     try {
         const response = await fetch(`../api/carreras?action=obtener&idCarrera=${encodeURIComponent(idCarrera)}`);
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
+        const contentType = response.headers.get('content-type');
+        if (!response.ok || !contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Respuesta no válida al cargar la carrera:', text);
+            throw new Error('No se pudo cargar la información de la carrera.');
         }
-        
+
         const carrera = await response.json();
         if (!carrera) {
             throw new Error('No se encontró la carrera');
@@ -180,6 +183,13 @@ async function registrarParticipacion(idEvento) {
             body: formData
         });
 
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Respuesta no válida al inscribirse:', text);
+            throw new Error('No se pudo procesar tu inscripción. Inténtalo de nuevo más tarde.');
+        }
+
         const data = await response.json();
 
         if (data.success) {
@@ -280,9 +290,12 @@ function cargarOpcionesInscripcion(carrera) {
 async function cargarRuta(ipRuta) {
     try {
         const response = await fetch(`../api/rutas?id=${encodeURIComponent(ipRuta)}`);
-        
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
+
+        const contentType = response.headers.get('content-type');
+        if (!response.ok || !contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Respuesta no válida al cargar la ruta:', text);
+            throw new Error('No se pudo cargar el mapa de la ruta.');
         }
 
         const data = await response.json();

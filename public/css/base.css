@@ -74,6 +74,13 @@ main{ flex:1; }
 }
 .input-box.with-prefix input{ padding-left:30px; }
 
+/* Grillas de 2/3 columnas para formularios más largos (registro, productos...) */
+.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.form-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+@media (max-width: 860px){
+  .form-grid-2, .form-grid-3{ grid-template-columns:1fr; }
+}
+
 /* Utilidad genérica usada por varios scripts para mostrar/ocultar elementos */
 .hidden{ display:none !important; }
 

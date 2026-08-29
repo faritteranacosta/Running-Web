@@ -35,8 +35,6 @@
   transition:max-height .35s var(--ease), opacity .3s var(--ease);
   overflow:hidden; max-height:1200px;
 }
-.form-grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.form-grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
 .form-actions{ display:flex; justify-content:flex-end; gap:12px; padding-top:8px; }
 
 /* ---------- BUSCAR / FILTRAR ---------- */
@@ -104,6 +102,5 @@
 .pagination-controls button:disabled{ opacity:.4; cursor:not-allowed; }
 
 @media (max-width: 900px){
-  .form-grid-2, .form-grid-3{ grid-template-columns:1fr; }
   .search-box input{ width:150px; }
 }

@@ -162,14 +162,16 @@ async function crearEvento(datosEvento) {
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
-            throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}...`);
+            console.error('Respuesta no JSON al crear evento:', text);
+            throw new Error('El servidor no devolvió una respuesta válida. Inténtalo de nuevo más tarde.');
         }
 
         return await response.json();
     } catch (error) {
-        return { 
-            success: false, 
-            error: error.message || 'Error de conexión' 
+        console.error('Error en crearEvento:', error);
+        return {
+            success: false,
+            error: 'No se pudo crear el evento. Inténtalo de nuevo más tarde.'
         };
     }
 }
@@ -259,15 +261,18 @@ function mostrarAlerta(mensaje, tipo = 'info') {
 async function obtenerEventoPorId(id) {
     try {
         const response = await fetch(`../api/eventos/admin?action=obtenerPorId&id=${id}`);
-        if (!response.ok) {
-            throw new Error('Error al obtener los detalles del evento');
+        const contentType = response.headers.get('content-type');
+        if (!response.ok || !contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Respuesta no válida al obtener el evento:', text);
+            throw new Error('No se pudo obtener el evento.');
         }
         const data = await response.json();
         return data;
     } catch (error) {
         console.error('Error en obtenerEventoPorId:', error);
         mostrarAlerta('Error al cargar datos del evento', 'error');
-        return { success: false, error: error.message };
+        return { success: false, error: 'No se pudo cargar el evento. Inténtalo de nuevo más tarde.' };
     }
 }
 
@@ -321,18 +326,19 @@ async function actualizarEvento(datosEvento) {
             })
         });
 
-        const contentType = response.headers.get('content-type'); //
-        if (!contentType || !contentType.includes('application/json')) { //
-            const text = await response.text(); //
-            throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}...`); //
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Respuesta no JSON al actualizar evento:', text);
+            throw new Error('El servidor no devolvió una respuesta válida. Inténtalo de nuevo más tarde.');
         }
 
-        return await response.json(); //
+        return await response.json();
     } catch (error) {
         console.error('Error en actualizarEvento:', error);
         return {
             success: false,
-            error: error.message || 'Error de conexión'
+            error: 'No se pudo actualizar el evento. Inténtalo de nuevo más tarde.'
         };
     }
 }

@@ -92,12 +92,6 @@ function ajaxRegister(nombre, apellido, sexo, fecha_nacimiento, rol, correo, con
             text: 'No se pudo completar el registro.'
         });
     });
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-
-    menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-    });
 }
 
 

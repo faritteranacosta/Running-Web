@@ -32,6 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
           body: "email=" + encodeURIComponent(emailInput.value),
         }
       );
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Respuesta no JSON del servidor:", text);
+        throw new Error("El servidor no devolvió una respuesta válida. Inténtalo de nuevo más tarde.");
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -50,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Error:", error);
-      showMessage(error.message || "Error en la conexión", "error");
+      showMessage(error.message || "No se pudo procesar la solicitud. Inténtalo de nuevo más tarde.", "error");
     } finally {
       setLoadingState(false);
     }
